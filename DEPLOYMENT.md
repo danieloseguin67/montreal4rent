@@ -2,21 +2,23 @@
 
 This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
 
-## ⚠️ ONE-TIME SETUP REQUIRED
+## ✅ GitHub Actions Deployment
 
-After the first deployment, you need to configure GitHub Pages to serve from the `gh-pages` branch:
-
-1. Go to your repository: `https://github.com/danieloseguin67/montreal4rent`
-2. Click **Settings** → **Pages**
-3. Under **Source**, select **"Deploy from a branch"**
-4. Choose **`gh-pages`** branch and **`/ (root)`** folder
-5. Click **Save**
-
-**Your website will then be available at: `https://danieloseguin67.github.io/montreal4rent/`**
+The deployment is configured to work with GitHub Pages source set to **"GitHub Actions"** (which you already have configured correctly).
 
 ## 🚀 Automatic Deployment
 
-The deployment workflow automatically creates and updates the `gh-pages` branch when code is pushed to main.
+The deployment workflow automatically builds and deploys your Angular app when code is pushed to the main branch.
+
+**Your website will be available at: `https://danieloseguin67.github.io/montreal4rent/`**
+
+## How It Works
+
+1. **Build**: Compiles the Angular app with the correct base href
+2. **Upload**: Creates a deployment artifact  
+3. **Deploy**: GitHub Pages serves the artifact automatically
+
+No manual configuration needed - your current GitHub Pages settings are perfect!
 
 ## Deployment Setup
 
