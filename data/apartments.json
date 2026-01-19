@@ -1,0 +1,293 @@
+{
+  "apartments": [
+    {
+      "id": "studio-downtown",
+      "title": "Studio Moderne Centre-ville",
+      "titleEn": "Modern Downtown Studio",
+      "type": "studio",
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "squareFootage": 450,
+      "price": 1850,
+      "area": "downtown",
+      "furnished": true,
+      "available": true,
+      "features": [
+        "Cuisine moderne équipée",
+        "Salle de bain complète",
+        "Rangements intégrés",
+        "Fenêtres panoramiques",
+        "Climatisation"
+      ],
+      "featuresEn": [
+        "Modern equipped kitchen",
+        "Full bathroom",
+        "Built-in storage",
+        "Panoramic windows",
+        "Air conditioning"
+      ],
+      "images": [
+        "studio-downtown-1.jpg",
+        "studio-downtown-2.jpg",
+        "studio-downtown-3.jpg"
+      ],
+      "description": "Studio élégant au cœur du centre-ville avec vue imprenable sur la skyline de Montréal. Ce logement moderne dispose d'une cuisine entièrement équipée avec électroménagers en acier inoxydable, d'un espace de vie lumineux avec fenêtres du sol au plafond, et d'une salle de bain complète avec douche à l'italienne. Idéalement situé à proximité des transports en commun, restaurants, et attractions downtown. Parfait pour les professionnels ou étudiants cherchant le confort urbain.",
+      "descriptionEn": "Elegant studio in the heart of downtown with stunning views of Montreal's skyline. This modern unit features a fully equipped kitchen with stainless steel appliances, bright living space with floor-to-ceiling windows, and a complete bathroom with walk-in shower. Ideally located near public transportation, restaurants, and downtown attractions. Perfect for professionals or students seeking urban comfort."
+    },
+    {
+      "id": "1br-plateau",
+      "title": "Appartement 1 Chambre - Plateau",
+      "titleEn": "1 Bedroom Apartment - Plateau",
+      "type": "1br",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "squareFootage": 650,
+      "price": 2200,
+      "area": "plateau-mont-royal",
+      "furnished": false,
+      "available": true,
+      "features": [
+        "Chambre spacieuse",
+        "Salon lumineux",
+        "Cuisine moderne",
+        "Balcon privé",
+        "Planchers de bois franc"
+      ],
+      "featuresEn": [
+        "Spacious bedroom",
+        "Bright living room",
+        "Modern kitchen",
+        "Private balcony",
+        "Hardwood floors"
+      ],
+      "images": [
+        "1br-plateau-1.jpg",
+        "1br-plateau-2.jpg",
+        "1br-plateau-3.jpg",
+        "1br-plateau-4.jpg"
+      ],
+      "description": "Charmant appartement d'une chambre dans le vibrant Plateau-Mont-Royal. Ce logement spacieux offre une chambre fermée avec walk-in, un salon lumineux avec balcon donnant sur une rue arborée, et une cuisine moderne avec comptoirs en quartz. Les planchers de bois franc d'origine ajoutent une touche d'authenticité montréalaise. À quelques pas des cafés branchés, boutiques locales, et du parc La Fontaine. Idéal pour les amateurs de culture urbaine et de lifestyle montréalais.",
+      "descriptionEn": "Charming one-bedroom apartment in vibrant Plateau-Mont-Royal. This spacious unit offers a closed bedroom with walk-in closet, bright living room with balcony overlooking a tree-lined street, and modern kitchen with quartz countertops. Original hardwood floors add authentic Montreal charm. Steps away from trendy cafes, local boutiques, and La Fontaine Park. Perfect for lovers of urban culture and Montreal lifestyle."
+    },
+    {
+      "id": "2br-cote-des-neiges",
+      "title": "Appartement 2 Chambres - Côte-des-Neiges",
+      "titleEn": "2 Bedroom Apartment - Côte-des-Neiges",
+      "type": "2br",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "squareFootage": 900,
+      "price": 2800,
+      "area": "cote-des-neiges",
+      "furnished": true,
+      "available": true,
+      "features": [
+        "Deux chambres spacieuses",
+        "Deux salles de bain complètes",
+        "Grand salon",
+        "Cuisine avec îlot",
+        "Terrasse privée",
+        "Stationnement inclus"
+      ],
+      "featuresEn": [
+        "Two spacious bedrooms",
+        "Two full bathrooms",
+        "Large living room",
+        "Kitchen with island",
+        "Private terrace",
+        "Parking included"
+      ],
+      "images": [
+        "2br-cote-des-neiges-1.jpg",
+        "2br-cote-des-neiges-2.jpg",
+        "2br-cote-des-neiges-3.jpg",
+        "2br-cote-des-neiges-4.jpg",
+        "2br-cote-des-neiges-5.jpg"
+      ],
+      "description": "Spacieux appartement de deux chambres parfait pour étudiants ou jeunes professionnels. Situé dans le dynamique quartier de Côte-des-Neiges, cet appartement entièrement meublé offre deux chambres de taille généreuse, deux salles de bain complètes, et un grand salon avec cuisine à aire ouverte incluant un îlot central. La terrasse privée est parfaite pour les soirées d'été. Stationnement intérieur inclus. Proche de l'Université de Montréal, métro Côte-des-Neiges, et centres commerciaux. Meublé avec goût et prêt à habiter.",
+      "descriptionEn": "Spacious two-bedroom apartment perfect for students or young professionals. Located in the dynamic Côte-des-Neiges neighborhood, this fully furnished apartment offers two generously sized bedrooms, two complete bathrooms, and a large living room with open-concept kitchen featuring a central island. The private terrace is perfect for summer evenings. Indoor parking included. Close to University of Montreal, Côte-des-Neiges metro, and shopping centers. Tastefully furnished and move-in ready."
+    },
+    {
+      "id": "3br-lachine",
+      "title": "Appartement 3 Chambres - Lachine",
+      "titleEn": "3 Bedroom Apartment - Lachine",
+      "type": "3br",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "squareFootage": 1200,
+      "price": 3200,
+      "area": "lachine",
+      "furnished": false,
+      "available": false,
+      "features": [
+        "Trois chambres généreuses",
+        "Salon à aire ouverte",
+        "Cuisine moderne avec électroménagers",
+        "Deux salles de bain",
+        "Buanderie privée",
+        "Vue sur le fleuve"
+      ],
+      "featuresEn": [
+        "Three generous bedrooms",
+        "Open concept living room",
+        "Modern kitchen with appliances",
+        "Two bathrooms",
+        "Private laundry",
+        "River view"
+      ],
+      "images": [
+        "3br-lachine-1.jpg",
+        "3br-lachine-2.jpg",
+        "3br-lachine-3.jpg",
+        "3br-lachine-4.jpg"
+      ],
+      "description": "Magnifique appartement familial avec vue sur le fleuve Saint-Laurent.",
+      "descriptionEn": "Beautiful family apartment with Saint Lawrence River view."
+    },
+    {
+      "id": "penthouse-downtown",
+      "title": "Penthouse de Luxe - Centre-ville",
+      "titleEn": "Luxury Penthouse - Downtown",
+      "type": "penthouse",
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "squareFootage": 1800,
+      "price": 5500,
+      "area": "downtown",
+      "furnished": true,
+      "available": true,
+      "features": [
+        "Vue panoramique à 360°",
+        "Trois chambres de maître",
+        "Cuisine gastronomique",
+        "Terrasse sur le toit",
+        "Foyer au gaz",
+        "Deux places de stationnement",
+        "Service de concierge"
+      ],
+      "featuresEn": [
+        "360° panoramic view",
+        "Three master bedrooms",
+        "Gourmet kitchen",
+        "Rooftop terrace",
+        "Gas fireplace",
+        "Two parking spaces",
+        "Concierge service"
+      ],
+      "images": [
+        "penthouse-downtown-1.jpg",
+        "penthouse-downtown-2.jpg",
+        "penthouse-downtown-3.jpg",
+        "penthouse-downtown-4.jpg",
+        "penthouse-downtown-5.jpg",
+        "penthouse-downtown-6.jpg"
+      ],
+      "description": "Penthouse de prestige offrant le summum du luxe urbain montréalais.",
+      "descriptionEn": "Prestigious penthouse offering the pinnacle of Montreal urban luxury."
+    },
+    {
+      "id": "1br-pierrefonds",
+      "title": "Appartement 1 Chambre - Pierrefonds",
+      "titleEn": "1 Bedroom Apartment - Pierrefonds",
+      "type": "1br",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "squareFootage": 700,
+      "price": 1950,
+      "area": "pierrefonds",
+      "furnished": false,
+      "available": true,
+      "features": [
+        "Chambre avec walk-in",
+        "Salon avec foyer",
+        "Cuisine avec comptoirs de granit",
+        "Balcon avec vue sur parc",
+        "Climatisation centrale"
+      ],
+      "featuresEn": [
+        "Bedroom with walk-in closet",
+        "Living room with fireplace",
+        "Kitchen with granite counters",
+        "Balcony with park view",
+        "Central air conditioning"
+      ],
+      "images": [
+        "1br-pierrefonds-1.jpg",
+        "1br-pierrefonds-2.jpg",
+        "1br-pierrefonds-3.jpg"
+      ],
+      "description": "Appartement confortable dans un quartier paisible avec accès aux parcs.",
+      "descriptionEn": "Comfortable apartment in a peaceful neighborhood with park access."
+    },
+    {
+      "id": "2br-downtown-furnished",
+      "title": "Appartement 2 Chambres Meublé - Centre-ville",
+      "titleEn": "Furnished 2 Bedroom Apartment - Downtown",
+      "type": "2br",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "squareFootage": 1000,
+      "price": 3500,
+      "area": "downtown",
+      "furnished": true,
+      "available": true,
+      "features": [
+        "Entièrement meublé et équipé",
+        "Deux chambres avec lits queen",
+        "Salon moderne avec TV 65\"",
+        "Cuisine complète avec électroménagers",
+        "Internet haute vitesse inclus",
+        "Service de ménage hebdomadaire"
+      ],
+      "featuresEn": [
+        "Fully furnished and equipped",
+        "Two bedrooms with queen beds",
+        "Modern living room with 65\" TV",
+        "Full kitchen with appliances",
+        "High-speed internet included",
+        "Weekly housekeeping service"
+      ],
+      "images": [
+        "2br-downtown-furnished-1.jpg",
+        "2br-downtown-furnished-2.jpg",
+        "2br-downtown-furnished-3.jpg",
+        "2br-downtown-furnished-4.jpg"
+      ],
+      "description": "Appartement corporatif haut de gamme, parfait pour séjours d'affaires.",
+      "descriptionEn": "High-end corporate apartment, perfect for business stays."
+    },
+    {
+      "id": "studio-cote-des-neiges-student",
+      "title": "Studio Étudiant - Côte-des-Neiges",
+      "titleEn": "Student Studio - Côte-des-Neiges",
+      "type": "studio",
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "squareFootage": 400,
+      "price": 1650,
+      "area": "cote-des-neiges",
+      "furnished": true,
+      "available": true,
+      "features": [
+        "Proche des universités",
+        "Espace d'étude intégré",
+        "Internet haute vitesse gratuit",
+        "Buanderie sur l'étage",
+        "Transport en commun à proximité"
+      ],
+      "featuresEn": [
+        "Close to universities",
+        "Integrated study space",
+        "Free high-speed internet",
+        "Laundry on floor",
+        "Public transport nearby"
+      ],
+      "images": [
+        "studio-student-1.jpg",
+        "studio-student-2.jpg"
+      ],
+      "description": "Studio parfaitement adapté aux besoins des étudiants universitaires.",
+      "descriptionEn": "Studio perfectly adapted to university students' needs."
+    }
+  ]
+}

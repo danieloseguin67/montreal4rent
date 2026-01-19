@@ -1,0 +1,158 @@
+{
+  "content": {
+    "fr": {
+      "navigation": {
+        "home": "Accueil",
+        "apartments": "Appartements",
+        "amenities": "Commodités",
+        "lifestyle": "Style de vie",
+        "students": "Étudiants",
+        "furnished": "Suites meublées",
+        "unfurnished": "Suites non meublées",
+        "gallery": "Galerie",
+        "contact": "Contact",
+        "bookTour": "Réserver une visite",
+        "language": "Langue"
+      },
+      "common": {
+        "viewDetails": "Voir les détails",
+        "bookNow": "Réserver maintenant",
+        "available": "Disponible",
+        "notAvailable": "Non disponible",
+        "bedroom": "chambre",
+        "bedrooms": "chambres",
+        "bathroom": "salle de bain",
+        "bathrooms": "salles de bain",
+        "sqft": "pi²",
+        "month": "mois",
+        "furnished": "Meublé",
+        "unfurnished": "Non meublé",
+        "loading": "Chargement...",
+        "error": "Erreur",
+        "search": "Rechercher",
+        "filter": "Filtrer",
+        "sort": "Trier",
+        "clear": "Effacer",
+        "close": "Fermer",
+        "back": "Retour"
+      },
+      "home": {
+        "hero": {
+          "title": "Découvrez le luxe urbain à Montréal",
+          "subtitle": "Des appartements exceptionnels dans les meilleurs quartiers de la ville",
+          "cta": "Explorez nos appartements"
+        },
+        "search": {
+          "title": "Trouvez votre appartement idéal",
+          "area": "Quartier",
+          "allAreas": "Tous les quartiers",
+          "maxPrice": "Prix max",
+          "allPrices": "Tout prix",
+          "bedrooms": "Chambres",
+          "allBedrooms": "Tous",
+          "priceRange": "Gamme de prix",
+          "sortBy": "Trier par",
+          "priceAsc": "Prix croissant",
+          "priceDesc": "Prix décroissant",
+          "showFilters": "Afficher les filtres",
+          "hideFilters": "Masquer les filtres"
+        },
+        "featured": {
+          "title": "Appartements vedettes",
+          "subtitle": "Découvrez notre sélection d'appartements de luxe"
+        },
+        "aboutAgent": {
+          "title": "Votre agent immobilier",
+          "name": "Jessica Larmour",
+          "description": "Spécialisée dans la location d'appartements de luxe à Montréal, Jessica vous accompagne dans votre recherche du logement parfait.",
+          "phone": "438-508-1566",
+          "email": "larmour.j.a@gmail.com"
+        }
+      },
+      "footer": {
+        "contact": "Contact",
+        "phone": "Téléphone",
+        "email": "Courriel",
+        "areas": "Quartiers desservis",
+        "rights": "Tous droits réservés"
+      }
+    },
+    "en": {
+      "navigation": {
+        "home": "Home",
+        "apartments": "Apartments",
+        "amenities": "Amenities",
+        "lifestyle": "Lifestyle",
+        "students": "Students",
+        "furnished": "Furnished Suites",
+        "unfurnished": "Unfurnished Suites",
+        "gallery": "Gallery",
+        "contact": "Contact",
+        "bookTour": "Book a Tour",
+        "language": "Language"
+      },
+      "common": {
+        "viewDetails": "View Details",
+        "bookNow": "Book Now",
+        "available": "Available",
+        "notAvailable": "Not Available",
+        "bedroom": "bedroom",
+        "bedrooms": "bedrooms",
+        "bathroom": "bathroom",
+        "bathrooms": "bathrooms",
+        "sqft": "sqft",
+        "month": "month",
+        "furnished": "Furnished",
+        "unfurnished": "Unfurnished",
+        "loading": "Loading...",
+        "error": "Error",
+        "search": "Search",
+        "filter": "Filter",
+        "sort": "Sort",
+        "clear": "Clear",
+        "close": "Close",
+        "back": "Back"
+      },
+      "home": {
+        "hero": {
+          "title": "Apartments, Rooms and Condos for rent in Montreal",
+          "subtitle": "Exceptional apartments in the city's finest neighborhoods",
+          "cta": "Explore Our Apartments"
+        },
+        "search": {
+          "title": "Find Your Perfect Apartment",
+          "area": "Area",
+          "allAreas": "All Areas",
+          "maxPrice": "Max Price",
+          "allPrices": "All Prices",
+          "bedrooms": "Bedrooms",
+          "allBedrooms": "All",
+          "priceRange": "Price Range",
+          "sortBy": "Sort By",
+          "priceAsc": "Price: Low to High",
+          "priceDesc": "Price: High to Low",
+          "showFilters": "Show Filters",
+          "hideFilters": "Hide Filters"
+        },
+        "featured": {
+          "title": "Featured Apartments",
+          "subtitle": "Discover our selection of luxury apartments"
+        },
+        "aboutAgent": {
+          "title": "Your Real Estate Agent",
+          "name": "Jessica Larmour",
+          "description": "Specializing in luxury apartment rentals in Montreal, Jessica will guide you in finding the perfect home.",
+          "phone": "438-508-1566",
+          "email": "larmour.j.a@gmail.com"
+        }
+      },
+      "footer": {
+        "contact": "Contact",
+        "phone": "Phone",
+        "email": "Email",
+        "areas": "Served Areas",
+        "rights": "All rights reserved"
+      }
+    }
+  }
+}
