@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "build:prod": "ng build --configuration production"
+    "build:prod": "ng build --configuration production",
+    "deploy:ghpages": "ng build --configuration production --base-href /montreal4rent/ && npx angular-cli-ghpages --dir=dist/montreal4rent"
   },
   "private": true,
   "dependencies": {
@@ -30,6 +31,7 @@
     "@angular/compiler-cli": "^19.0.0",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.7.0",
+    "angular-cli-ghpages": "^2.0.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

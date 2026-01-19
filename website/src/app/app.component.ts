@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, Router } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 
@@ -21,6 +21,18 @@ import { FooterComponent } from './components/footer/footer.component';
     }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'montreal4rent';
+  
+  constructor(private router: Router) {}
+  
+  ngOnInit() {
+    // Handle GitHub Pages SPA redirect
+    const redirect = sessionStorage.redirect;
+    delete sessionStorage.redirect;
+    if (redirect && redirect !== location.href) {
+      const path = redirect.replace(location.origin + '/montreal4rent/', '');
+      this.router.navigateByUrl('/' + path);
+    }
+  }
 }
