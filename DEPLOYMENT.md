@@ -30,11 +30,24 @@ To deploy manually from your local machine:
 
 ### Repository Settings
 
-Make sure the following settings are configured in your GitHub repository:
+**IMPORTANT**: You must enable GitHub Pages in your repository settings first:
 
-1. Go to Settings > Pages
-2. Source should be set to "GitHub Actions"
-3. The workflow will automatically deploy on push to main branch
+1. Go to your repository on GitHub: `https://github.com/danieloseguin67/montreal4rent`
+2. Click **Settings** → **Pages**
+3. Under **Source**, select **"GitHub Actions"**
+4. Click **Save**
+
+If you get a "Not Found" error during deployment, GitHub Pages isn't enabled yet. Follow these steps:
+
+#### Alternative Setup:
+1. Go to **Settings** → **Pages**
+2. Under **Source**, temporarily select **"Deploy from a branch"** 
+3. Choose **"main"** branch and **"/ (root)"** folder
+4. Click **Save**
+5. Wait a moment, then change **Source** back to **"GitHub Actions"**
+6. Click **Save** again
+
+This will initialize Pages for your repository.
 
 ## Local Development
 
