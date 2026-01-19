@@ -1,10 +1,22 @@
 # GitHub Pages Deployment
 
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions with a simplified workflow.
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
 
-## 🚀 Automatic Setup
+## ⚠️ ONE-TIME SETUP REQUIRED
 
-The deployment workflow will **automatically enable and configure GitHub Pages** when it runs. No manual setup required!
+After the first deployment, you need to configure GitHub Pages to serve from the `gh-pages` branch:
+
+1. Go to your repository: `https://github.com/danieloseguin67/montreal4rent`
+2. Click **Settings** → **Pages**
+3. Under **Source**, select **"Deploy from a branch"**
+4. Choose **`gh-pages`** branch and **`/ (root)`** folder
+5. Click **Save**
+
+**Your website will then be available at: `https://danieloseguin67.github.io/montreal4rent/`**
+
+## 🚀 Automatic Deployment
+
+The deployment workflow automatically creates and updates the `gh-pages` branch when code is pushed to main.
 
 ## Deployment Setup
 
