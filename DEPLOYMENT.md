@@ -1,17 +1,10 @@
 # GitHub Pages Deployment
 
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions with a simplified workflow.
 
-## ⚠️ REQUIRED: Enable GitHub Pages First
+## 🚀 Automatic Setup
 
-**You MUST manually enable GitHub Pages before the deployment will work:**
-
-1. Go to your repository: `https://github.com/danieloseguin67/montreal4rent`
-2. Click **Settings** → **Pages** 
-3. Under **Source**, select **"GitHub Actions"**
-4. Click **Save**
-
-**The deployment will fail with permission errors until you complete this step manually.**
+The deployment workflow will **automatically enable and configure GitHub Pages** when it runs. No manual setup required!
 
 ## Deployment Setup
 
