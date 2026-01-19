@@ -28,8 +28,8 @@ export class AppComponent implements OnInit {
   
   ngOnInit() {
     // Handle GitHub Pages SPA redirect
-    const redirect = sessionStorage.redirect;
-    delete sessionStorage.redirect;
+    const redirect = sessionStorage['redirect'];
+    delete sessionStorage['redirect'];
     if (redirect && redirect !== location.href) {
       const path = redirect.replace(location.origin + '/montreal4rent/', '');
       this.router.navigateByUrl('/' + path);
