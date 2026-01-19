@@ -12,7 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
   template: `
     <header class="header">
       <div class="container">
-        <div class="header-content">
+        <div class="header-content" [class.french-layout]="currentLanguage === 'fr'">
           <!-- Logo -->
           <div class="logo">
             <a routerLink="/" class="logo-link">

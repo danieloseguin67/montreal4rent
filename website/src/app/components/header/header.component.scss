@@ -39,6 +39,13 @@
   }
 }
 
+// French layout adjustments - move logo more to the left
+.header-content.french-layout {
+  .logo {
+    margin-right: 1rem;
+  }
+}
+
 // Desktop Navigation
 .desktop-nav {
   display: none;
