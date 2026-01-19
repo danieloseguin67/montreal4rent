@@ -29,11 +29,19 @@
     );
   }
 
+  .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .hero-content {
     position: relative;
     z-index: 2;
     text-align: center;
     color: var(--white);
+    width: 100%;
   }
 
   .hero-text {
