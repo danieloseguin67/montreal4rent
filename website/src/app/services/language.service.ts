@@ -35,7 +35,7 @@ export class LanguageService {
   }
 
   private loadTranslations(): void {
-    this.http.get<TranslationData>('./assets/data/translations.json').subscribe({
+    this.http.get<TranslationData>('/montreal4rent/assets/data/translations.json').subscribe({
       next: (data) => {
         this.translationsSubject.next(data.content);
         this.updateDocumentLanguage(this.currentLanguageSubject.value);
