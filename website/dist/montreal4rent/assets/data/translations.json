@@ -53,7 +53,9 @@
           "priceRange": "Gamme de prix",
           "sortBy": "Trier par",
           "priceAsc": "Prix croissant",
-          "priceDesc": "Prix décroissant"
+          "priceDesc": "Prix décroissant",
+          "showFilters": "Afficher les filtres",
+          "hideFilters": "Masquer les filtres"
         },
         "featured": {
           "title": "Appartements vedettes",
@@ -128,7 +130,9 @@
           "priceRange": "Price Range",
           "sortBy": "Sort By",
           "priceAsc": "Price: Low to High",
-          "priceDesc": "Price: High to Low"
+          "priceDesc": "Price: High to Low",
+          "showFilters": "Show Filters",
+          "hideFilters": "Hide Filters"
         },
         "featured": {
           "title": "Featured Apartments",

@@ -26,9 +26,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
       <section class="apartment-hero">
         <div class="hero-image">
           <img 
-            [src]="'/assets/images/' + apartment.images[currentImageIndex]" 
+            [src]="'assets/images/' + apartment.images[currentImageIndex]" 
             [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-            onerror="this.src='/assets/images/placeholder-apartment.jpg'"
+            onerror="this.src='assets/images/placeholder-apartment.jpg'"
           >
           <div class="image-navigation" *ngIf="apartment.images.length > 1">
             <button 
@@ -147,9 +147,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     [class.active]="i === currentImageIndex"
                   >
                     <img 
-                      [src]="'/assets/images/' + image" 
+                      [src]="'assets/images/' + image" 
                       [alt]="'Image ' + (i + 1)"
-                      onerror="this.src='/assets/images/placeholder-apartment.jpg'"
+                      onerror="this.src='assets/images/placeholder-apartment.jpg'"
                     >
                   </div>
                 </div>
@@ -165,9 +165,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <div class="agent-info">
                       <div class="agent-avatar">
                         <img 
-                          src="/assets/images/placeholder-apartment.jpg" 
+                          src="assets/images/placeholder-apartment.jpg" 
                           alt="Jessica Larmour"
-                          onerror="this.src='/assets/images/placeholder-apartment.jpg'"
+                          onerror="this.src='assets/images/placeholder-apartment.jpg'"
                         >
                       </div>
                       <div class="agent-details">
@@ -206,9 +206,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     >
                       <div class="similar-image">
                         <img 
-                          [src]="'/assets/images/' + similar.images[0]" 
+                          [src]="'assets/images/' + similar.images[0]" 
                           [alt]="currentLanguage === 'fr' ? similar.title : similar.titleEn"
-                          onerror="this.src='/assets/images/placeholder-apartment.jpg'"
+                          onerror="this.src='assets/images/placeholder-apartment.jpg'"
                         >
                       </div>
                       <div class="similar-content">

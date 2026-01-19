@@ -146,9 +146,9 @@ import { Subject, takeUntil } from 'rxjs';
             >
               <div class="apartment-image">
                 <img 
-                  [src]="'/assets/images/' + apartment.images[0]" 
+                  [src]="'assets/images/' + apartment.images[0]" 
                   [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-                  onerror="this.src='/assets/images/placeholder-apartment.jpg'"
+                  onerror="this.src='assets/images/placeholder-apartment.jpg'"
                 >
                 <div class="apartment-badge" [class.available]="apartment.available">
                   {{ apartment.available ? t.common?.available : t.common?.notAvailable }}
