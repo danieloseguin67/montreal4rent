@@ -39,14 +39,6 @@
       "nameEn": "Plateau-Mont-Royal",
       "description": "Quartier artistique et branché de Montréal",
       "descriptionEn": "Artistic and trendy neighborhood of Montreal"
-    },
-    {
-      "id": "angrignon",
-      "name": "Angrignon",
-      "nameFr": "Angrignon",
-      "nameEn": "Angrignon",
-      "description": "Près du parc et métro Angrignon",
-      "descriptionEn": "Close to Angrignon Park and Metro"
     }
   ]
 }
