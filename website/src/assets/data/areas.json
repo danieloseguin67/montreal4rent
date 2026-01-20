@@ -1,50 +1,52 @@
-[
-  {
-    "id": "lachine",
-    "name": "Lachine",
-    "nameFr": "Lachine",
-    "nameEn": "Lachine",
-    "description": "Quartier paisible en bordure du fleuve Saint-Laurent et du Canal Lachine",
-    "descriptionEn": "Peaceful neighborhood along the Saint Lawrence River and Lachine Canal"
-  },
-  {
-    "id": "pierrefonds",
-    "name": "Pierrefonds",
-    "nameFr": "Pierrefonds",
-    "nameEn": "Pierrefonds",
-    "description": "Secteur résidentiel familial avec espaces verts",
-    "descriptionEn": "Family-friendly residential area with green spaces"
-  },
-  {
-    "id": "downtown",
-    "name": "Centre-ville",
-    "nameFr": "Centre-ville",
-    "nameEn": "Downtown",
-    "description": "Cœur urbain dynamique avec toutes les commodités",
-    "descriptionEn": "Dynamic urban heart with all amenities"
-  },
-  {
-    "id": "cote-des-neiges",
-    "name": "Côte-des-Neiges",
-    "nameFr": "Côte-des-Neiges",
-    "nameEn": "Côte-des-Neiges",
-    "description": "Quartier multiculturel près des universités",
-    "descriptionEn": "Multicultural neighborhood near universities"
-  },
-  {
-    "id": "plateau-mont-royal",
-    "name": "Plateau-Mont-Royal",
-    "nameFr": "Plateau-Mont-Royal",
-    "nameEn": "Plateau-Mont-Royal",
-    "description": "Quartier artistique et branché de Montréal",
-    "descriptionEn": "Artistic and trendy neighborhood of Montreal"
-  },
-  {
-    "descriptionEn": "Close to Angrignon Park and Metro",
-    "nameEn": "Angrignon",
-    "id": "Angrignon",
-    "name": "Angrignon",
-    "nameFr": "Angrignon",
-    "description": "Pret du parc et metro Angrignon"
-  }
-]
+{
+  "areas": [
+    {
+      "id": "lachine",
+      "name": "Lachine",
+      "nameFr": "Lachine",
+      "nameEn": "Lachine",
+      "description": "Quartier paisible en bordure du fleuve Saint-Laurent et du Canal Lachine",
+      "descriptionEn": "Peaceful neighborhood along the Saint Lawrence River and Lachine Canal"
+    },
+    {
+      "id": "pierrefonds",
+      "name": "Pierrefonds",
+      "nameFr": "Pierrefonds",
+      "nameEn": "Pierrefonds",
+      "description": "Secteur résidentiel familial avec espaces verts",
+      "descriptionEn": "Family-friendly residential area with green spaces"
+    },
+    {
+      "id": "downtown",
+      "name": "Centre-ville",
+      "nameFr": "Centre-ville",
+      "nameEn": "Downtown",
+      "description": "Cœur urbain dynamique avec toutes les commodités",
+      "descriptionEn": "Dynamic urban heart with all amenities"
+    },
+    {
+      "id": "cote-des-neiges",
+      "name": "Côte-des-Neiges",
+      "nameFr": "Côte-des-Neiges",
+      "nameEn": "Côte-des-Neiges",
+      "description": "Quartier multiculturel près des universités",
+      "descriptionEn": "Multicultural neighborhood near universities"
+    },
+    {
+      "id": "plateau-mont-royal",
+      "name": "Plateau-Mont-Royal",
+      "nameFr": "Plateau-Mont-Royal",
+      "nameEn": "Plateau-Mont-Royal",
+      "description": "Quartier artistique et branché de Montréal",
+      "descriptionEn": "Artistic and trendy neighborhood of Montreal"
+    },
+    {
+      "id": "angrignon",
+      "name": "Angrignon",
+      "nameFr": "Angrignon",
+      "nameEn": "Angrignon",
+      "description": "Près du parc et métro Angrignon",
+      "descriptionEn": "Close to Angrignon Park and Metro"
+    }
+  ]
+}
