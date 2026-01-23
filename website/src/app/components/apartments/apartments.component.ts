@@ -223,7 +223,7 @@ import { Subject, takeUntil } from 'rxjs';
           <!-- No Results -->
           <div class="no-results text-center" *ngIf="!loading && filteredApartments.length === 0">
             <i class="fas fa-search"></i>
-            <h3>Aucun résultat trouvé</h3>
+            <h3></h3>
             <p>Essayez d'ajuster vos critères de recherche.</p>
             <button class="btn btn-primary" (click)="clearFilters()">
               Effacer les filtres
