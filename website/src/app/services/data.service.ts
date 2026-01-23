@@ -55,14 +55,14 @@ export class DataService {
 
   private loadData(): void {
     // Load apartments
-    this.http.get<ApartmentData>('/montreal4rent/assets/data/apartments.json').subscribe({
-      next: (data) => this.apartmentsSubject.next(data.apartments),
+    this.http.get<Apartment[]>('/montreal4rent/assets/data/apartments.json').subscribe({
+      next: (data) => this.apartmentsSubject.next(data),
       error: (error) => console.error('Error loading apartments:', error)
     });
 
     // Load areas
-    this.http.get<AreaData>('/montreal4rent/assets/data/areas.json').subscribe({
-      next: (data) => this.areasSubject.next(data.areas),
+    this.http.get<Area[]>('/montreal4rent/assets/data/areas.json').subscribe({
+      next: (data) => this.areasSubject.next(data),
       error: (error) => console.error('Error loading areas:', error)
     });
   }
