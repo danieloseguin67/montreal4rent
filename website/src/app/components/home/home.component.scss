@@ -349,6 +349,29 @@
 
     .agent-contact {
       margin-bottom: 2rem;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+
+      .contact-person {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+
+        i {
+          color: var(--primary-orange);
+          font-size: 1.125rem;
+          width: 20px;
+        }
+
+        .agent-name {
+          color: var(--text-dark-gray);
+          font-weight: 600;
+          font-size: 1.125rem;
+        }
+      }
 
       .contact-item {
         display: flex;

@@ -240,9 +240,12 @@ import { Subject, takeUntil } from 'rxjs';
             <div class="agent-content text-center">
               <h2>{{ t.home?.aboutAgent?.title }}</h2>
               <h3 class="agent-subtitle">{{ t.home?.aboutAgent?.subtitle }}</h3>
-              <p>{{ t.home?.aboutAgent?.description }}</p>
               
               <div class="agent-contact">
+                <div class="contact-person">
+                  <i class="fas fa-user"></i>
+                  <span class="agent-name">{{ t.home?.aboutAgent?.description }}</span>
+                </div>
                 <div class="contact-item">
                   <i class="fas fa-phone"></i>
                   <a href="tel:4385081566">{{ t.home?.aboutAgent?.phone }}</a>
