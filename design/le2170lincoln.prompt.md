@@ -13,7 +13,7 @@
 ### **SITE INFORMATION:**
 - **Website**: montreal4rent.com
 - **Contact Name**: Jessica Larmour
-- **Email**:  larmour.j.a@gmail.com
+- **Email**:  Jessica@montreal4rent.com
 - **Rental Agent**: 438-508-1566
 - **Target Market**: apartment rentals in montreal with bilingual support
 
@@ -138,7 +138,7 @@ Store the areas into json file within the /data folder
 ---
 
 ### **12. Email Configuration**
-- Set up professional email accounts (larmour.j.a@gmail.com)
+- Set up professional email accounts (Jessica@montreal4rent.com)
 - Configure contact form submissions
 - Implement automated response system
 - SMTP integration for reliable email delivery for gmail account

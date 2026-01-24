@@ -9,7 +9,7 @@ Professional real estate website for **Jessica Larmour**, specializing in luxury
 ### 📧 Contact Information
 - **Agent**: Jessica Larmour
 - **Phone**: [438-508-1566](tel:4385081566)
-- **Email**: [larmour.j.a@gmail.com](mailto:larmour.j.a@gmail.com)
+- **Email**: [Jessica@montreal4rent.com](mailto:Jessica@montreal4rent.com)
 
 ## 🚀 Features
 
