@@ -317,9 +317,9 @@
 
       .agent-info {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 1rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
 
         .agent-avatar {
           width: 60px;
