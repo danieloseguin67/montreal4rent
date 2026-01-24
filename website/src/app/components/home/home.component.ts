@@ -321,7 +321,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.dataService.getAreas()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(areas => this.areas = areas);
+      .subscribe(areas => {
+        console.log('Loaded areas:', areas);
+        this.areas = areas;
+      });
   }
 
   private subscribeToLanguageChanges(): void {
@@ -335,6 +338,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onFiltersChanged(): void {
+    console.log('Filters changed. Selected area:', this.selectedArea);
     this.applyFilters();
   }
 
@@ -343,7 +347,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Apply filters
     if (this.selectedArea) {
-      filtered = filtered.filter(apt => apt.area === this.selectedArea);
+      console.log('Filtering by selectedArea:', this.selectedArea);
+      console.log('Available apartments areas:', this.apartments.map(apt => apt.area));
+      filtered = filtered.filter(apt => {
+        console.log(`Comparing apt.area '${apt.area}' === selectedArea '${this.selectedArea}':`, apt.area === this.selectedArea);
+        return apt.area === this.selectedArea;
+      });
+      console.log('Filtered apartments count:', filtered.length);
     }
 
     if (this.selectedBedrooms !== '') {
