@@ -115,7 +115,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
           
           <div class="modal-body">
-            <form class="booking-form" (ngSubmit)="submitBookingForm()">
+            <form class="booking-form" (ngSubmit)="submitBookingForm()" #bookingFormRef="ngForm">
               <div class="form-group">
                 <label for="name">{{ currentLanguage === 'fr' ? 'Nom complet' : 'Full Name' }} *</label>
                 <input 
@@ -125,6 +125,7 @@ import { Subject, takeUntil } from 'rxjs';
                   [(ngModel)]="bookingForm.name" 
                   class="form-control" 
                   required
+                  #nameField="ngModel"
                   placeholder="{{ currentLanguage === 'fr' ? 'Votre nom complet' : 'Your full name' }}"
                 >
               </div>
@@ -138,6 +139,7 @@ import { Subject, takeUntil } from 'rxjs';
                   [(ngModel)]="bookingForm.email" 
                   class="form-control" 
                   required
+                  #emailField="ngModel"
                   placeholder="{{ currentLanguage === 'fr' ? 'votre@email.com' : 'your@email.com' }}"
                 >
               </div>
@@ -151,6 +153,7 @@ import { Subject, takeUntil } from 'rxjs';
                   [(ngModel)]="bookingForm.phone" 
                   class="form-control" 
                   required
+                  #phoneField="ngModel"
                   placeholder="{{ currentLanguage === 'fr' ? '(514) 123-4567' : '(514) 123-4567' }}"
                 >
               </div>
@@ -171,7 +174,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <button type="button" class="btn btn-outline" (click)="closeBookingModal()">
                   {{ currentLanguage === 'fr' ? 'Annuler' : 'Cancel' }}
                 </button>
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" [disabled]="!bookingFormRef.form.valid">
                   <i class="fas fa-paper-plane"></i>
                   {{ currentLanguage === 'fr' ? 'Envoyer la demande' : 'Send Request' }}
                 </button>
@@ -258,24 +261,42 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   submitBookingForm(): void {
-    if (this.bookingForm.name && this.bookingForm.email && this.bookingForm.phone) {
-      const to = encodeURIComponent('larmour.j.a@gmail.com');
-      const subject = encodeURIComponent('Demande de visite - Montreal4Rent');
-      const body = `Bonjour,\n\nNouvelle demande de visite:\n\nNom: ${this.bookingForm.name}\nEmail: ${this.bookingForm.email}\nTéléphone: ${this.bookingForm.phone}\n\nMessage:\n${this.bookingForm.message || 'Aucun message spécial'}\n\nMerci!`;
-      
-      // Send email via Gmail web interface
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${to}&su=${subject}&body=${encodeURIComponent(body)}`;
-      window.open(gmailUrl, '_blank');
-      
-      // Reset form and close modal
-      this.bookingForm = { name: '', email: '', phone: '', message: '' };
-      this.closeBookingModal();
-      
-      // Show success message
+    console.log('Form submitted with data:', this.bookingForm);
+    
+    // Check if all required fields are filled
+    if (!this.bookingForm.name || !this.bookingForm.email || !this.bookingForm.phone) {
       alert(this.currentLanguage === 'fr' 
-        ? 'Votre demande va être envoyée via Gmail! Veuillez compléter l\'envoi dans l\'onglet Gmail.'
-        : 'Your request will be sent via Gmail! Please complete the sending in the Gmail tab.');
+        ? 'Veuillez remplir tous les champs obligatoires.'
+        : 'Please fill in all required fields.');
+      return;
     }
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.bookingForm.email)) {
+      alert(this.currentLanguage === 'fr' 
+        ? 'Veuillez entrer une adresse courriel valide.'
+        : 'Please enter a valid email address.');
+      return;
+    }
+
+    const to = encodeURIComponent('larmour.j.a@gmail.com');
+    const subject = encodeURIComponent('Demande de visite - Montreal4Rent');
+    const body = `Bonjour,\n\nNouvelle demande de visite:\n\nNom: ${this.bookingForm.name}\nEmail: ${this.bookingForm.email}\nTéléphone: ${this.bookingForm.phone}\n\nMessage:\n${this.bookingForm.message || 'Aucun message spécial'}\n\nMerci!`;
+    
+    // Send email via Gmail web interface
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${to}&su=${subject}&body=${encodeURIComponent(body)}`;
+    console.log('Opening Gmail URL:', gmailUrl);
+    window.open(gmailUrl, '_blank');
+    
+    // Reset form and close modal
+    this.bookingForm = { name: '', email: '', phone: '', message: '' };
+    this.closeBookingModal();
+    
+    // Show success message
+    alert(this.currentLanguage === 'fr' 
+      ? 'Votre demande va être envoyée via Gmail! Veuillez compléter l\'envoi dans l\'onglet Gmail.'
+      : 'Your request will be sent via Gmail! Please complete the sending in the Gmail tab.');
   }
 
   bookTour(): void {
