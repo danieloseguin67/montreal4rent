@@ -248,10 +248,10 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   private getSubjectText(subjectValue: string): string {
     const subjects: { [key: string]: { en: string; fr: string } } = {
-      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d'appartement' },
+      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d\'appartement' },
       'viewing-request': { en: 'Viewing Request', fr: 'Demande de visite' },
       'rental-information': { en: 'Rental Information', fr: 'Informations de location' },
-      'general-question': { en: 'General Question', fr: 'Question générale' },
+      'general-question': { en: 'General Question', fr: 'Question generale' },
       'other': { en: 'Other', fr: 'Autre' }
     };
     
