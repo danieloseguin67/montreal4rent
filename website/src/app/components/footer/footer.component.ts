@@ -21,7 +21,7 @@ import { Subject, takeUntil } from 'rxjs';
                   <h3>Montreal4Rent</h3>
                 </div>
                 <p class="footer-description">
-                  {{ currentLanguage === 'fr' ? 'Spécialiste en location d\'appartements de luxe à Montréal. Trouvez votre nouveau chez-vous dès aujourd\'hui.' : 'Specialist in luxury apartment rentals in Montreal. Find your new home today.' }}
+                  {{ t.footer?.description || 'Specialist in luxury apartment rentals in Montreal. Find your new home today.' }}
                 </p>
               </div>
             </div>

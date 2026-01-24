@@ -74,6 +74,7 @@
         "phone": "Téléphone",
         "email": "Courriel",
         "areas": "Quartiers desservis",
+        "description": "Spécialiste en location d'appartements de luxe à Montréal. Trouvez votre nouveau chez-vous dès aujourd'hui.",
         "rights": "Tous droits réservés"
       }
     },
@@ -151,6 +152,7 @@
         "phone": "Phone",
         "email": "Email",
         "areas": "Served Areas",
+        "description": "Specialist in luxury apartment rentals in Montreal. Find your new home today.",
         "rights": "All rights reserved"
       }
     }
