@@ -28,7 +28,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
           <img 
             [src]="'assets/images/' + apartment.images[currentImageIndex]" 
             [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-            onerror="this.src='assets/images/placeholder-apartment.jpg'"
+            onerror="this.src='assets/images/' + apartment.images[0]"
           >
           <div class="image-navigation" *ngIf="apartment.images.length > 1">
             <button 
@@ -149,7 +149,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <img 
                       [src]="'assets/images/' + image" 
                       [alt]="'Image ' + (i + 1)"
-                      onerror="this.src='assets/images/placeholder-apartment.jpg'"
+                      onerror="this.src='assets/images/' + apartment.images[0]"
                     >
                   </div>
                 </div>
@@ -165,9 +165,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <div class="agent-info">
                       <div class="agent-avatar">
                         <img 
-                          src="assets/images/placeholder-apartment.jpg" 
+                          [src]="'assets/images/' + apartment.images[0]" 
                           alt="Jessica Larmour"
-                          onerror="this.src='assets/images/placeholder-apartment.jpg'"
+                          onerror="this.src='assets/images/' + apartment.images[0]"
                         >
                       </div>
                       <div class="agent-details">
@@ -208,7 +208,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                         <img 
                           [src]="'assets/images/' + similar.images[0]" 
                           [alt]="currentLanguage === 'fr' ? similar.title : similar.titleEn"
-                          onerror="this.src='assets/images/placeholder-apartment.jpg'"
+                          onerror="this.src='assets/images/' + similar.images[0]"
                         >
                       </div>
                       <div class="similar-content">
