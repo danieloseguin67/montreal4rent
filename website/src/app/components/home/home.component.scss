@@ -1,7 +1,8 @@
 // Hero Section
 .hero {
   position: relative;
-  height: 25vh;
+  height: 30vh;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 2rem;
+    padding: 3rem 1rem;
   }
 
   .hero-content {
@@ -48,6 +49,7 @@
   .hero-text {
     max-width: 800px;
     margin: 0 auto;
+    padding: 2rem 0;
 
     h1 {
       font-size: clamp(2.5rem, 5vw, 4rem);
