@@ -239,9 +239,9 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="col col-12 col-md-6">
             <div class="agent-image">
               <img 
-                src="assets/images/media (1).jpg" 
+                src="assets/images/jessicaprofilepic.jpg" 
                 alt="Jessica Larmour"
-                onerror="this.src='assets/images/media.jpg'"
+                onerror="this.style.display='none'"
               >
             </div>
           </div>

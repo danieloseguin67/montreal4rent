@@ -121,13 +121,6 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                 <p class="description">
                   {{ currentLanguage === 'fr' ? apartment.description : apartment.descriptionEn }}
                 </p>
-                <!-- Debug info -->
-                <div style="background: #f0f0f0; padding: 10px; margin-top: 10px; font-size: 12px;">
-                  <strong>Debug:</strong><br>
-                  Current Language: {{ currentLanguage }}<br>
-                  French Description: {{ apartment.description ? 'EXISTS' : 'MISSING' }}<br>
-                  English Description: {{ apartment.descriptionEn ? 'EXISTS' : 'MISSING' }}
-                </div>
               </div>
 
               <div class="content-section">
@@ -140,12 +133,6 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <i class="fas fa-check"></i>
                     <span>{{ feature }}</span>
                   </div>
-                </div>
-                <!-- Debug info -->
-                <div style="background: #f0f0f0; padding: 10px; margin-top: 10px; font-size: 12px;">
-                  <strong>Debug:</strong><br>
-                  French Features: {{ apartment.features?.length || 0 }} items<br>
-                  English Features: {{ apartment.featuresEn?.length || 0 }} items
                 </div>
               </div>
 
@@ -178,9 +165,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <div class="agent-info">
                       <div class="agent-avatar">
                         <img 
-                          [src]="'assets/images/' + apartment.images[0]" 
+                          src="assets/images/jessicaprofilepic.jpg" 
                           alt="Jessica Larmour"
-                          onerror="this.src='assets/images/' + apartment.images[0]"
+                          onerror="this.style.display='none'"
                         >
                       </div>
                       <div class="agent-details">
