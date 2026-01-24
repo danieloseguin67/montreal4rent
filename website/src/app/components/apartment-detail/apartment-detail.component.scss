@@ -47,15 +47,15 @@
         height: 100%;
         object-fit: cover;
         object-position: center;
+        image-rendering: auto;
         image-rendering: -webkit-optimize-contrast;
-        image-rendering: high-quality;
-        image-rendering: -moz-crisp-edges;
-        image-rendering: pixelated;
         backface-visibility: hidden;
         transform: translateZ(0);
         -webkit-backface-visibility: hidden;
         -webkit-transform: translateZ(0);
-        will-change: transform;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        filter: contrast(1.02) saturate(1.02);
       }
 
       .image-navigation {
@@ -294,15 +294,15 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
+            image-rendering: auto;
             image-rendering: -webkit-optimize-contrast;
-            image-rendering: high-quality;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: pixelated;
             backface-visibility: hidden;
             transform: translateZ(0);
             -webkit-backface-visibility: hidden;
             -webkit-transform: translateZ(0);
-            will-change: transform;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            filter: contrast(1.02) saturate(1.02);
           }
         }
       }
