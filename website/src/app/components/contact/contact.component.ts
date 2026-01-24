@@ -32,7 +32,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <i class="fas fa-envelope"></i>
               </div>
               <h3>{{ currentLanguage === 'fr' ? 'Email' : 'Email' }}</h3>
-              <p><a href="mailto:info@montreal4rent.com">Jessica&#64;montreal4rent.com</a></p>
+              <p><a href="mailto:info@montreal4rent.com">info&#64;montreal4rent.com</a></p>
             </div>
             <div class="contact-card">
               <div class="contact-icon">
