@@ -118,28 +118,35 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
             <div class="col col-12 col-lg-8">
               <div class="content-section">
                 <h2>Description</h2>
-                <p class="description" *ngIf="apartment.description || apartment.descriptionEn">
-                  {{ currentLanguage === 'fr' ? (apartment.description || apartment.descriptionEn) : (apartment.descriptionEn || apartment.description) }}
+                <p class="description">
+                  {{ currentLanguage === 'fr' ? apartment.description : apartment.descriptionEn }}
                 </p>
-                <p class="description" *ngIf="!apartment.description && !apartment.descriptionEn">
-                  {{ t.common?.noDescription || 'Aucune description disponible' }}
-                </p>
+                <!-- Debug info -->
+                <div style="background: #f0f0f0; padding: 10px; margin-top: 10px; font-size: 12px;">
+                  <strong>Debug:</strong><br>
+                  Current Language: {{ currentLanguage }}<br>
+                  French Description: {{ apartment.description ? 'EXISTS' : 'MISSING' }}<br>
+                  English Description: {{ apartment.descriptionEn ? 'EXISTS' : 'MISSING' }}
+                </div>
               </div>
 
               <div class="content-section">
                 <h2>Caractéristiques</h2>
-                <div class="features-grid" *ngIf="(apartment.features && apartment.features.length > 0) || (apartment.featuresEn && apartment.featuresEn.length > 0)">
+                <div class="features-grid">
                   <div 
                     class="feature-item" 
-                    *ngFor="let feature of (currentLanguage === 'fr' ? (apartment.features || apartment.featuresEn) : (apartment.featuresEn || apartment.features))"
+                    *ngFor="let feature of (currentLanguage === 'fr' ? apartment.features : apartment.featuresEn)"
                   >
                     <i class="fas fa-check"></i>
                     <span>{{ feature }}</span>
                   </div>
                 </div>
-                <p class="no-features" *ngIf="(!apartment.features || apartment.features.length === 0) && (!apartment.featuresEn || apartment.featuresEn.length === 0)">
-                  {{ t.common?.noFeatures || 'Aucune caractéristique disponible' }}
-                </p>
+                <!-- Debug info -->
+                <div style="background: #f0f0f0; padding: 10px; margin-top: 10px; font-size: 12px;">
+                  <strong>Debug:</strong><br>
+                  French Features: {{ apartment.features?.length || 0 }} items<br>
+                  English Features: {{ apartment.featuresEn?.length || 0 }} items
+                </div>
               </div>
 
               <!-- Image Gallery -->

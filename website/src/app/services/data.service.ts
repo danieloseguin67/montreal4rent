@@ -61,8 +61,8 @@ export class DataService {
     });
 
     // Load areas
-    this.http.get<Area[]>('assets/data/areas.json').subscribe({
-      next: (data) => this.areasSubject.next(data),
+    this.http.get<{areas: Area[]}>('assets/data/areas.json').subscribe({
+      next: (data) => this.areasSubject.next(data.areas),
       error: (error) => console.error('Error loading areas:', error)
     });
   }
