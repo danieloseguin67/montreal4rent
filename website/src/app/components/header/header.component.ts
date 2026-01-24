@@ -284,7 +284,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const body = `Bonjour,\n\nNouvelle demande de visite:\n\nNom: ${this.bookingForm.name}\nEmail: ${this.bookingForm.email}\nTéléphone: ${this.bookingForm.phone}\n\nMessage:\n${this.bookingForm.message || 'Aucun message spécial'}\n\nMerci!`;
     
     // Send email using default email client
-    const mailtoUrl = `mailto:Jessica@montreal4rent.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+    const mailtoUrl = `mailto:info@montreal4rent.com?subject=${subject}&body=${encodeURIComponent(body)}`;
     console.log('Opening default email client:', mailtoUrl);
     window.location.href = mailtoUrl;
     

@@ -32,7 +32,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <i class="fas fa-envelope"></i>
               </div>
               <h3>{{ currentLanguage === 'fr' ? 'Email' : 'Email' }}</h3>
-              <p><a href="mailto:Jessica@montreal4rent.com">Jessica&#64;montreal4rent.com</a></p>
+              <p><a href="mailto:info@montreal4rent.com">Jessica&#64;montreal4rent.com</a></p>
             </div>
             <div class="contact-card">
               <div class="contact-icon">
@@ -222,7 +222,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         `Message:\n${formData.message}`
       );
       
-      const mailtoLink = `mailto:Jessica@montreal4rent.com?subject=${subject}&body=${body}`;
+      const mailtoLink = `mailto:info@montreal4rent.com?subject=${subject}&body=${body}`;
       
       // Open email client
       window.location.href = mailtoLink;

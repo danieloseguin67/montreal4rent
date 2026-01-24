@@ -7,7 +7,7 @@ We will build a website to help people find apartments to rent in Montreal. The 
 - **Agent**: Jessica Lamour
 - **Address**: 4650 Saint-Jacques, Unit 308, Montreal, Quebec, H4C 0B7
 - **Phone**: 438-508-1566
-- **Email**: Jessica@montreal4rent.com
+- **Email**: info@montreal4rent.com
 - **Market**: Montreal luxury apartment rentals
 
 ## Project Deliverables
@@ -109,7 +109,7 @@ We will build a website to help people find apartments to rent in Montreal. The 
 **Contact for Approval**
 Jessica Lamour, Real Estate Agent  
 Address: 4650 Saint-Jacques, Unit 308, Montreal, Quebec, H4C 0B7
-Email: Jessica@montreal4rent.com  
+Email: info@montreal4rent.com  
 Phone: 438-508-1566
 
 *Proposal valid for 30 days from date of submission.*

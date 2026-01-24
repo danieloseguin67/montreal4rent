@@ -62,11 +62,11 @@
           "subtitle": "Découvrez notre sélection d'appartements de luxe"
         },
         "aboutAgent": {
-          "title": "Votre agent immobilier",
-          "name": "Jessica Larmour",
-          "description": "Spécialisée dans la location d'appartements de luxe à Montréal, Jessica vous accompagne dans votre recherche du logement parfait.",
+          "title": "Montreal4Rent",
+          "subtitle": "Spécialiste en location d'appartements de luxe à Montréal. Trouvez votre nouveau chez-vous avec Jessica Larmour.",
+          "description": "Contact Jessica Larmour, Agent immobilier",
           "phone": "438-508-1566",
-          "email": "Jessica@montreal4rent.com"
+          "email": "info@montreal4rent.com"
         }
       },
       "footer": {
@@ -139,11 +139,11 @@
           "subtitle": "Discover our selection of luxury apartments"
         },
         "aboutAgent": {
-          "title": "Your Real Estate Agent",
-          "name": "Jessica Larmour",
-          "description": "Specializing in luxury apartment rentals in Montreal, Jessica will guide you in finding the perfect home.",
+          "title": "Montreal4Rent",
+          "subtitle": "Specialist in luxury apartment rentals in Montreal. Find your new home with Jessica Larmour.",
+          "description": "Contact Jessica Larmour, Real Estate Agent",
           "phone": "438-508-1566",
-          "email": "Jessica@montreal4rent.com"
+          "email": "info@montreal4rent.com"
         }
       },
       "footer": {

@@ -235,20 +235,11 @@ import { Subject, takeUntil } from 'rxjs';
     <!-- About Agent Section -->
     <section class="about-agent">
       <div class="container">
-        <div class="row align-items-center">
-          <div class="col col-12 col-md-6">
-            <div class="agent-image">
-              <img 
-                src="assets/images/jessicaprofilepic.jpg" 
-                alt="Jessica Larmour"
-                onerror="this.style.display='none'"
-              >
-            </div>
-          </div>
-          <div class="col col-12 col-md-6">
-            <div class="agent-content">
+        <div class="row justify-content-center">
+          <div class="col col-12 col-lg-8">
+            <div class="agent-content text-center">
               <h2>{{ t.home?.aboutAgent?.title }}</h2>
-              <h3 class="agent-name">{{ t.home?.aboutAgent?.name }}</h3>
+              <h3 class="agent-subtitle">{{ t.home?.aboutAgent?.subtitle }}</h3>
               <p>{{ t.home?.aboutAgent?.description }}</p>
               
               <div class="agent-contact">
@@ -258,7 +249,7 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
                 <div class="contact-item">
                   <i class="fas fa-envelope"></i>
-                  <a href="mailto:Jessica@montreal4rent.com">{{ t.home?.aboutAgent?.email }}</a>
+                  <a href="mailto:info@montreal4rent.com">{{ t.home?.aboutAgent?.email }}</a>
                 </div>
               </div>
 
