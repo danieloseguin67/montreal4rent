@@ -166,13 +166,13 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                       <div class="agent-avatar">
                         <img 
                           src="assets/images/jessicaprofilepic.jpg" 
-                          alt="Jessica Larmour"
+                          alt="{{ currentLanguage === 'fr' ? 'Agent de location' : 'Leasing Agent' }}"
                           onerror="this.style.display='none'"
                         >
                       </div>
                       <div class="agent-details">
-                        <h3>Jessica Larmour</h3>
-                        <p>Agent immobilier</p>
+                        <h3>{{ currentLanguage === 'fr' ? 'Agent de location' : 'Leasing Agent' }}</h3>
+                        <p>{{ currentLanguage === 'fr' ? 'Montreal4Rent' : 'Montreal4Rent' }}</p>
                       </div>
                     </div>
 

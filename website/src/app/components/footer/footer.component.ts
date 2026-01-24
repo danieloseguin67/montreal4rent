@@ -21,8 +21,7 @@ import { Subject, takeUntil } from 'rxjs';
                   <h3>Montreal4Rent</h3>
                 </div>
                 <p class="footer-description">
-                  Spécialiste en location d'appartements de luxe à Montréal. 
-                  Trouvez votre nouveau chez-vous avec Jessica Larmour.
+                  {{ currentLanguage === 'fr' ? 'Spécialiste en location d\'appartements de luxe à Montréal. Trouvez votre nouveau chez-vous dès aujourd\'hui.' : 'Specialist in luxury apartment rentals in Montreal. Find your new home today.' }}
                 </p>
               </div>
             </div>
@@ -35,7 +34,7 @@ import { Subject, takeUntil } from 'rxjs';
                   <div class="contact-item">
                     <i class="fas fa-user"></i>
                     <div>
-                      <strong>Jessica Larmour, Agent immobilier</strong>
+                      <strong>{{ currentLanguage === 'fr' ? 'Agent de location' : 'Leasing Agent' }}</strong>
                     </div>
                   </div>
                   <div class="contact-item">
