@@ -49,7 +49,7 @@ import { Subject, takeUntil } from 'rxjs';
                     <i class="fas fa-envelope"></i>
                     <div>
                       <strong>{{ t.footer?.email }}</strong>
-                      <a href="mailto:larmour.j.a&#64;gmail.com">larmour.j.a&#64;gmail.com</a>
+                      <a href="mailto:Jessica@montreal4rent.com">Jessica@montreal4rent.com</a>
                     </div>
                   </div>
                 </div>
