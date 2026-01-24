@@ -84,7 +84,7 @@ import { Subject, takeUntil } from 'rxjs';
                   [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
                 <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
                   <span *ngIf="contactForm.get('email')?.errors?.['required']">
-                    {{ currentLanguage === 'fr' ? 'L\'adresse e-mail est requise' : 'Email address is required' }}
+                    {{ currentLanguage === 'fr' ? 'L'adresse e-mail est requise' : 'Email address is required' }}
                   </span>
                   <span *ngIf="contactForm.get('email')?.errors?.['email']">
                     {{ currentLanguage === 'fr' ? 'Veuillez entrer une adresse e-mail valide' : 'Please enter a valid email address' }}
@@ -138,12 +138,12 @@ import { Subject, takeUntil } from 'rxjs';
             
             <div class="form-message success" *ngIf="showSuccessMessage">
               <i class="fas fa-check-circle"></i>
-              {{ currentLanguage === 'fr' ? 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.' : 'Your message has been sent successfully! We\'ll get back to you soon.' }}
+              {{ currentLanguage === 'fr' ? 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.' : 'Your message has been sent successfully! We'll get back to you soon.' }}
             </div>
             
             <div class="form-message error" *ngIf="showErrorMessage">
               <i class="fas fa-exclamation-circle"></i>
-              {{ currentLanguage === 'fr' ? 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.' : 'An error occurred while sending. Please try again.' }}
+              {{ currentLanguage === 'fr' ? 'Une erreur est survenue lors de l'envoi. Veuillez réessayer.' : 'An error occurred while sending. Please try again.' }}
             </div>
           </form>
         </div>
@@ -155,7 +155,7 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="about-content">
             <div class="about-text">
               <h2>{{ currentLanguage === 'fr' ? 'À Propos de Montreal4Rent' : 'About Montreal4Rent' }}</h2>
-              <p>{{ currentLanguage === 'fr' ? 'Montreal4Rent se spécialise dans la location d\\'appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.' : 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.' }}</p>
+              <p>{{ currentLanguage === 'fr' ? 'Montreal4Rent se spécialise dans la location d'appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.' : 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.' }}</p>
               <ul class="services-list">
                 <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Appartements meublés et non-meublés' : 'Furnished and unfurnished apartments' }}</li>
                 <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Logements adaptés aux étudiants' : 'Student-friendly housing' }}</li>
@@ -248,7 +248,7 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   private getSubjectText(subjectValue: string): string {
     const subjects: { [key: string]: { en: string; fr: string } } = {
-      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d\'appartement' },
+      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d'appartement' },
       'viewing-request': { en: 'Viewing Request', fr: 'Demande de visite' },
       'rental-information': { en: 'Rental Information', fr: 'Informations de location' },
       'general-question': { en: 'General Question', fr: 'Question générale' },
