@@ -48,9 +48,14 @@
         object-fit: cover;
         object-position: center;
         image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
+        image-rendering: high-quality;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: pixelated;
         backface-visibility: hidden;
         transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        -webkit-transform: translateZ(0);
+        will-change: transform;
       }
 
       .image-navigation {
@@ -290,9 +295,14 @@
             object-fit: cover;
             object-position: center;
             image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            image-rendering: high-quality;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
             backface-visibility: hidden;
             transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            will-change: transform;
           }
         }
       }

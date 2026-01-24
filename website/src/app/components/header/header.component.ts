@@ -259,11 +259,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   submitBookingForm(): void {
     if (this.bookingForm.name && this.bookingForm.email && this.bookingForm.phone) {
+      const to = encodeURIComponent('larmour.j.a@gmail.com');
       const subject = encodeURIComponent('Demande de visite - Montreal4Rent');
       const body = `Bonjour,\n\nNouvelle demande de visite:\n\nNom: ${this.bookingForm.name}\nEmail: ${this.bookingForm.email}\nTéléphone: ${this.bookingForm.phone}\n\nMessage:\n${this.bookingForm.message || 'Aucun message spécial'}\n\nMerci!`;
       
-      // Send email
-      window.open(`mailto:larmour.j.a@gmail.com?subject=${subject}&body=${encodeURIComponent(body)}`, '_self');
+      // Send email via Gmail web interface
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${to}&su=${subject}&body=${encodeURIComponent(body)}`;
+      window.open(gmailUrl, '_blank');
       
       // Reset form and close modal
       this.bookingForm = { name: '', email: '', phone: '', message: '' };
@@ -271,8 +273,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       
       // Show success message
       alert(this.currentLanguage === 'fr' 
-        ? 'Votre demande a été envoyée! Jessica vous contactera bientôt.'
-        : 'Your request has been sent! Jessica will contact you soon.');
+        ? 'Votre demande va être envoyée via Gmail! Veuillez compléter l\'envoi dans l\'onglet Gmail.'
+        : 'Your request will be sent via Gmail! Please complete the sending in the Gmail tab.');
     }
   }
 
