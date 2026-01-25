@@ -13,8 +13,8 @@ import { Subject, takeUntil } from 'rxjs';
       <section class="hero-section">
         <div class="hero-content">
           <div class="container">
-            <h1>{{ currentLanguage === 'fr' ? 'Suites Non Meublées' : 'Unfurnished Suites' }}</h1>
-            <p class="hero-description">{{ currentLanguage === 'fr' ? 'Créez votre espace idéal ! Nos suites spacieuses et modernes vous offrent la liberté de personnaliser votre foyer selon vos goûts.' : 'Create your ideal space! Our spacious and modern suites give you the freedom to personalize your home to your taste.' }}</p>
+            <h1>{{ currentLanguage === 'fr' ? 'Suites Non Meubl&eacute;es' : 'Unfurnished Suites' }}</h1>
+            <p class="hero-description">{{ currentLanguage === 'fr' ? 'Cr&eacute;ez votre espace id&eacute;al ! Nos suites spacieuses et modernes vous offrent la libert&eacute; de personnaliser votre foyer selon vos go&ucirc;ts.' : 'Create your ideal space! Our spacious and modern suites give you the freedom to personalize your home to your taste.' }}</p>
           </div>
         </div>
         <div class="hero-image">
@@ -25,7 +25,7 @@ import { Subject, takeUntil } from 'rxjs';
       <!-- Features Section -->
       <section class="features-section">
         <div class="container">
-          <h2>{{ currentLanguage === 'fr' ? 'Liberté et Flexibilité' : 'Freedom and Flexibility' }}</h2>
+          <h2>{{ currentLanguage === 'fr' ? 'Libert&eacute; et Flexibilit&eacute;' : 'Freedom and Flexibility' }}</h2>
           <div class="features-grid">
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop" alt="Open space" loading="lazy">
