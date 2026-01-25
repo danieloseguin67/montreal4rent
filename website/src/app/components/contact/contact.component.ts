@@ -413,7 +413,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       phone: ['', [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]],
       maxBudget: ['', [Validators.required, Validators.min(1)]],
       unitType: ['', Validators.required],
-      message: ['', Validators.required]
+      message: ['']
     });
   }
 
