@@ -97,6 +97,24 @@ import { Subject, takeUntil } from 'rxjs';
               </div>
             </div>
 
+            <!-- add last name and last name formgroup here -->
+            <div class="form-group">
+              <label for="lastName">{{ translations.form.lastName }}</label>
+              <input  
+                type="text" 
+                id="lastName" 
+                formControlName="lastName"
+                [class.invalid]="contactForm.get('lastName')?.invalid && (contactForm.get('lastName')?.touched || contactForm.get('lastName')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('lastName')?.invalid && (contactForm.get('lastName')?.touched || contactForm.get('lastName')?.dirty)"> 
+                <span *ngIf="contactForm.get('lastName')?.errors?.['required']">
+                  {{ translations.form.lastNameRequired }}
+                </span>
+                <span *ngIf="contactForm.get('lastName')?.errors?.['minlength']">
+                  {{ translations.form.lastNameMinLength }}
+                </span>
+              </div>
+            </div>
+
             <!-- add email formgroup here -->
             <div class="form-group">
               <label for="email">{{ translations.form.email }}</label>
@@ -229,6 +247,9 @@ export class ContactComponent implements OnInit, OnDestroy {
       firstName: '',
       firstNameRequired: '',
       firstNameMinLength: '',
+      lastName: '',
+      lastNameRequired: '',
+      lastNameMinLength: '',
       email: '',
       emailRequired: '',
       emailInvalid: '',
@@ -265,6 +286,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         firstName: 'Prénom',
         firstNameRequired: 'Le prénom est requis.',
         firstNameMinLength: 'Le prénom doit contenir au moins 2 caractères.',
+        lastName: 'Nom de famille',
+        lastNameRequired: 'Le nom de famille est requis.',
+        lastNameMinLength: 'Le nom de famille doit contenir au moins 2 caractères.',
         email: 'Email',
         emailRequired: 'L\'email est requis.',
         emailInvalid: 'Veuillez entrer une adresse email valide.',
@@ -299,6 +323,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         firstName: 'First Name',
         firstNameRequired: 'First name is required.',
         firstNameMinLength: 'First name must be at least 2 characters long.',
+        lastName: 'Last Name',
+        lastNameRequired: 'Last name is required.',
+        lastNameMinLength: 'Last name must be at least 2 characters long.',
         email: 'Email',
         emailRequired: 'Email is required.',
         emailInvalid: 'Please enter a valid email address.',
@@ -355,6 +382,9 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.translations.form.firstName = t.form.firstName;
     this.translations.form.firstNameRequired = t.form.firstNameRequired;
     this.translations.form.firstNameMinLength = t.form.firstNameMinLength;
+    this.translations.form.lastName = t.form.lastName;
+    this.translations.form.lastNameRequired = t.form.lastNameRequired;
+    this.translations.form.lastNameMinLength = t.form.lastNameMinLength;
     this.translations.form.email = t.form.email;
     this.translations.form.emailRequired = t.form.emailRequired;
     this.translations.form.emailInvalid = t.form.emailInvalid;
