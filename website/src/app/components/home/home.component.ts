@@ -258,7 +258,7 @@ import { Subject, takeUntil } from 'rxjs';
 
               <div class="agent-actions">
                 <a routerLink="/contact" class="btn btn-primary">
-                  Contactez-moi
+                  {{ t.home?.aboutAgent?.contactButton }}
                 </a>
                 <button class="btn btn-outline" (click)="bookTour()">
                   {{ t.navigation?.bookTour }}

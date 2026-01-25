@@ -66,7 +66,8 @@
           "subtitle": "Spécialiste en location d'appartements de luxe à Montréal.",
           "description": "Agent de location",
           "phone": "438-508-1566",
-          "email": "info@montreal4rent.com"
+          "email": "info@montreal4rent.com",
+          "contactButton": "Contactez nous"
         }
       },
       "footer": {
@@ -144,7 +145,8 @@
           "subtitle": "Specialist in luxury apartment rentals in Montreal.",
           "description": "Leasing Agent",
           "phone": "438-508-1566",
-          "email": "info@montreal4rent.com"
+          "email": "info@montreal4rent.com",
+          "contactButton": "Contact Us"
         }
       },
       "footer": {
