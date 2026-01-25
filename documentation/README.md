@@ -36,12 +36,18 @@ website/
 │   │   ├── services/
 │   │   └── app.component.ts
 │   ├── assets/
+│   │   └── data/
+│   │       ├── apartments.json
+│   │       ├── areas.json
+│   │       └── translations.json
 │   ├── environments/
 │   └── styles.scss
 ├── angular.json
 ├── package.json
 └── tsconfig.json
 ```
+
+> **Note:** The JSON files used by the application (apartments.json, areas.json, translations.json) are located in `website/src/assets/data/`. The `/data` directory at the root is not used by the website and can be ignored or removed.
 
 ## Agent Contact Information
 - **Name**: Jessica Larmour

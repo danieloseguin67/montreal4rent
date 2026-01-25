@@ -14,28 +14,29 @@ Professional real estate website for **Jessica Larmour**, specializing in luxury
 ## 🚀 Features
 
 ### ✅ Core Functionality
-- **Bilingual Support**: French (default) and English
+- **Bilingual Support**: French (default) and English with language switcher
 - **Responsive Design**: Mobile-first, optimized for all devices
 - **Advanced Search**: Filter by area, price, bedrooms, furnished status
 - **Real-time Results**: Dynamic filtering and sorting
-- **Individual Detail Pages**: Complete apartment specifications
-- **Professional Navigation**: Desktop and mobile optimized
+- **Individual Detail Pages**: Complete apartment specifications with gallery
+- **Professional Navigation**: Desktop and mobile optimized with responsive menu
+- **Contact Forms**: Integrated contact forms throughout the site
+- **Standalone Components**: Modern Angular 19 architecture
 
 ### 🏠 Apartment Database
-**8 Complete Listings** across Montreal:
-- Studio Downtown ($1,850/month)
-- 1BR Plateau-Mont-Royal ($2,200/month) 
-- 2BR Côte-des-Neiges ($2,800/month)
-- 3BR Lachine ($3,200/month)
-- Luxury Penthouse Downtown ($5,500/month)
-- 1BR Pierrefonds ($1,950/month)
-- 2BR Downtown Furnished ($3,500/month)
-- Student Studio Côte-des-Neiges ($1,650/month)
+**4 Complete Listings** (all at 2170 Avenue Lincoln, Downtown):
+- Studio apt. 1007 - Downtown ($1,199/month, furnished)
+- Studio apt. 1008 - Downtown ($1,199/month, furnished)
+- Studio apt. 1009 - Downtown ($1,199/month, furnished)
+- Studio apt. 1010 - Downtown ($1,199/month, furnished)
 
-### 🗺️ Areas Served
+**Special Promotion**: 2-3 months free rent amortized over 12-month lease
+**Utilities Included**: Electricity, heating, A/C, internet
+
+### 🗺️ Areas Configured
 - **Lachine** - Riverside peaceful neighborhood
 - **Pierrefonds** - Family residential with parks
-- **Downtown** - Dynamic urban center
+- **Downtown** - Dynamic urban center (current listings)
 - **Côte-des-Neiges** - Multicultural university area  
 - **Plateau-Mont-Royal** - Artistic trendy district
 
@@ -56,22 +57,46 @@ Professional real estate website for **Jessica Larmour**, specializing in luxury
 - **Text Dark Gray**: #333333
 - **Slate Accent**: #475569
 
+## 🧩 Components
+
+**Standalone Angular Components**:
+- `home` - Landing page with hero, search, featured listings
+- `apartments` - Full apartment listings with filters
+- `apartment-detail` - Individual apartment details with gallery
+- `amenities` - Building amenities showcase
+- `lifestyle` - Montreal lifestyle information
+- `students` - Student-focused rentals page
+- `furnished-suites` - Furnished apartment listings
+- `unfurnished-suites` - Unfurnished apartment listings
+- `rooms-for-rent` - Shared accommodation options
+- `gallery` - Photo gallery
+- `contact` - Contact page with form
+- `contact-form` - Reusable contact form component
+- `header` - Navigation with language switcher
+- `footer` - Site footer with contact info
+
+**Services**:
+- `data.service` - Apartment and area data management
+- `language.service` - Bilingual content switching
+
 ## 📁 Project Structure
 
 ```
 montreal4rent/
-├── data/                    # JSON data files
-│   ├── apartments.json      # Complete apartment database
-│   ├── areas.json          # Montreal neighborhoods
-│   └── translations.json    # Bilingual content
 ├── website/                 # Angular 19 application
-│   ├── src/app/
-│   │   ├── components/      # All UI components
-│   │   └── services/        # Data and language services
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/      # All UI components
+│   │   │   └── services/        # Data and language services
+│   │   ├── assets/
+│   │   │   └── data/            # JSON data files used by the app
+│   │   │       ├── apartments.json      # Complete apartment database
+│   │   │       ├── areas.json          # Montreal neighborhoods
+│   │   │       └── translations.json    # Bilingual content
 │   └── package.json
 ├── images/                  # Photography assets
-├── documentation/          # Project documentation
-└── proposal/               # Business documents
+├── documentation/           # Project documentation
+└── proposal/                # Business documents
 ```
 
 ## 🚀 Getting Started
@@ -98,12 +123,14 @@ npm run build:prod
 # Outputs to dist/ folder
 ```
 
-## 📊 Performance Targets
+## 📊 Technical Features
 
-- ⚡ **Load Time**: < 2 seconds
-- 📦 **Bundle Size**: ~520KB optimized  
-- 📱 **Mobile Score**: 95+ PageSpeed
-- 🔍 **SEO Ready**: Optimized meta tags
+- ⚡ **Standalone Components**: Modern Angular 19 architecture
+- 📦 **Lazy Loading**: Optimized bundle splitting  
+- 📱 **Responsive Design**: Mobile-first CSS with SCSS
+- 🔍 **SEO Ready**: Optimized meta tags in index.html and 404.html
+- 🌐 **Font Awesome**: Icon integration
+- 📧 **Email Integration**: Mailto links for contact
 
 ## 🌐 Deployment
 
@@ -113,13 +140,14 @@ Configured for:
 - **SSL Certificate**: Automated
 - **CI/CD Pipeline**: GitHub Actions
 
+
 ## 📝 Content Management
 
-All content stored in structured JSON files:
-- **Apartments**: Specifications, images, descriptions
-- **Translations**: Complete bilingual support
-- **Areas**: Neighborhood information
-- **Agent**: Contact and professional details
+All content is managed in structured JSON files located in `website/src/assets/data/`:
+- **apartments.json**: Apartment specifications, images, descriptions
+- **translations.json**: Complete bilingual support
+- **areas.json**: Neighborhood information
+- **Agent**: Contact and professional details (in code)
 
 ## 📞 Support
 
@@ -128,15 +156,19 @@ For technical support or content updates:
 - **Content Updates**: Via JSON file modifications
 - **Bug Reports**: GitHub Issues or direct contact
 
-## 💼 Business Information
+## � Property Details
 
-**Project Investment**: $1,149.75 CAD (including Quebec taxes)
-**Timeline**: 8-10 business days
-**Warranty**: 30 days technical support
-**Hosting**: Included in setup
+**Building Address**: 2170 Avenue Lincoln, Montréal (Ville-Marie)
+**Location Highlight**: 2-minute walk to Atwater metro station
+**Building Features**:
+- Private balconies with city views
+- Gym facilities
+- Laundry in building
+- Secured access
+- Modern appliances (refrigerator, stove, microwave/convection oven, cooktop, dishwasher)
 
 ---
 
-**Status**: ✅ COMPLETE & READY FOR DEPLOYMENT
+**Status**: ✅ ACTIVE & DEPLOYED
 
 Built with ❤️ for Montreal's luxury rental market
