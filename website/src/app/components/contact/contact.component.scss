@@ -193,7 +193,8 @@
     }
     
     .contact-form {
-      max-width: 1200px;
+      grid-template-columns: 1fr;
+      max-width: 1000px;
       margin: 0 auto;
       
       .form-row {
@@ -206,7 +207,7 @@
         margin-bottom: 1.5rem;
         width: 100%;
         display: grid;
-        grid-template-columns: 800px 1fr;
+        grid-template-columns: 1000px 1fr;
         gap: 2rem;
         align-items: start;
         
@@ -226,6 +227,7 @@
 
         .form-input-column input {
          width: 100%;
+         text-size-adjust: 1000; 
          box-sizing: border-box;
         }
         
