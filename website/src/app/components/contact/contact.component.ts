@@ -132,7 +132,7 @@ import { Subject, takeUntil } from 'rxjs';
                 [disabled]="contactForm.invalid || isSubmitting">
                 <i class="fas fa-paper-plane" *ngIf="!isSubmitting"></i>
                 <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
-                {{ isSubmitting ? (currentLanguage === 'fr' ? 'Envoi...' : 'Sending...') : (currentLanguage === 'fr' ? 'Envoyer le message' : 'Send Message') }}
+                {{ isSubmitting ? (currentLanguage === 'fr' ? 'Envoi...' : 'Sending...') : (currentLanguage === 'fr' ? 'Soumettre la demande' : 'Submit Request') }}
               </button>
             </div>
             
@@ -186,10 +186,12 @@ export class ContactComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {
     this.contactForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
+      moveInDate: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      message: ['', [Validators.required, Validators.minLength(10)]]
+      phone: ['', [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]],
+      maxBudget: ['', [Validators.required, Validators.min(1)]]
     });
   }
 
@@ -214,12 +216,14 @@ export class ContactComponent implements OnInit, OnDestroy {
       const formData = this.contactForm.value;
       
       // Create mailto link for email client
-      const subject = encodeURIComponent(`Montreal4Rent - ${this.getSubjectText(formData.subject)}`);
+      const subject = encodeURIComponent(`Montreal4Rent - Rental Inquiry`);
       const body = encodeURIComponent(
-        `Name: ${formData.name}\n` +
+        `Move-in Date: ${formData.moveInDate}\n` +
+        `First Name: ${formData.firstName}\n` +
+        `Last Name: ${formData.lastName}\n` +
         `Email: ${formData.email}\n` +
-        `Subject: ${this.getSubjectText(formData.subject)}\n\n` +
-        `Message:\n${formData.message}`
+        `Phone: ${formData.phone}\n` +
+        `Max Budget: $${formData.maxBudget}\n`
       );
       
       const mailtoLink = `mailto:info@montreal4rent.com?subject=${subject}&body=${body}`;
@@ -244,17 +248,5 @@ export class ContactComponent implements OnInit, OnDestroy {
         this.contactForm.get(key)?.markAsTouched();
       });
     }
-  }
-
-  private getSubjectText(subjectValue: string): string {
-    const subjects: { [key: string]: { en: string; fr: string } } = {
-      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d&apos;appartement' },
-      'viewing-request': { en: 'Viewing Request', fr: 'Demande de visite' },
-      'rental-information': { en: 'Rental Information', fr: 'Informations de location' },
-      'general-question': { en: 'General Question', fr: 'Question generale' },
-      'other': { en: 'Other', fr: 'Autre' }
-    };
-    
-    return subjects[subjectValue]?.[this.currentLanguage] || subjectValue;
   }
 }
