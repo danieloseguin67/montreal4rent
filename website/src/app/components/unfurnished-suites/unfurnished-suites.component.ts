@@ -30,7 +30,7 @@ import { Subject, takeUntil } from 'rxjs';
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop" alt="Open space" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Espaces Ouverts' : 'Open Spaces' }}</h3>
-              <p>{{ currentLanguage === 'fr' ? 'Plans d\\'étage spacieux et ouverts pour maximiser vos possibilités d\\'aménagement.' : 'Spacious and open floor plans to maximize your layout possibilities.' }}</p>
+              <p>{{ currentLanguage === 'fr' ? 'Plans d&apos;&eacute;tage spacieux et ouverts pour maximiser vos possibilit&eacute;s d&apos;am&eacute;nagement.' : 'Spacious and open floor plans to maximize your layout possibilities.' }}</p>
             </div>
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Personalization" loading="lazy">

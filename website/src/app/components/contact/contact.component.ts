@@ -57,7 +57,7 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="container">
           <div class="form-header">
             <h2>{{ currentLanguage === 'fr' ? 'Envoyez-nous un message' : 'Send us a message' }}</h2>
-            <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous r&eacute;pondrons rapidement.' : 'Fill out the form below and we\'ll get back to you quickly.' }}</p>
+            <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous r&eacute;pondrons rapidement.' : 'Fill out the form below and we will get back to you quickly.' }}</p>
           </div>
           
           <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
@@ -100,7 +100,7 @@ import { Subject, takeUntil } from 'rxjs';
                 formControlName="subject"
                 [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
                 <option value="">{{ currentLanguage === 'fr' ? 'Sélectionnez un sujet' : 'Select a subject' }}</option>
-                <option value="apartment-inquiry">{{ currentLanguage === 'fr' ? 'Demande d\'appartement' : 'Apartment Inquiry' }}</option>
+                <option value="apartment-inquiry">{{ currentLanguage === 'fr' ? 'Demande d&apos;appartement' : 'Apartment Inquiry' }}</option>
                 <option value="viewing-request">{{ currentLanguage === 'fr' ? 'Demande de visite' : 'Viewing Request' }}</option>
                 <option value="rental-information">{{ currentLanguage === 'fr' ? 'Informations de location' : 'Rental Information' }}</option>
                 <option value="general-question">{{ currentLanguage === 'fr' ? 'Question générale' : 'General Question' }}</option>
@@ -248,7 +248,7 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   private getSubjectText(subjectValue: string): string {
     const subjects: { [key: string]: { en: string; fr: string } } = {
-      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d\'appartement' },
+      'apartment-inquiry': { en: 'Apartment Inquiry', fr: 'Demande d&apos;appartement' },
       'viewing-request': { en: 'Viewing Request', fr: 'Demande de visite' },
       'rental-information': { en: 'Rental Information', fr: 'Informations de location' },
       'general-question': { en: 'General Question', fr: 'Question generale' },
