@@ -100,7 +100,7 @@ import { Subject, takeUntil } from 'rxjs';
                 formControlName="subject"
                 [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
                 <option value="">{{ currentLanguage === 'fr' ? 'Selectionnez un sujet' : 'Select a subject' }}</option>
-                <option value="apartment-inquiry">{{ currentLanguage === 'fr' ? 'Demande d&apos;appartement' : 'Apartment Inquiry' }}</option>
+                <option value="apartment-inquiry">{{ currentLanguage === 'fr' ? 'Demande d\'appartement' : 'Apartment Inquiry' }}</option>
                 <option value="viewing-request">{{ currentLanguage === 'fr' ? 'Demande de visite' : 'Viewing Request' }}</option>
                 <option value="rental-information">{{ currentLanguage === 'fr' ? 'Informations de location' : 'Rental Information' }}</option>
                 <option value="general-question">{{ currentLanguage === 'fr' ? 'Question générale' : 'General Question' }}</option>
