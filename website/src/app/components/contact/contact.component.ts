@@ -57,7 +57,7 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="container">
           <div class="form-header">
             <h2>{{ currentLanguage === 'fr' ? 'Envoyez-nous un message' : 'Send us a message' }}</h2>
-            <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.' : 'Fill out the form below and we'll get back to you quickly.' }}</p>
+            <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.' : 'Fill out the form below and we\'ll get back to you quickly.' }}</p>
           </div>
           
           <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
