@@ -219,15 +219,13 @@
         }
         
         .form-input-column {
-          box-sizing: border-box;
-          width: 100%;
-          max-width: 100%;
+          display: flex;
+          flex-direction: column;
         }
 
         .form-input-column input {
-          width: 100%;
-          max-width: 100%;
-          box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
         }
         
         label {
