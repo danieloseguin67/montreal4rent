@@ -221,9 +221,14 @@
         }
         
         .form-input-column {
-          flex: 1;
-          size: border-box;
-          width: 800px;
+        /* Stop flex from overriding your width */
+         flex: 0 0 800px; /* grow=0, shrink=0, basis=800px */
+         box-sizing: border-box; /* was 'size', needs to be 'box-sizing' */
+        }
+
+        .form-input-column input {
+         width: 100%;
+          box-sizing: border-box;
         }
         
         label {
