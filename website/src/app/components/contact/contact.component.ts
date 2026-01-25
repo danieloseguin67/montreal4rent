@@ -99,7 +99,7 @@ import { Subject, takeUntil } from 'rxjs';
                 id="subject" 
                 formControlName="subject"
                 [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
-                <option value="">{{ currentLanguage === 'fr' ? 'Sélectionnez un sujet' : 'Select a subject' }}</option>
+                <option value="">{{ currentLanguage === 'fr' ? 'Selectionnez un sujet' : 'Select a subject' }}</option>
                 <option value="apartment-inquiry">{{ currentLanguage === 'fr' ? 'Demande d&apos;appartement' : 'Apartment Inquiry' }}</option>
                 <option value="viewing-request">{{ currentLanguage === 'fr' ? 'Demande de visite' : 'Viewing Request' }}</option>
                 <option value="rental-information">{{ currentLanguage === 'fr' ? 'Informations de location' : 'Rental Information' }}</option>
@@ -117,7 +117,7 @@ import { Subject, takeUntil } from 'rxjs';
                 id="message" 
                 formControlName="message"
                 rows="6"
-                [placeholder]="currentLanguage === 'fr' ? 'Décrivez votre demande ou question...' : 'Describe your request or question...'"
+                [placeholder]="currentLanguage === 'fr' ? 'Decrivez votre demande ou question...' : 'Describe your request or question...'"
                 [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
               </textarea>
               <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
