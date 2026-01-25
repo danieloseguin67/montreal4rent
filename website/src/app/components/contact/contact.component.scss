@@ -207,7 +207,7 @@
         margin-bottom: 1.5rem;
         width: 100%;
         display: grid;
-        grid-template-columns: 200px 500px;
+        grid-template-columns: 200px minmax(400px, 1fr);
         gap: 2rem;
         align-items: start;
         
