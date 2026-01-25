@@ -35,12 +35,12 @@ import { Subject, takeUntil } from 'rxjs';
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Personalization" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Personnalisation' : 'Personalization' }}</h3>
-              <p>{{ currentLanguage === 'fr' ? 'Apportez vos propres meubles et décorations pour créer un chez-vous unique.' : 'Bring your own furniture and decorations to create a unique home.' }}</p>
+              <p>{{ currentLanguage === 'fr' ? 'Apportez vos propres meubles et d&eacute;corations pour cr&eacute;er un chez-vous unique.' : 'Bring your own furniture and decorations to create a unique home.' }}</p>
             </div>
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Modern amenities" loading="lazy">
-              <h3>{{ currentLanguage === 'fr' ? 'Commodités Modernes' : 'Modern Amenities' }}</h3>
-              <p>{{ currentLanguage === 'fr' ? 'Appareils électroménagers intégrés et finitions modernes dans chaque unité.' : 'Built-in appliances and modern finishes in every unit.' }}</p>
+              <h3>{{ currentLanguage === 'fr' ? 'Commodit&eacute;s Modernes' : 'Modern Amenities' }}</h3>
+              <p>{{ currentLanguage === 'fr' ? 'Appareils &eacute;lectrom&eacute;nagers int&eacute;gr&eacute;s et finitions modernes dans chaque unit&eacute;.' : 'Built-in appliances and modern finishes in every unit.' }}</p>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ import { Subject, takeUntil } from 'rxjs';
             </div>
             <div class="amenity-item">
               <i class="fas fa-kitchen-set"></i>
-              <span>{{ currentLanguage === 'fr' ? 'Électroménagers Inclus' : 'Appliances Included' }}</span>
+              <span>{{ currentLanguage === 'fr' ? '&Eacute;lectrom&eacute;nagers Inclus' : 'Appliances Included' }}</span>
             </div>
             <div class="amenity-item">
               <i class="fas fa-paint-roller"></i>
@@ -65,7 +65,7 @@ import { Subject, takeUntil } from 'rxjs';
             </div>
             <div class="amenity-item">
               <i class="fas fa-warehouse"></i>
-              <span>{{ currentLanguage === 'fr' ? 'Rangement Généreux' : 'Ample Storage' }}</span>
+              <span>{{ currentLanguage === 'fr' ? 'Rangement G&eacute;n&eacute;reux' : 'Ample Storage' }}</span>
             </div>
             <div class="amenity-item">
               <i class="fas fa-wifi"></i>
