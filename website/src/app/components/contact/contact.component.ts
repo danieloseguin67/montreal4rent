@@ -23,7 +23,7 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
       </section>
 
-      <!-- Contact Info Section -->
+      <!-- Contact Info Section with the 3 buttons:  email, phone, and loction -->
       <section class="contact-info-section">
         <div class="container">
           <div class="contact-grid">
@@ -54,77 +54,103 @@ import { Subject, takeUntil } from 'rxjs';
 
       <!-- Contact Form Section -->
       <section class="contact-form-section">
+
         <div class="container">
+
           <div class="form-header">
             <h2>{{ currentLanguage === 'fr' ? 'Envoyez-nous un message' : 'Send us a message' }}</h2>
             <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous r&eacute;pondrons rapidement.' : 'Fill out the form below and we will get back to you quickly.' }}</p>
           </div>
           
-          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="name">{{ currentLanguage === 'fr' ? 'Nom complet' : 'Full Name' }} *</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  formControlName="name"
-                  [placeholder]="currentLanguage === 'fr' ? 'Votre nom complet' : 'Your full name'"
-                  [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-                <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-                  {{ currentLanguage === 'fr' ? 'Le nom est requis' : 'Name is required' }}
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="email">{{ currentLanguage === 'fr' ? 'Adresse e-mail' : 'Email Address' }} *</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  formControlName="email"
-                  [placeholder]="currentLanguage === 'fr' ? 'votre@email.com' : 'your@email.com'"
-                  [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-                <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-                  <span *ngIf="contactForm.get('email')?.errors?.['required']">
-                    {{ currentLanguage === 'fr' ? 'L'adresse e-mail est requise' : 'Email address is required' }}
-                  </span>
-                  <span *ngIf="contactForm.get('email')?.errors?.['email']">
-                    {{ currentLanguage === 'fr' ? 'Veuillez entrer une adresse e-mail valide' : 'Please enter a valid email address' }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
+          <!-- add move in date formgroup here -->
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+
             <div class="form-group">
-              <label for="subject">{{ currentLanguage === 'fr' ? 'Sujet' : 'Subject' }} *</label>
-              <select 
-                id="subject" 
-                formControlName="subject"
-                [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
-                <option value="">{{ currentLanguage === 'fr' ? 'Selectionnez un sujet' : 'Select a subject' }}</option>
-                <option value="apartment-inquiry">{{ currentLanguage === 'fr' ? 'Demande d\'appartement' : 'Apartment Inquiry' }}</option>
-                <option value="viewing-request">{{ currentLanguage === 'fr' ? 'Demande de visite' : 'Viewing Request' }}</option>
-                <option value="rental-information">{{ currentLanguage === 'fr' ? 'Informations de location' : 'Rental Information' }}</option>
-                <option value="general-question">{{ currentLanguage === 'fr' ? 'Question générale' : 'General Question' }}</option>
-                <option value="other">{{ currentLanguage === 'fr' ? 'Autre' : 'Other' }}</option>
-              </select>
-              <div class="error-message" *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
-                {{ currentLanguage === 'fr' ? 'Le sujet est requis' : 'Subject is required' }}
+              <label for="moveInDate">{{ currentLanguage === 'fr' ? 'Date d\'emménagement' : 'Move-in Date' }}</label>
+              <input 
+                type="date" 
+                id="moveInDate" 
+                formControlName="moveInDate"
+                [class.invalid]="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
+                <span *ngIf="contactForm.get('moveInDate')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'La date d\'emménagement est requise.' : 'Move-in date is required.' }}
+                </span>
               </div>
             </div>
-            
+
+            <!-- add first name and last name formgroup here -->
             <div class="form-group">
-              <label for="message">{{ currentLanguage === 'fr' ? 'Message' : 'Message' }} *</label>
-              <textarea 
-                id="message" 
-                formControlName="message"
-                rows="6"
-                [placeholder]="currentLanguage === 'fr' ? 'Decrivez votre demande ou question...' : 'Describe your request or question...'"
-                [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-              </textarea>
-              <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-                {{ currentLanguage === 'fr' ? 'Le message est requis' : 'Message is required' }}
+              <label for="firstName">{{ currentLanguage === 'fr' ? 'Prénom' : 'First Name' }}</label>
+              <input 
+                type="text" 
+                id="firstName"
+                formControlName="firstName"
+                [class.invalid]="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.touched || contactForm.get('firstName')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.touched || contactForm.get('firstName')?.dirty)"> 
+                <span *ngIf="contactForm.get('firstName')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'Le prénom est requis.' : 'First name is required.' }}
+                </span>
+                <span *ngIf="contactForm.get('firstName')?.errors?.['minlength']">
+                  {{ currentLanguage === 'fr' ? 'Le prénom doit contenir au moins 2 caractères.' : 'First name must be at least 2 characters long.' }}
+                </span>
               </div>
             </div>
-            
+
+            <!-- add email formgroup here -->
+            <div class="form-group">
+              <label for="email">{{ currentLanguage === 'fr' ? 'Email' : 'Email' }}</label>
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email"
+                [class.invalid]="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
+                <span *ngIf="contactForm.get('email')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'L\'email est requis.' : 'Email is required.' }}
+                </span>
+                <span *ngIf="contactForm.get('email')?.errors?.['email']">
+                  {{ currentLanguage === 'fr' ? 'Veuillez entrer une adresse email valide.' : 'Please enter a valid email address.' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- add phone formgroup here -->
+            <div class="form-group">
+              <label for="phone">{{ currentLanguage === 'fr' ? 'Numéro de téléphone' : 'Phone Number' }}</label>
+              <input
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                [class.invalid]="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
+                <span *ngIf="contactForm.get('phone')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'Le numéro de téléphone est requis.' : 'Phone number is required.' }}
+                </span>
+                <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">
+                  {{ currentLanguage === 'fr' ? 'Veuillez entrer un numéro de téléphone valide.' : 'Please enter a valid phone number.' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- add max budget formgroup here -->
+            <div class="form-group">
+              <label for="maxBudget">{{ currentLanguage === 'fr' ? 'Budget maximum (CAD)' : 'Max Budget (CAD)' }}</label>
+              <input
+                type="number"
+                id="maxBudget"
+                formControlName="maxBudget"
+                [class.invalid]="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
+                <span *ngIf="contactForm.get('maxBudget')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'Le budget maximum est requis.' : 'Max budget is required.' }}
+                </span>
+                <span *ngIf="contactForm.get('maxBudget')?.errors?.['min']">
+                  {{ currentLanguage === 'fr' ? 'Le budget doit être supérieur à 0.' : 'Budget must be greater than 0.' }}
+                </span>
+              </div>
+            </div>  
+
             <div class="form-actions">
               <button 
                 type="submit" 
@@ -145,17 +171,21 @@ import { Subject, takeUntil } from 'rxjs';
               <i class="fas fa-exclamation-circle"></i>
               {{ currentLanguage === 'fr' ? 'Une erreur est survenue lors de l'envoi. Veuillez réessayer.' : 'An error occurred while sending. Please try again.' }}
             </div>
-          </form>
+
+            </form>
+
         </div>
+
       </section>
 
-      <!-- About Section -->
       <section class="about-section">
         <div class="container">
           <div class="about-content">
             <div class="about-text">
               <h2>{{ currentLanguage === 'fr' ? 'À Propos de Montreal4Rent' : 'About Montreal4Rent' }}</h2>
-              <p>{{ currentLanguage === 'fr' ? 'Montreal4Rent se spécialise dans la location d'appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.' : 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.' }}</p>
+                <p>
+                {{ currentLanguage === 'fr' ? 'Montreal4Rent se spécialise dans la location d\u0027appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.' : 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.' }}
+                </p>
               <ul class="services-list">
                 <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Appartements meublés et non-meublés' : 'Furnished and unfurnished apartments' }}</li>
                 <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Logements adaptés aux étudiants' : 'Student-friendly housing' }}</li>
@@ -169,6 +199,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
       </section>
+
     </div>
   `,
   styleUrls: ['./contact.component.scss']
