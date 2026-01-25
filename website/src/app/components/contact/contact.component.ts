@@ -66,137 +66,108 @@ import { Subject, takeUntil } from 'rxjs';
           <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
 
             <div class="form-group">
-              <div class="form-label-column">
-                <label for="moveInDate">{{ translations.form.moveInDate }}</label>
-              </div>
-              <div class="form-input-column">
-                <input 
-                  type="date" 
-                  id="moveInDate" 
-                  formControlName="moveInDate"
-                  [class.invalid]="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
-                  <span *ngIf="contactForm.get('moveInDate')?.errors?.['required']">
-                    {{ translations.form.moveInDateRequired }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- add name formgroup here -->
-            <div class="form-group">
-              <div class="form-label-column">
-                <label for="Name">{{ translations.form.name }}</label>
-              </div>
-              <div class="form-input-column">
-                <input 
-                  type="text" 
-                  id="Name"
-                  formControlName="Name"
-                  maxlength="256"
-                  [class.invalid]="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)"> 
-                  <span *ngIf="contactForm.get('Name')?.errors?.['required']">
-                    {{ translations.form.nameRequired }}
-                  </span>
-                  <span *ngIf="contactForm.get('Name')?.errors?.['minlength']">
-                    {{ translations.form.nameMinLength }}
-                  </span>
-                </div>
+              <label for="moveInDate">{{ translations.form.moveInDate }} *</label>
+              <input 
+                type="date" 
+                id="moveInDate" 
+                formControlName="moveInDate"
+                [class.invalid]="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
+                <span *ngIf="contactForm.get('moveInDate')?.errors?.['required']">
+                  {{ translations.form.moveInDateRequired }}
+                </span>
               </div>
             </div>
 
             <div class="form-group">
-              <div class="form-label-column">
-                <label for="email">{{ translations.form.email }}</label>
-              </div>
-              <div class="form-input-column">
-                <input 
-                  type="email" 
-                  id="email" 
-                  formControlName="email"
-                  maxlength="256"
-                  [class.invalid]="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
-                  <span *ngIf="contactForm.get('email')?.errors?.['required']">
-                    {{ translations.form.emailRequired }}
-                  </span>
-                  <span *ngIf="contactForm.get('email')?.errors?.['email']">
-                    {{ translations.form.emailInvalid }}
-                  </span>
-                </div>
+              <label for="Name">{{ translations.form.name }} *</label>
+              <input 
+                type="text" 
+                id="Name"
+                formControlName="Name"
+                maxlength="256"
+                [class.invalid]="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)"> 
+                <span *ngIf="contactForm.get('Name')?.errors?.['required']">
+                  {{ translations.form.nameRequired }}
+                </span>
+                <span *ngIf="contactForm.get('Name')?.errors?.['minlength']">
+                  {{ translations.form.nameMinLength }}
+                </span>
               </div>
             </div>
 
-            <!-- add phone formgroup here -->
             <div class="form-group">
-              <div class="form-label-column">
-                <label for="phone">{{ translations.form.phone }}</label>
-              </div>
-              <div class="form-input-column">
-                <input
-                  type="tel"
-                  id="phone"
-                  formControlName="phone"
-                  [class.invalid]="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
-                  <span *ngIf="contactForm.get('phone')?.errors?.['required']">
-                    {{ translations.form.phoneRequired }}
-                  </span>
-                  <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">
-                    {{ translations.form.phoneInvalid }}
-                  </span>
-                </div>
+              <label for="email">{{ translations.form.email }} *</label>
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email"
+                maxlength="256"
+                [class.invalid]="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
+                <span *ngIf="contactForm.get('email')?.errors?.['required']">
+                  {{ translations.form.emailRequired }}
+                </span>
+                <span *ngIf="contactForm.get('email')?.errors?.['email']">
+                  {{ translations.form.emailInvalid }}
+                </span>
               </div>
             </div>
 
-            <!-- add max budget formgroup here -->
             <div class="form-group">
-              <div class="form-label-column">
-                <label for="maxBudget">{{ translations.form.maxBudget }}</label>
+              <label for="phone">{{ translations.form.phone }} *</label>
+              <input
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                [class.invalid]="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
+                <span *ngIf="contactForm.get('phone')?.errors?.['required']">
+                  {{ translations.form.phoneRequired }}
+                </span>
+                <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">
+                  {{ translations.form.phoneInvalid }}
+                </span>
               </div>
-              <div class="form-input-column">
-                <input
-                  type="number"
-                  id="maxBudget"
-                  formControlName="maxBudget"
-                  [class.invalid]="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
-                  <span *ngIf="contactForm.get('maxBudget')?.errors?.['required']">
-                    {{ translations.form.maxBudgetRequired }}
-                  </span>
-                  <span *ngIf="contactForm.get('maxBudget')?.errors?.['min']">
-                    {{ translations.form.maxBudgetMin }}
-                  </span>
-                </div>
+            </div>
+
+            <div class="form-group">
+              <label for="maxBudget">{{ translations.form.maxBudget }} *</label>
+              <input
+                type="number"
+                id="maxBudget"
+                formControlName="maxBudget"
+                [class.invalid]="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
+              <div class="error-message" *ngIf="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
+                <span *ngIf="contactForm.get('maxBudget')?.errors?.['required']">
+                  {{ translations.form.maxBudgetRequired }}
+                </span>
+                <span *ngIf="contactForm.get('maxBudget')?.errors?.['min']">
+                  {{ translations.form.maxBudgetMin }}
+                </span>
               </div>
             </div>  
 
-            <!-- Unit type form group - mandatory selection from: Studio, 1 bedroom, 2 bedrooms, 3 bedrooms -->
             <div class="form-group">
-              <div class="form-label-column">
-                <label for="unitType">{{ translations.form.unitType }}</label>
-              </div>
-              <div class="form-input-column">
-                <select 
-                  id="unitType"
-                  formControlName="unitType"
-                  [class.invalid]="contactForm.get('unitType')?.invalid && (contactForm.get('unitType')?.touched || contactForm.get('unitType')?.dirty)">
-                  <option value="">{{ translations.form.selectUnitType }}</option>
-                  <option value="studio">{{ translations.form.studio }}</option>
-                  <option value="1_bedroom">{{ translations.form['1bedroom'] }}</option>
-                  <option value="2_bedrooms">{{ translations.form['2bedrooms'] }}</option>  
-                  <option value="3_bedrooms">{{ translations.form['3bedrooms'] }}</option>
-                </select>
-                <div class="error-message" *ngIf="contactForm.get('unitType')?.invalid && (contactForm.get('unitType')?.touched || contactForm.get('unitType')?.dirty)">
-                  <span *ngIf="contactForm.get('unitType')?.errors?.['required']">
-                    {{ translations.form.unitTypeRequired }}
-                  </span>
-                </div>
+              <label for="unitType">{{ translations.form.unitType }} *</label>
+              <select 
+                id="unitType"
+                formControlName="unitType"
+                [class.invalid]="contactForm.get('unitType')?.invalid && (contactForm.get('unitType')?.touched || contactForm.get('unitType')?.dirty)">
+                <option value="">{{ translations.form.selectUnitType }}</option>
+                <option value="studio">{{ translations.form.studio }}</option>
+                <option value="1_bedroom">{{ translations.form['1bedroom'] }}</option>
+                <option value="2_bedrooms">{{ translations.form['2bedrooms'] }}</option>  
+                <option value="3_bedrooms">{{ translations.form['3bedrooms'] }}</option>
+              </select>
+              <div class="error-message" *ngIf="contactForm.get('unitType')?.invalid && (contactForm.get('unitType')?.touched || contactForm.get('unitType')?.dirty)">
+                <span *ngIf="contactForm.get('unitType')?.errors?.['required']">
+                  {{ translations.form.unitTypeRequired }}
+                </span>
               </div>
             </div>
 
-            <!-- add message formgroup here but non mandatory -->   
             <div class="form-group">
               <div class="form-label-column">
                 <label for="message">{{ translations.form.message }}</label>
