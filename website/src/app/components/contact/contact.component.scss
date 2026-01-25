@@ -222,11 +222,13 @@
         
         .form-input-column {
           box-sizing: border-box;
+          min-width: 800px;
         }
 
         .form-input-column input {
          width: 100%;
          box-sizing: border-box;
+         min-width: 800px;
         }
         
         label {
