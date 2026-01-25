@@ -83,51 +83,28 @@ import { Subject, takeUntil } from 'rxjs';
               </div>
             </div>
 
-            <!-- add first name and last name formgroup here -->
+            <!-- add name formgroup here -->
             <div class="form-group">
               <div class="form-label-column">
-                <label for="firstName">{{ translations.form.firstName }}</label>
+                <label for="Name">{{ translations.form.name }}</label>
               </div>
               <div class="form-input-column">
                 <input 
                   type="text" 
-                  id="firstName"
-                  formControlName="firstName"
-                  [class.invalid]="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.touched || contactForm.get('firstName')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.touched || contactForm.get('firstName')?.dirty)"> 
-                  <span *ngIf="contactForm.get('firstName')?.errors?.['required']">
-                    {{ translations.form.firstNameRequired }}
+                  id="Name"
+                  formControlName="Name"
+                  [class.invalid]="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)">
+                <div class="error-message" *ngIf="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)"> 
+                  <span *ngIf="contactForm.get('Name')?.errors?.['required']">
+                    {{ translations.form.nameRequired }}
                   </span>
-                  <span *ngIf="contactForm.get('firstName')?.errors?.['minlength']">
-                    {{ translations.form.firstNameMinLength }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <!-- add last name and last name formgroup here -->
-            <div class="form-group">
-              <div class="form-label-column">
-                <label for="lastName">{{ translations.form.lastName }}</label>
-              </div>
-              <div class="form-input-column">
-                <input  
-                  type="text" 
-                  id="lastName" 
-                  formControlName="lastName"
-                  [class.invalid]="contactForm.get('lastName')?.invalid && (contactForm.get('lastName')?.touched || contactForm.get('lastName')?.dirty)">
-                <div class="error-message" *ngIf="contactForm.get('lastName')?.invalid && (contactForm.get('lastName')?.touched || contactForm.get('lastName')?.dirty)"> 
-                  <span *ngIf="contactForm.get('lastName')?.errors?.['required']">
-                    {{ translations.form.lastNameRequired }}
-                  </span>
-                  <span *ngIf="contactForm.get('lastName')?.errors?.['minlength']">
-                    {{ translations.form.lastNameMinLength }}
+                  <span *ngIf="contactForm.get('Name')?.errors?.['minlength']">
+                    {{ translations.form.nameMinLength }}
                   </span>
                 </div>
               </div>
             </div>
 
-            <!-- add email formgroup here -->
             <div class="form-group">
               <div class="form-label-column">
                 <label for="email">{{ translations.form.email }}</label>
@@ -137,6 +114,7 @@ import { Subject, takeUntil } from 'rxjs';
                   type="email" 
                   id="email" 
                   formControlName="email"
+                  maxlength="256"
                   [class.invalid]="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
                 <div class="error-message" *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
                   <span *ngIf="contactForm.get('email')?.errors?.['required']">
@@ -192,6 +170,49 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
               </div>
             </div>  
+
+            <!-- Unit type form group - mandatory selection from: Studio, 1 bedroom, 2 bedrooms, 3 bedrooms -->
+            <div class="form-group">
+              <div class="form-label-column">
+                <label for="unitType">{{ translations.form.unitType }}</label>
+              </div>
+              <div class="form-input-column">
+                <select 
+                  id="unitType"
+                  formControlName="unitType"
+                  [class.invalid]="contactForm.get('unitType')?.invalid && (contactForm.get('unitType')?.touched || contactForm.get('unitType')?.dirty)">
+                  <option value="">{{ translations.form.selectUnitType }}</option>
+                  <option value="studio">{{ translations.form.studio }}</option>
+                  <option value="1_bedroom">{{ translations.form['1bedroom'] }}</option>
+                  <option value="2_bedrooms">{{ translations.form['2bedrooms'] }}</option>  
+                  <option value="3_bedrooms">{{ translations.form['3bedrooms'] }}</option>
+                </select>
+                <div class="error-message" *ngIf="contactForm.get('unitType')?.invalid && (contactForm.get('unitType')?.touched || contactForm.get('unitType')?.dirty)">
+                  <span *ngIf="contactForm.get('unitType')?.errors?.['required']">
+                    {{ translations.form.unitTypeRequired }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- add message formgroup here but mandatory -->   
+            <div class="form-group">
+              <div class="form-label-column">
+                <label for="message">{{ translations.form.message }}</label>
+              </div>
+              <div class="form-input-column">
+                <textarea 
+                  id="message"
+                  formControlName="message"
+                  rows="4"
+                  [class.invalid]="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)"></textarea>   
+                <div class="error-message" *ngIf="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)">
+                  <span *ngIf="contactForm.get('message')?.errors?.['required']">
+                    {{ translations.form.messageRequired }}
+                  </span>
+                </div>
+              </div>
+            </div>
 
             <div class="form-actions">
               <button 
@@ -268,12 +289,9 @@ export class ContactComponent implements OnInit, OnDestroy {
       subheader: '',
       moveInDate: '',
       moveInDateRequired: '',
-      firstName: '',
-      firstNameRequired: '',
-      firstNameMinLength: '',
-      lastName: '',
-      lastNameRequired: '',
-      lastNameMinLength: '',
+      name: '',
+      nameRequired: '',
+      nameMinLength: '',
       email: '',
       emailRequired: '',
       emailInvalid: '',
@@ -283,6 +301,15 @@ export class ContactComponent implements OnInit, OnDestroy {
       maxBudget: '',
       maxBudgetRequired: '',
       maxBudgetMin: '',
+      unitType: '',
+      unitTypeRequired: '',
+      selectUnitType: '',
+      studio: '',
+      '1bedroom': '',
+      '2bedrooms': '',
+      '3bedrooms': '',
+      message: '',
+      messageRequired: '',
       sending: '',
       submitRequest: '',
       successMessage: '',
@@ -307,12 +334,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         subheader: 'Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.',
         moveInDate: 'Date d\'emménagement',
         moveInDateRequired: 'La date d\'emménagement est requise.',
-        firstName: 'Prénom',
-        firstNameRequired: 'Le prénom est requis.',
-        firstNameMinLength: 'Le prénom doit contenir au moins 2 caractères.',
-        lastName: 'Nom de famille',
-        lastNameRequired: 'Le nom de famille est requis.',
-        lastNameMinLength: 'Le nom de famille doit contenir au moins 2 caractères.',
+        name: 'Nom complet',
+        nameRequired: 'Le nom est requis.',
+        nameMinLength: 'Le nom doit contenir au moins 2 caractères.',
         email: 'Email',
         emailRequired: 'L\'email est requis.',
         emailInvalid: 'Veuillez entrer une adresse email valide.',
@@ -322,6 +346,15 @@ export class ContactComponent implements OnInit, OnDestroy {
         maxBudget: 'Budget maximum (CAD)',
         maxBudgetRequired: 'Le budget maximum est requis.',
         maxBudgetMin: 'Le budget doit être supérieur à 0.',
+        unitType: 'Type d\'unité',
+        unitTypeRequired: 'Le type d\'unité est requis.',
+        selectUnitType: 'Sélectionner le type d\'unité',
+        studio: 'Studio',
+        '1bedroom': '1 chambre',
+        '2bedrooms': '2 chambres',
+        '3bedrooms': '3 chambres',
+        message: 'Message',
+        messageRequired: 'Le message est requis.',
         sending: 'Envoi...',
         submitRequest: 'Soumettre la demande',
         successMessage: 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.',
@@ -344,12 +377,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         subheader: 'Fill out the form below and we will get back to you quickly.',
         moveInDate: 'Move-in Date',
         moveInDateRequired: 'Move-in date is required.',
-        firstName: 'First Name',
-        firstNameRequired: 'First name is required.',
-        firstNameMinLength: 'First name must be at least 2 characters long.',
-        lastName: 'Last Name',
-        lastNameRequired: 'Last name is required.',
-        lastNameMinLength: 'Last name must be at least 2 characters long.',
+        name: 'Full Name',
+        nameRequired: 'Name is required.',
+        nameMinLength: 'Name must be at least 2 characters long.',
         email: 'Email',
         emailRequired: 'Email is required.',
         emailInvalid: 'Please enter a valid email address.',
@@ -359,6 +389,15 @@ export class ContactComponent implements OnInit, OnDestroy {
         maxBudget: 'Max Budget (CAD)',
         maxBudgetRequired: 'Max budget is required.',
         maxBudgetMin: 'Budget must be greater than 0.',
+        unitType: 'Unit Type',
+        unitTypeRequired: 'Unit type is required.',
+        selectUnitType: 'Select Unit Type',
+        studio: 'Studio',
+        '1bedroom': '1 Bedroom',
+        '2bedrooms': '2 Bedrooms',
+        '3bedrooms': '3 Bedrooms',
+        message: 'Message',
+        messageRequired: 'Message is required.',
         sending: 'Sending...',
         submitRequest: 'Submit Request',
         successMessage: 'Your message has been sent successfully! We\'ll get back to you soon.',
@@ -373,11 +412,12 @@ export class ContactComponent implements OnInit, OnDestroy {
   ) {
     this.contactForm = this.formBuilder.group({
       moveInDate: ['', Validators.required],
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
+      Name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]],
-      maxBudget: ['', [Validators.required, Validators.min(1)]]
+      maxBudget: ['', [Validators.required, Validators.min(1)]],
+      unitType: ['', Validators.required],
+      message: ['', Validators.required]
     });
   }
 
@@ -403,12 +443,9 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.translations.form.subheader = t.form.subheader;
     this.translations.form.moveInDate = t.form.moveInDate;
     this.translations.form.moveInDateRequired = t.form.moveInDateRequired;
-    this.translations.form.firstName = t.form.firstName;
-    this.translations.form.firstNameRequired = t.form.firstNameRequired;
-    this.translations.form.firstNameMinLength = t.form.firstNameMinLength;
-    this.translations.form.lastName = t.form.lastName;
-    this.translations.form.lastNameRequired = t.form.lastNameRequired;
-    this.translations.form.lastNameMinLength = t.form.lastNameMinLength;
+    this.translations.form.name = t.form.name;
+    this.translations.form.nameRequired = t.form.nameRequired;
+    this.translations.form.nameMinLength = t.form.nameMinLength;
     this.translations.form.email = t.form.email;
     this.translations.form.emailRequired = t.form.emailRequired;
     this.translations.form.emailInvalid = t.form.emailInvalid;
@@ -418,6 +455,15 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.translations.form.maxBudget = t.form.maxBudget;
     this.translations.form.maxBudgetRequired = t.form.maxBudgetRequired;
     this.translations.form.maxBudgetMin = t.form.maxBudgetMin;
+    this.translations.form.unitType = t.form.unitType;
+    this.translations.form.unitTypeRequired = t.form.unitTypeRequired;
+    this.translations.form.selectUnitType = t.form.selectUnitType;
+    this.translations.form.studio = t.form.studio;
+    this.translations.form['1bedroom'] = t.form['1bedroom'];
+    this.translations.form['2bedrooms'] = t.form['2bedrooms'];
+    this.translations.form['3bedrooms'] = t.form['3bedrooms'];
+    this.translations.form.message = t.form.message;
+    this.translations.form.messageRequired = t.form.messageRequired;
     this.translations.form.sending = t.form.sending;
     this.translations.form.submitRequest = t.form.submitRequest;
     this.translations.form.successMessage = t.form.successMessage;
@@ -442,8 +488,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       const subject = encodeURIComponent(`Montreal4Rent - Rental Inquiry`);
       const body = encodeURIComponent(
         `Move-in Date: ${formData.moveInDate}\n` +
-        `First Name: ${formData.firstName}\n` +
-        `Last Name: ${formData.lastName}\n` +
+        `Name: ${formData.Name}\n` +
         `Email: ${formData.email}\n` +
         `Phone: ${formData.phone}\n` +
         `Max Budget: $${formData.maxBudget}\n`
