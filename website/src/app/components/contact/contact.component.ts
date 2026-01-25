@@ -195,7 +195,7 @@ import { Subject, takeUntil } from 'rxjs';
               </div>
             </div>
 
-            <!-- add message formgroup here but mandatory -->   
+            <!-- add message formgroup here but non mandatory -->   
             <div class="form-group">
               <div class="form-label-column">
                 <label for="message">{{ translations.form.message }}</label>
@@ -204,13 +204,9 @@ import { Subject, takeUntil } from 'rxjs';
                 <textarea 
                   id="message"
                   formControlName="message"
-                  rows="4"
-                  [class.invalid]="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)"></textarea>   
-                <div class="error-message" *ngIf="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)">
-                  <span *ngIf="contactForm.get('message')?.errors?.['required']">
-                    {{ translations.form.messageRequired }}
-                  </span>
-                </div>
+                  rows="8"
+                  [class.invalid]="contactForm.get('message')?.invalid && (contactForm.get('message')?.touched || contactForm.get('message')?.dirty)">
+                </textarea>   
               </div>
             </div>
 
@@ -377,7 +373,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         subheader: 'Fill out the form below and we will get back to you quickly.',
         moveInDate: 'Move-in Date',
         moveInDateRequired: 'Move-in date is required.',
-        name: 'Full Name',
+        name: 'Name',
         nameRequired: 'Name is required.',
         nameMinLength: 'Name must be at least 2 characters long.',
         email: 'Email',
