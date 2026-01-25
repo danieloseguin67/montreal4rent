@@ -19,7 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop" alt="Contact us" loading="lazy">
+          <img src="assets/images/contactusbanner.jpg" alt="Contact Us" loading="lazy">
         </div>
       </section>
 
@@ -234,7 +234,7 @@ import { Subject, takeUntil } from 'rxjs';
               </ul>
             </div>
             <div class="about-image">
-              <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop" alt="Montreal cityscape" loading="lazy">
+              <img src="assets/images/contactushouse.jpg" alt="Contact Us" loading="lazy">
             </div>
           </div>
         </div>

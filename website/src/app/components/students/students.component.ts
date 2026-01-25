@@ -28,17 +28,17 @@ import { Subject, takeUntil } from 'rxjs';
           <h2>{{ currentLanguage === 'fr' ? 'Parfait pour les Étudiants' : 'Perfect for Students' }}</h2>
           <div class="features-grid">
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop" alt="Study area" loading="lazy">
+              <img src="assets/images/study.jpg" alt="Study area" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Espaces d\\'Étude' : 'Study-Friendly Spaces' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Environnements calmes parfaits pour étudier avec des espaces de travail dédiés.' : 'Quiet environments perfect for studying with dedicated workspace areas.' }}</p>
             </div>
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1555854877-bab0e460b1e1?w=400&h=300&fit=crop" alt="Kitchen" loading="lazy">
+              <img src="assets/images/kitchen.jpg" alt="All equipped kitchen" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Cuisines Équipées' : 'Fully Equipped Kitchens' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Cuisinez vos propres repas et économisez avec nos installations de cuisine modernes.' : 'Cook your own meals and save money with our modern kitchen facilities.' }}</p>
             </div>
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Metro station" loading="lazy">
+              <img src="assets/images/nearuniversity.jpg" alt="Univerties near by" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Près des Universités' : 'Near Universities' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Proche de McGill, Concordia et UQAM avec un accès facile au métro.' : 'Close to McGill, Concordia, and UQAM with easy metro access.' }}</p>
             </div>
