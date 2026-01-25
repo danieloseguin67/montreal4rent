@@ -93,6 +93,7 @@ import { Subject, takeUntil } from 'rxjs';
                   type="text" 
                   id="Name"
                   formControlName="Name"
+                  maxlength="256"
                   [class.invalid]="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)">
                 <div class="error-message" *ngIf="contactForm.get('Name')?.invalid && (contactForm.get('Name')?.touched || contactForm.get('Name')?.dirty)"> 
                   <span *ngIf="contactForm.get('Name')?.errors?.['required']">
