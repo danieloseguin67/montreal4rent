@@ -230,6 +230,13 @@
          box-sizing: border-box;
         }
         
+        // Specific style for text inputs to make them wider
+        input[type="text"],
+        input[type="email"] {
+          width: 450px !important;
+          max-width: none !important;
+        }
+        
         label {
           display: block;
           color: var(--text-dark-gray);
