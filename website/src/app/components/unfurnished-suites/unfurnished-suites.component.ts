@@ -30,17 +30,17 @@ import { Subject, takeUntil } from 'rxjs';
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop" alt="Open space" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Espaces Ouverts' : 'Open Spaces' }}</h3>
-              <p>{{ currentLanguage === 'fr' ? 'Plans d&apos;&eacute;tage spacieux et ouverts pour maximiser vos possibilit&eacute;s d&apos;am&eacute;nagement.' : 'Spacious and open floor plans to maximize your layout possibilities.' }}</p>
+              <p>{{ getFloorPlanText() }}</p>
             </div>
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Personalization" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Personnalisation' : 'Personalization' }}</h3>
-              <p>{{ currentLanguage === 'fr' ? 'Apportez vos propres meubles et d&eacute;corations pour cr&eacute;er un chez-vous unique.' : 'Bring your own furniture and decorations to create a unique home.' }}</p>
+              <p>{{ getPersonalizationText() }}</p>
             </div>
             <div class="feature-card">
               <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Modern amenities" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Commodit&eacute;s Modernes' : 'Modern Amenities' }}</h3>
-              <p>{{ currentLanguage === 'fr' ? 'Appareils &eacute;lectrom&eacute;nagers int&eacute;gr&eacute;s et finitions modernes dans chaque unit&eacute;.' : 'Built-in appliances and modern finishes in every unit.' }}</p>
+              <p>{{ getAppliancesText() }}</p>
             </div>
           </div>
         </div>
@@ -97,5 +97,23 @@ export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  getFloorPlanText(): string {
+    return this.currentLanguage === 'fr' 
+      ? 'Plans d\'étage spacieux et ouverts pour maximiser vos possibilités d\'aménagement.'
+      : 'Spacious and open floor plans to maximize your layout possibilities.';
+  }
+
+  getPersonalizationText(): string {
+    return this.currentLanguage === 'fr'
+      ? 'Apportez vos propres meubles et décorations pour créer un chez-vous unique.'
+      : 'Bring your own furniture and decorations to create a unique home.';
+  }
+
+  getAppliancesText(): string {
+    return this.currentLanguage === 'fr'
+      ? 'Appareils électroménagers intégrés et finitions modernes dans chaque unité.'
+      : 'Built-in appliances and modern finishes in every unit.';
   }
 }
