@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LanguageService } from '../../services/language.service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LanguageService, Language } from '../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-rooms-for-rent',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div class="rooms-for-rent-page">
       <!-- Hero Section -->
@@ -139,32 +142,177 @@ import { LanguageService } from '../../services/language.service';
         </div>
       </section>
 
-      <!-- CTA Section -->
-      <section class="cta-section">
+      <!-- Contact Form Section -->
+      <section class="contact-form-section">
         <div class="container">
-          <div class="cta-content">
-            <h2>{{ currentLanguage === 'fr' ? 'Intéressé par nos chambres?' : 'Interested in our rooms?' }}</h2>
-            <p>
-              {{ currentLanguage === 'fr' 
-                ? 'Contactez-nous dès aujourd&rsquo;hui pour planifier une visite et découvrir votre nouveau chez-vous.' 
-                : 'Contact us today to schedule a visit and discover your new home.' }}
-            </p>
-            <a href="/contact" class="btn btn-primary">
-              {{ currentLanguage === 'fr' ? 'Nous Contacter' : 'Contact Us' }}
-            </a>
+          <div class="form-header">
+            <h2>{{ currentLanguage === 'fr' ? 'Réservez une chambre' : 'Book a Room' }}</h2>
+            <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.' : 'Fill out the form below and we will get back to you quickly.' }}</p>
           </div>
+          
+          <form [formGroup]="roomRentalForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="form-group">
+              <label for="name">{{ currentLanguage === 'fr' ? 'Nom complet' : 'Full Name' }} *</label>
+              <input 
+                type="text" 
+                id="name"
+                formControlName="name"
+                maxlength="256"
+                [class.invalid]="roomRentalForm.get('name')?.invalid && (roomRentalForm.get('name')?.touched || roomRentalForm.get('name')?.dirty)">
+              <div class="error-message" *ngIf="roomRentalForm.get('name')?.invalid && (roomRentalForm.get('name')?.touched || roomRentalForm.get('name')?.dirty)"> 
+                <span *ngIf="roomRentalForm.get('name')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'Le nom est requis.' : 'Name is required.' }}
+                </span>
+                <span *ngIf="roomRentalForm.get('name')?.errors?.['minlength']">
+                  {{ currentLanguage === 'fr' ? 'Le nom doit contenir au moins 2 caractères.' : 'Name must be at least 2 characters long.' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">{{ currentLanguage === 'fr' ? 'Courriel' : 'Email' }} *</label>
+              <input 
+                type="email" 
+                id="email" 
+                formControlName="email"
+                maxlength="256"
+                [class.invalid]="roomRentalForm.get('email')?.invalid && (roomRentalForm.get('email')?.touched || roomRentalForm.get('email')?.dirty)">
+              <div class="error-message" *ngIf="roomRentalForm.get('email')?.invalid && (roomRentalForm.get('email')?.touched || roomRentalForm.get('email')?.dirty)">
+                <span *ngIf="roomRentalForm.get('email')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'L\'email est requis.' : 'Email is required.' }}
+                </span>
+                <span *ngIf="roomRentalForm.get('email')?.errors?.['email']">
+                  {{ currentLanguage === 'fr' ? 'Veuillez entrer une adresse email valide.' : 'Please enter a valid email address.' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">{{ currentLanguage === 'fr' ? 'Numéro de téléphone' : 'Phone Number' }} *</label>
+              <input
+                type="tel"
+                id="phone"
+                formControlName="phone"
+                [class.invalid]="roomRentalForm.get('phone')?.invalid && (roomRentalForm.get('phone')?.touched || roomRentalForm.get('phone')?.dirty)">
+              <div class="error-message" *ngIf="roomRentalForm.get('phone')?.invalid && (roomRentalForm.get('phone')?.touched || roomRentalForm.get('phone')?.dirty)">
+                <span *ngIf="roomRentalForm.get('phone')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'Le numéro de téléphone est requis.' : 'Phone number is required.' }}
+                </span>
+                <span *ngIf="roomRentalForm.get('phone')?.errors?.['pattern']">
+                  {{ currentLanguage === 'fr' ? 'Veuillez entrer un numéro de téléphone valide.' : 'Please enter a valid phone number.' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="maxBudget">{{ currentLanguage === 'fr' ? 'Budget maximum (CAD)' : 'Max Budget (CAD)' }} *</label>
+              <input
+                type="number"
+                id="maxBudget"
+                formControlName="maxBudget"
+                [class.invalid]="roomRentalForm.get('maxBudget')?.invalid && (roomRentalForm.get('maxBudget')?.touched || roomRentalForm.get('maxBudget')?.dirty)">
+              <div class="error-message" *ngIf="roomRentalForm.get('maxBudget')?.invalid && (roomRentalForm.get('maxBudget')?.touched || roomRentalForm.get('maxBudget')?.dirty)">
+                <span *ngIf="roomRentalForm.get('maxBudget')?.errors?.['required']">
+                  {{ currentLanguage === 'fr' ? 'Le budget maximum est requis.' : 'Max budget is required.' }}
+                </span>
+                <span *ngIf="roomRentalForm.get('maxBudget')?.errors?.['min']">
+                  {{ currentLanguage === 'fr' ? 'Le budget doit être supérieur à 0.' : 'Budget must be greater than 0.' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message">{{ currentLanguage === 'fr' ? 'Message' : 'Message' }}</label>
+              <textarea 
+                id="message"
+                formControlName="message"
+                rows="5">
+              </textarea>
+            </div>
+
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                class="send-email-btn"
+                [disabled]="roomRentalForm.invalid || isSubmitting">
+                <i class="fas fa-paper-plane" *ngIf="!isSubmitting"></i>
+                <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
+                {{ isSubmitting ? (currentLanguage === 'fr' ? 'Envoi...' : 'Sending...') : (currentLanguage === 'fr' ? 'Envoyer la demande' : 'Send Request') }}
+              </button>
+            </div>
+            
+            <div class="form-message success" *ngIf="showSuccessMessage">
+              <i class="fas fa-check-circle"></i>
+              {{ currentLanguage === 'fr' ? 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.' : 'Your message has been sent successfully! We\'ll get back to you soon.' }}
+            </div>
+          </form>
         </div>
       </section>
     </div>
   `,
   styleUrls: ['./rooms-for-rent.component.scss']
 })
-export class RoomsForRentComponent {
-  currentLanguage: string = 'en';
+export class RoomsForRentComponent implements OnInit, OnDestroy {
+  currentLanguage: Language = 'fr';
+  roomRentalForm: FormGroup;
+  isSubmitting = false;
+  showSuccessMessage = false;
+  private destroy$ = new Subject<void>();
 
-  constructor(private languageService: LanguageService) {
-    this.languageService.currentLanguage$.subscribe(
-      (language) => this.currentLanguage = language
-    );
+  constructor(
+    private languageService: LanguageService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {
+    this.roomRentalForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[\+]?[1-9][\d]{0,15}$/)]],
+      maxBudget: ['', [Validators.required, Validators.min(1)]],
+      message: ['']
+    });
+  }
+
+  ngOnInit(): void {
+    this.languageService.currentLanguage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((language) => this.currentLanguage = language);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onSubmit(): void {
+    if (this.roomRentalForm.valid) {
+      this.isSubmitting = true;
+      this.showSuccessMessage = false;
+
+      const formData = this.roomRentalForm.value;
+      
+      const subject = encodeURIComponent('Montreal4Rent - Room Rental Inquiry');
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Max Budget: $${formData.maxBudget}\n\n` +
+        `Message:\n${formData.message || 'No additional message'}`
+      );
+      
+      const mailtoLink = `mailto:info@montreal4rent.com?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+      
+      this.isSubmitting = false;
+      this.showSuccessMessage = true;
+      
+      setTimeout(() => {
+        this.router.navigate(['/']);
+      }, 2000);
+    } else {
+      Object.keys(this.roomRentalForm.controls).forEach(key => {
+        this.roomRentalForm.get(key)?.markAsTouched();
+      });
+    }
   }
 }

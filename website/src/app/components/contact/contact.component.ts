@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LanguageService, Language } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -376,7 +377,8 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   constructor(
     private languageService: LanguageService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.contactForm = this.formBuilder.group({
       moveInDate: ['', Validators.required],
@@ -469,15 +471,13 @@ export class ContactComponent implements OnInit, OnDestroy {
       // Open email client
       window.location.href = mailtoLink;
       
-      // Reset form immediately and show success message
-      this.contactForm.reset();
+      // Show success message briefly then redirect to home
       this.isSubmitting = false;
       this.showSuccessMessage = true;
       
-      // Hide success message after 5 seconds
       setTimeout(() => {
-        this.showSuccessMessage = false;
-      }, 5000);
+        this.router.navigate(['/']);
+      }, 2000);
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {
