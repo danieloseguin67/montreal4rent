@@ -18,7 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&h=600&fit=crop" alt="Students studying" loading="lazy">
+          <img src="assets/images/study0.jpg" alt="Studient living" loading="lazy">
         </div>
       </section>
 

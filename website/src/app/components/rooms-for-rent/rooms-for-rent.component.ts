@@ -14,10 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-image">
-          <img 
-            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1920&h=1080&fit=crop&crop=center" 
-            alt="Cozy room rental space"
-          >
+           <img src="assets/images/rentaroom.jpg" alt="Cozy room rental space" loading="lazy">
         </div>
         <div class="hero-content">
           <div class="container">
@@ -42,10 +39,7 @@ import { Subject, takeUntil } from 'rxjs';
             <!-- Single Room -->
             <div class="room-type-card">
               <div class="room-image">
-                <img 
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop&crop=center" 
-                  alt="Single room"
-                >
+                <img src="assets/images/rentaroom2.jpg" alt="Single room" loading="lazy">
               </div>
               <div class="room-content">
                 <h3>{{ currentLanguage === 'fr' ? 'Chambre Simple' : 'Single Room' }}</h3>
@@ -75,13 +69,13 @@ import { Subject, takeUntil } from 'rxjs';
               </div>
             </div>
 
+            <br>
+            <br>
+
             <!-- Double Room -->
             <div class="room-type-card">
               <div class="room-image">
-                <img 
-                  src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&h=400&fit=crop&crop=center" 
-                  alt="Double room"
-                >
+                <img src="assets/images/rentaroom3.jpg" alt="Double room" loading="lazy">
               </div>
               <div class="room-content">
                 <h3>{{ currentLanguage === 'fr' ? 'Chambre Double' : 'Double Room' }}</h3>
@@ -112,6 +106,9 @@ import { Subject, takeUntil } from 'rxjs';
             </div>
           </div>
 
+          <br>
+          <br>
+
           <!-- Shared Amenities -->
           <div class="shared-amenities">
             <h3>{{ currentLanguage === 'fr' ? 'Espaces Partagés' : 'Shared Spaces' }}</h3>
@@ -136,6 +133,9 @@ import { Subject, takeUntil } from 'rxjs';
               <div class="amenity-item">
                 <i class="fas fa-parking"></i>
                 <span>{{ currentLanguage === 'fr' ? 'Stationnement' : 'Parking' }}</span>
+              </div>
+              <div class="sharedroom-image">
+                <img src="assets/images/rentaroom4.jpg" alt="Shared room" loading="lazy">
               </div>
             </div>
           </div>

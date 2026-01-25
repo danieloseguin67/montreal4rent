@@ -18,7 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=600&fit=crop" alt="Empty apartment" loading="lazy">
+          <img src="assets/images/unfurnished1.jpg" alt="Empty apartment" loading="lazy">
         </div>
       </section>
 
@@ -28,17 +28,17 @@ import { Subject, takeUntil } from 'rxjs';
           <h2>{{ currentLanguage === 'fr' ? 'Libert&eacute; et Flexibilit&eacute;' : 'Freedom and Flexibility' }}</h2>
           <div class="features-grid">
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=400&h=300&fit=crop" alt="Open space" loading="lazy">
+              <img src="assets/images/unfurnished2.jpg" alt="Open space apartment" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Espaces Ouverts' : 'Open Spaces' }}</h3>
               <p>{{ getFloorPlanText() }}</p>
             </div>
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Personalization" loading="lazy">
+              <img src="assets/images/unfurnished3.jpg" alt="Personalized" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Personnalisation' : 'Personalization' }}</h3>
               <p>{{ getPersonalizationText() }}</p>
             </div>
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop" alt="Modern amenities" loading="lazy">
+              <img src="assets/images/unfurnished4.jpg" alt="Modern amenities" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Commodit&eacute;s Modernes' : 'Modern Amenities' }}</h3>
               <p>{{ getAppliancesText() }}</p>
             </div>

@@ -18,7 +18,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=600&fit=crop" alt="Furnished apartment" loading="lazy">
+          <img src="assets/images/furnished1.jpg" alt="Furnished apartment" loading="lazy">
         </div>
       </section>
 
@@ -28,17 +28,17 @@ import { Subject, takeUntil } from 'rxjs';
           <h2>{{ currentLanguage === 'fr' ? 'Tout Ce Dont Vous Avez Besoin' : 'Everything You Need' }}</h2>
           <div class="features-grid">
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Living room" loading="lazy">
+              <img src="assets/images/furnished2.jpg" alt="Living room" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Salon Complet' : 'Complete Living Room' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Canapés confortables, table basse, meuble TV et tous les éléments essentiels pour la détente.' : 'Comfortable sofas, coffee table, TV stand, and all the essentials for relaxation.' }}</p>
             </div>
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop" alt="Bedroom" loading="lazy">
+              <img src="assets/images/furnished3.jpg" alt="Bedroom" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Chambres Entièrement Meublées' : 'Fully Furnished Bedrooms' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Matelas de qualité, cadres de lit, commodes et amplement d&rsquo;espace de rangement.' : 'Quality mattresses, bed frames, dressers, and ample storage space.' }}</p>
             </div>
             <div class="feature-card">
-              <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop" alt="Kitchen" loading="lazy">
+              <img src="assets/images/furnished4.jpg" alt="Kitchen" loading="lazy">
               <h3>{{ currentLanguage === 'fr' ? 'Cuisine Équipée' : 'Equipped Kitchen' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Tous les appareils, ustensiles de cuisine, vaisselle et tout le nécessaire pour cuisiner et dîner.' : 'All appliances, cookware, dishes, and everything needed to cook and dine.' }}</p>
             </div>
