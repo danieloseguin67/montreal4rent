@@ -459,7 +459,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         `Name: ${formData.Name}\n` +
         `Email: ${formData.email}\n` +
         `Phone: ${formData.phone}\n` +
-        `Max Budget: $${formData.maxBudget}\n`
+        `Max Budget: $${formData.maxBudget}\n` +
+        `Unit Type: ${formData.unitType}\n\n` +
+        `Message:\n${formData.message || 'No additional message'}`
       );
       
       const mailtoLink = `mailto:info@montreal4rent.com?subject=${subject}&body=${body}`;
@@ -467,17 +469,15 @@ export class ContactComponent implements OnInit, OnDestroy {
       // Open email client
       window.location.href = mailtoLink;
       
-      // Simulate processing time
+      // Reset form immediately and show success message
+      this.contactForm.reset();
+      this.isSubmitting = false;
+      this.showSuccessMessage = true;
+      
+      // Hide success message after 5 seconds
       setTimeout(() => {
-        this.isSubmitting = false;
-        this.showSuccessMessage = true;
-        
-        // Reset form after success
-        setTimeout(() => {
-          this.contactForm.reset();
-          this.showSuccessMessage = false;
-        }, 3000);
-      }, 1000);
+        this.showSuccessMessage = false;
+      }, 5000);
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {
