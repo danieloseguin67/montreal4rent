@@ -206,13 +206,32 @@
       .form-group {
         margin-bottom: 1.5rem;
         width: 100%;
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 2rem;
+        align-items: start;
+        
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+        
+        .form-label-column {
+          padding-top: 0.75rem;
+        }
+        
+        .form-input-column {
+          flex: 1;
+          size: border-box;
+          width: 320px;
+        }
         
         label {
           display: block;
           color: var(--text-dark-gray);
           font-size: 0.9rem;
           font-weight: 500;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0;
         }
         
         input,
