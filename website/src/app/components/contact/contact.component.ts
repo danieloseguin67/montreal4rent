@@ -58,15 +58,15 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="container">
 
           <div class="form-header">
-            <h2>{{ currentLanguage === 'fr' ? 'Envoyez-nous un message' : 'Send us a message' }}</h2>
-            <p>{{ currentLanguage === 'fr' ? 'Remplissez le formulaire ci-dessous et nous vous r&eacute;pondrons rapidement.' : 'Fill out the form below and we will get back to you quickly.' }}</p>
+            <h2>{{ translations.form.header }}</h2>
+            <p>{{ translations.form.subheader }}</p>
           </div>
           
           <!-- add move in date formgroup here -->
           <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
 
             <div class="form-group">
-              <label for="moveInDate">{{ currentLanguage === 'fr' ? 'Date d\'emménagement' : 'Move-in Date' }}</label>
+              <label for="moveInDate">{{ translations.form.moveInDate }}</label>
               <input 
                 type="date" 
                 id="moveInDate" 
@@ -74,14 +74,14 @@ import { Subject, takeUntil } from 'rxjs';
                 [class.invalid]="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
               <div class="error-message" *ngIf="contactForm.get('moveInDate')?.invalid && (contactForm.get('moveInDate')?.touched || contactForm.get('moveInDate')?.dirty)">
                 <span *ngIf="contactForm.get('moveInDate')?.errors?.['required']">
-                  {{ currentLanguage === 'fr' ? 'La date d\'emménagement est requise.' : 'Move-in date is required.' }}
+                  {{ translations.form.moveInDateRequired }}
                 </span>
               </div>
             </div>
 
             <!-- add first name and last name formgroup here -->
             <div class="form-group">
-              <label for="firstName">{{ currentLanguage === 'fr' ? 'Prénom' : 'First Name' }}</label>
+              <label for="firstName">{{ translations.form.firstName }}</label>
               <input 
                 type="text" 
                 id="firstName"
@@ -89,17 +89,17 @@ import { Subject, takeUntil } from 'rxjs';
                 [class.invalid]="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.touched || contactForm.get('firstName')?.dirty)">
               <div class="error-message" *ngIf="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.touched || contactForm.get('firstName')?.dirty)"> 
                 <span *ngIf="contactForm.get('firstName')?.errors?.['required']">
-                  {{ currentLanguage === 'fr' ? 'Le prénom est requis.' : 'First name is required.' }}
+                  {{ translations.form.firstNameRequired }}
                 </span>
                 <span *ngIf="contactForm.get('firstName')?.errors?.['minlength']">
-                  {{ currentLanguage === 'fr' ? 'Le prénom doit contenir au moins 2 caractères.' : 'First name must be at least 2 characters long.' }}
+                  {{ translations.form.firstNameMinLength }}
                 </span>
               </div>
             </div>
 
             <!-- add email formgroup here -->
             <div class="form-group">
-              <label for="email">{{ currentLanguage === 'fr' ? 'Email' : 'Email' }}</label>
+              <label for="email">{{ translations.form.email }}</label>
               <input 
                 type="email" 
                 id="email" 
@@ -107,17 +107,17 @@ import { Subject, takeUntil } from 'rxjs';
                 [class.invalid]="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
               <div class="error-message" *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.touched || contactForm.get('email')?.dirty)">
                 <span *ngIf="contactForm.get('email')?.errors?.['required']">
-                  {{ currentLanguage === 'fr' ? 'L\'email est requis.' : 'Email is required.' }}
+                  {{ translations.form.emailRequired }}
                 </span>
                 <span *ngIf="contactForm.get('email')?.errors?.['email']">
-                  {{ currentLanguage === 'fr' ? 'Veuillez entrer une adresse email valide.' : 'Please enter a valid email address.' }}
+                  {{ translations.form.emailInvalid }}
                 </span>
               </div>
             </div>
 
             <!-- add phone formgroup here -->
             <div class="form-group">
-              <label for="phone">{{ currentLanguage === 'fr' ? 'Numéro de téléphone' : 'Phone Number' }}</label>
+              <label for="phone">{{ translations.form.phone }}</label>
               <input
                 type="tel"
                 id="phone"
@@ -125,17 +125,17 @@ import { Subject, takeUntil } from 'rxjs';
                 [class.invalid]="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
               <div class="error-message" *ngIf="contactForm.get('phone')?.invalid && (contactForm.get('phone')?.touched || contactForm.get('phone')?.dirty)">
                 <span *ngIf="contactForm.get('phone')?.errors?.['required']">
-                  {{ currentLanguage === 'fr' ? 'Le numéro de téléphone est requis.' : 'Phone number is required.' }}
+                  {{ translations.form.phoneRequired }}
                 </span>
                 <span *ngIf="contactForm.get('phone')?.errors?.['pattern']">
-                  {{ currentLanguage === 'fr' ? 'Veuillez entrer un numéro de téléphone valide.' : 'Please enter a valid phone number.' }}
+                  {{ translations.form.phoneInvalid }}
                 </span>
               </div>
             </div>
 
             <!-- add max budget formgroup here -->
             <div class="form-group">
-              <label for="maxBudget">{{ currentLanguage === 'fr' ? 'Budget maximum (CAD)' : 'Max Budget (CAD)' }}</label>
+              <label for="maxBudget">{{ translations.form.maxBudget }}</label>
               <input
                 type="number"
                 id="maxBudget"
@@ -143,10 +143,10 @@ import { Subject, takeUntil } from 'rxjs';
                 [class.invalid]="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
               <div class="error-message" *ngIf="contactForm.get('maxBudget')?.invalid && (contactForm.get('maxBudget')?.touched || contactForm.get('maxBudget')?.dirty)">
                 <span *ngIf="contactForm.get('maxBudget')?.errors?.['required']">
-                  {{ currentLanguage === 'fr' ? 'Le budget maximum est requis.' : 'Max budget is required.' }}
+                  {{ translations.form.maxBudgetRequired }}
                 </span>
                 <span *ngIf="contactForm.get('maxBudget')?.errors?.['min']">
-                  {{ currentLanguage === 'fr' ? 'Le budget doit être supérieur à 0.' : 'Budget must be greater than 0.' }}
+                  {{ translations.form.maxBudgetMin }}
                 </span>
               </div>
             </div>  
@@ -158,18 +158,18 @@ import { Subject, takeUntil } from 'rxjs';
                 [disabled]="contactForm.invalid || isSubmitting">
                 <i class="fas fa-paper-plane" *ngIf="!isSubmitting"></i>
                 <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
-                {{ isSubmitting ? (currentLanguage === 'fr' ? 'Envoi...' : 'Sending...') : (currentLanguage === 'fr' ? 'Soumettre la demande' : 'Submit Request') }}
+                {{ isSubmitting ? translations.form.sending : translations.form.submitRequest }}
               </button>
             </div>
             
             <div class="form-message success" *ngIf="showSuccessMessage">
               <i class="fas fa-check-circle"></i>
-              {{ currentLanguage === 'fr' ? 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.' : 'Your message has been sent successfully! We'll get back to you soon.' }}
+              {{ translations.form.successMessage }}
             </div>
             
             <div class="form-message error" *ngIf="showErrorMessage">
               <i class="fas fa-exclamation-circle"></i>
-              {{ currentLanguage === 'fr' ? 'Une erreur est survenue lors de l'envoi. Veuillez réessayer.' : 'An error occurred while sending. Please try again.' }}
+              {{ translations.form.errorMessage }}
             </div>
 
             </form>
@@ -182,15 +182,13 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="container">
           <div class="about-content">
             <div class="about-text">
-              <h2>{{ currentLanguage === 'fr' ? 'À Propos de Montreal4Rent' : 'About Montreal4Rent' }}</h2>
-                <p>
-                {{ currentLanguage === 'fr' ? 'Montreal4Rent se spécialise dans la location d\u0027appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.' : 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.' }}
-                </p>
+              <h2>{{ translations.aboutAgent.title }}</h2>
+              <p>{{ translations.aboutAgent.subtitle }}</p>
               <ul class="services-list">
-                <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Appartements meublés et non-meublés' : 'Furnished and unfurnished apartments' }}</li>
-                <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Logements adaptés aux étudiants' : 'Student-friendly housing' }}</li>
-                <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Emplacements premium' : 'Premium locations' }}</li>
-                <li><i class="fas fa-check"></i> {{ currentLanguage === 'fr' ? 'Service client 24/7' : '24/7 customer service' }}</li>
+                <li><i class="fas fa-check"></i> {{ translations.aboutSection.furnished }}</li>
+                <li><i class="fas fa-check"></i> {{ translations.aboutSection.student }}</li>
+                <li><i class="fas fa-check"></i> {{ translations.aboutSection.premium }}</li>
+                <li><i class="fas fa-check"></i> {{ translations.aboutSection.service }}</li>
               </ul>
             </div>
             <div class="about-image">
@@ -212,6 +210,112 @@ export class ContactComponent implements OnInit, OnDestroy {
   showErrorMessage = false;
   private destroy$ = new Subject<void>();
 
+  translations: any = {
+    aboutAgent: {
+      title: '',
+      subtitle: ''
+    },
+    aboutSection: {
+      furnished: '',
+      student: '',
+      premium: '',
+      service: ''
+    },
+    form: {
+      header: '',
+      subheader: '',
+      moveInDate: '',
+      moveInDateRequired: '',
+      firstName: '',
+      firstNameRequired: '',
+      firstNameMinLength: '',
+      email: '',
+      emailRequired: '',
+      emailInvalid: '',
+      phone: '',
+      phoneRequired: '',
+      phoneInvalid: '',
+      maxBudget: '',
+      maxBudgetRequired: '',
+      maxBudgetMin: '',
+      sending: '',
+      submitRequest: '',
+      successMessage: '',
+      errorMessage: ''
+    }
+  };
+
+  private static readonly TRANSLATIONS = {
+    fr: {
+      aboutAgent: {
+        title: 'À Propos de Montreal4Rent',
+        subtitle: 'Montreal4Rent se spécialise dans la location d\'appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.'
+      },
+      aboutSection: {
+        furnished: 'Appartements meublés et non-meublés',
+        student: 'Logements adaptés aux étudiants',
+        premium: 'Emplacements premium',
+        service: 'Service client 24/7'
+      },
+      form: {
+        header: 'Envoyez-nous un message',
+        subheader: 'Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.',
+        moveInDate: 'Date d\'emménagement',
+        moveInDateRequired: 'La date d\'emménagement est requise.',
+        firstName: 'Prénom',
+        firstNameRequired: 'Le prénom est requis.',
+        firstNameMinLength: 'Le prénom doit contenir au moins 2 caractères.',
+        email: 'Email',
+        emailRequired: 'L\'email est requis.',
+        emailInvalid: 'Veuillez entrer une adresse email valide.',
+        phone: 'Numéro de téléphone',
+        phoneRequired: 'Le numéro de téléphone est requis.',
+        phoneInvalid: 'Veuillez entrer un numéro de téléphone valide.',
+        maxBudget: 'Budget maximum (CAD)',
+        maxBudgetRequired: 'Le budget maximum est requis.',
+        maxBudgetMin: 'Le budget doit être supérieur à 0.',
+        sending: 'Envoi...',
+        submitRequest: 'Soumettre la demande',
+        successMessage: 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.',
+        errorMessage: 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.'
+      }
+    },
+    en: {
+      aboutAgent: {
+        title: 'About Montreal4Rent',
+        subtitle: 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.'
+      },
+      aboutSection: {
+        furnished: 'Furnished and unfurnished apartments',
+        student: 'Student-friendly housing',
+        premium: 'Premium locations',
+        service: '24/7 customer service'
+      },
+      form: {
+        header: 'Send us a message',
+        subheader: 'Fill out the form below and we will get back to you quickly.',
+        moveInDate: 'Move-in Date',
+        moveInDateRequired: 'Move-in date is required.',
+        firstName: 'First Name',
+        firstNameRequired: 'First name is required.',
+        firstNameMinLength: 'First name must be at least 2 characters long.',
+        email: 'Email',
+        emailRequired: 'Email is required.',
+        emailInvalid: 'Please enter a valid email address.',
+        phone: 'Phone Number',
+        phoneRequired: 'Phone number is required.',
+        phoneInvalid: 'Please enter a valid phone number.',
+        maxBudget: 'Max Budget (CAD)',
+        maxBudgetRequired: 'Max budget is required.',
+        maxBudgetMin: 'Budget must be greater than 0.',
+        sending: 'Sending...',
+        submitRequest: 'Submit Request',
+        successMessage: 'Your message has been sent successfully! We\'ll get back to you soon.',
+        errorMessage: 'An error occurred while sending. Please try again.'
+      }
+    }
+  };
+
   constructor(
     private languageService: LanguageService,
     private formBuilder: FormBuilder
@@ -229,7 +333,41 @@ export class ContactComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.languageService.currentLanguage$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(lang => this.currentLanguage = lang);
+      .subscribe(lang => {
+        this.currentLanguage = lang;
+        this.setTranslations(lang);
+      });
+    this.setTranslations(this.currentLanguage);
+  }
+
+  setTranslations(lang: Language) {
+    const t = ContactComponent.TRANSLATIONS[lang] || ContactComponent.TRANSLATIONS['en'];
+    this.translations.aboutAgent.title = t.aboutAgent.title;
+    this.translations.aboutAgent.subtitle = t.aboutAgent.subtitle;
+    this.translations.aboutSection.furnished = t.aboutSection.furnished;
+    this.translations.aboutSection.student = t.aboutSection.student;
+    this.translations.aboutSection.premium = t.aboutSection.premium;
+    this.translations.aboutSection.service = t.aboutSection.service;
+    this.translations.form.header = t.form.header;
+    this.translations.form.subheader = t.form.subheader;
+    this.translations.form.moveInDate = t.form.moveInDate;
+    this.translations.form.moveInDateRequired = t.form.moveInDateRequired;
+    this.translations.form.firstName = t.form.firstName;
+    this.translations.form.firstNameRequired = t.form.firstNameRequired;
+    this.translations.form.firstNameMinLength = t.form.firstNameMinLength;
+    this.translations.form.email = t.form.email;
+    this.translations.form.emailRequired = t.form.emailRequired;
+    this.translations.form.emailInvalid = t.form.emailInvalid;
+    this.translations.form.phone = t.form.phone;
+    this.translations.form.phoneRequired = t.form.phoneRequired;
+    this.translations.form.phoneInvalid = t.form.phoneInvalid;
+    this.translations.form.maxBudget = t.form.maxBudget;
+    this.translations.form.maxBudgetRequired = t.form.maxBudgetRequired;
+    this.translations.form.maxBudgetMin = t.form.maxBudgetMin;
+    this.translations.form.sending = t.form.sending;
+    this.translations.form.submitRequest = t.form.submitRequest;
+    this.translations.form.successMessage = t.form.successMessage;
+    this.translations.form.errorMessage = t.form.errorMessage;
   }
 
   ngOnDestroy(): void {
