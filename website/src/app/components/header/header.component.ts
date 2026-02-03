@@ -24,12 +24,7 @@ import { Subject, takeUntil } from 'rxjs';
           <!-- Desktop Navigation -->
           <nav class="desktop-nav" aria-label="Main navigation">
             <ul class="nav-list">
-              <li>
-                <a 
-                  [routerLink]="currentLanguage === 'fr' ? '/accueil' : '/'" 
-                  routerLinkActive="active"
-                >{{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}</a>
-              </li>
+              
               <li>
                 <a 
                   [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
@@ -123,13 +118,7 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="mobile-menu" [class.show]="showMobileMenu" *ngIf="showMobileMenu">
           <nav class="mobile-nav" aria-label="Navigation mobile">
             <ul class="mobile-nav-list">
-              <li>
-                <a 
-                  [routerLink]="currentLanguage === 'fr' ? '/accueil' : '/'" 
-                  (click)="closeMobileMenu()" 
-                  routerLinkActive="active"
-                >{{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}</a>
-              </li>
+              
               <li>
                 <a 
                   [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 

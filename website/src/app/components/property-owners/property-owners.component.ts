@@ -40,10 +40,7 @@ import { RouterModule } from '@angular/router';
             </div>
           </div>
 
-          <div class="cta-buttons">
-            <a class="btn btn-primary" [routerLink]="['/contact']">List Your Property</a>
-            <a class="btn btn-outline" [routerLink]="['/contact']">Contact Us</a>
-          </div>
+          
         </div>
       </section>
 
