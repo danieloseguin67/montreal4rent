@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DataService, Apartment, Area } from '../../services/data.service';
+import { DataService, Apartment, Area, ToggleOption, UnitType } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -12,13 +12,20 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [CommonModule, RouterModule, FormsModule, CurrencyPipe],
   template: `
     <div class="apartments-page">
-      <!-- Page Header -->
-      <section class="page-header">
-        <div class="container">
-          <div class="header-content">
-            <h1>{{ t.navigation?.apartments }}</h1>
-            <p>Découvrez notre collection complète d'appartements de luxe à Montréal</p>
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <div class="container">
+            <h1>{{ currentLanguage === 'fr' ? (t.navigation?.apartments || 'Appartements') : 'Apartments' }}</h1>
+            <p class="hero-description">
+              {{ currentLanguage === 'fr' 
+                ? 'Découvrez notre collection complète d\'appartements à Montréal' 
+                : 'Explore our complete collection of apartments in Montreal' }}
+            </p>
           </div>
+        </div>
+        <div class="hero-image">
+          <img src="assets/images/unfurnished1.jpg" alt="Apartments banner" loading="lazy">
         </div>
       </section>
 
@@ -56,6 +63,19 @@ import { Subject, takeUntil } from 'rxjs';
                       <option value="1">1 {{ t.common?.bedroom }}</option>
                       <option value="2">2 {{ t.common?.bedrooms }}</option>
                       <option value="3">3+ {{ t.common?.bedrooms }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col col-12 col-md-2">
+                  <div class="form-group">
+                    <label class="form-label">Unit Type</label>
+                    <select 
+                      class="form-control form-select"
+                      [(ngModel)]="selectedUnitType"
+                      (change)="onFiltersChanged()"
+                    >
+                      <option value="">All</option>
+                      <option *ngFor="let ut of unitTypes" [value]="ut.unit_type_name">{{ ut.unit_type_name }}</option>
                     </select>
                   </div>
                 </div>
@@ -138,6 +158,17 @@ import { Subject, takeUntil } from 'rxjs';
             <p>{{ t.common?.loading }}</p>
           </div>
 
+          <!-- Toggles Grid -->
+          <div class="toggles-section" *ngIf="toggles.length">
+            <h2 class="toggles-title">{{ currentLanguage === 'fr' ? 'Options & Commodités' : 'Options & Amenities' }}</h2>
+            <div class="toggle-grid">
+              <div class="toggle-card" *ngFor="let opt of toggles | slice:0:9; trackBy: trackByToggle">
+                <div class="toggle-image">{{ opt.toggle_image }}</div>
+                <div class="toggle-name">{{ opt.toggle_name }}</div>
+              </div>
+            </div>
+          </div>
+
           <!-- Apartments Grid -->
           <div class="apartments-grid" *ngIf="!loading && filteredApartments.length > 0">
             <div 
@@ -169,10 +200,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <div class="apartment-details">
                   <div class="detail-item">
                     <i class="fas fa-bed"></i>
-                    <span>
-                      {{ apartment.bedrooms }} 
-                      {{ apartment.bedrooms === 1 ? t.common?.bedroom : t.common?.bedrooms }}
-                    </span>
+                    <span>{{ getUnitType(apartment) }}</span>
                   </div>
                   <div class="detail-item">
                     <i class="fas fa-bath"></i>
@@ -239,6 +267,8 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
   areas: Area[] = [];
+  toggles: ToggleOption[] = [];
+  unitTypes: UnitType[] = [];
   loading = true;
   t: any = {};
   currentLanguage = 'fr';
@@ -247,6 +277,7 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
   selectedArea = '';
   selectedBedrooms: string = '';
   selectedFurnished: string = '';
+  selectedUnitType: string = '';
   minPrice: number | null = null;
   maxPrice: number | null = null;
   sortBy: 'price-asc' | 'price-desc' = 'price-asc';
@@ -294,6 +325,14 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
     this.dataService.getAreas()
       .pipe(takeUntil(this.destroy$))
       .subscribe(areas => this.areas = areas);
+
+    this.dataService.getToggles()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(opts => this.toggles = opts);
+
+    this.dataService.getUnitTypes()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(types => this.unitTypes = types);
   }
 
   private subscribeToLanguageChanges(): void {
@@ -321,15 +360,19 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
     if (this.selectedBedrooms !== '') {
       const bedrooms = parseInt(this.selectedBedrooms);
       if (bedrooms >= 3) {
-        filtered = filtered.filter(apt => apt.bedrooms >= 3);
+        filtered = filtered.filter(apt => this.getBedrooms(apt) >= 3);
       } else {
-        filtered = filtered.filter(apt => apt.bedrooms === bedrooms);
+        filtered = filtered.filter(apt => this.getBedrooms(apt) === bedrooms);
       }
     }
 
     if (this.selectedFurnished !== '') {
       const furnished = this.selectedFurnished === 'true';
       filtered = filtered.filter(apt => apt.furnished === furnished);
+    }
+
+    if (this.selectedUnitType) {
+      filtered = filtered.filter(apt => (apt.unit_type_name || '').toLowerCase() === this.selectedUnitType.toLowerCase());
     }
 
     if (this.minPrice !== null && this.minPrice > 0) {
@@ -359,6 +402,7 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
       this.selectedArea || 
       this.selectedBedrooms !== '' || 
       this.selectedFurnished !== '' ||
+      this.selectedUnitType !== '' ||
       (this.minPrice !== null && this.minPrice > 0) ||
       (this.maxPrice !== null && this.maxPrice > 0)
     );
@@ -374,9 +418,28 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
     return apartment.id;
   }
 
+  trackByToggle(index: number, toggle: ToggleOption): string {
+    return `${toggle.toggle_name}-${index}`;
+  }
+
   bookTour(apartment?: Apartment): void {
     // Trigger the header booking modal by dispatching a custom event
     const bookingEvent = new CustomEvent('openBookingModal');
     window.dispatchEvent(bookingEvent);
+  }
+
+  getBedrooms(apartment: Apartment): number {
+    if (typeof apartment.bedrooms === 'number') return apartment.bedrooms;
+    const name = (apartment.unit_type_name || '').toLowerCase();
+    if (name.includes('studio')) return 0;
+    if (name.startsWith('1')) return 1;
+    if (name.startsWith('2')) return 2;
+    if (name.startsWith('3')) return 3;
+    const m = name.match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : 0;
+  }
+
+  getUnitType(apartment: Apartment): string {
+    return apartment.unit_type_name || (this.getBedrooms(apartment) === 0 ? 'Studio' : `${this.getBedrooms(apartment)} Bedroom${this.getBedrooms(apartment) > 1 ? 's' : ''}`);
   }
 }

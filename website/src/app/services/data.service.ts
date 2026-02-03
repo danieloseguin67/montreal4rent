@@ -7,13 +7,16 @@ export interface Apartment {
   id: string;
   title: string;
   titleEn: string;
-  type: string;
-  bedrooms: number;
+  type?: string;
+  bedrooms?: number;
+  unit_type_name?: string;
   bathrooms: number;
   squareFootage: number;
   price: number;
   area: string;
   furnished: boolean;
+  roomtorent?: boolean;
+  condorentals?: boolean;
   available: boolean;
   features: string[];
   featuresEn: string[];
@@ -43,6 +46,10 @@ export interface AreaData {
 export interface ToggleOption {
   toggle_name: string;
   toggle_image: string;
+}
+
+export interface UnitType {
+  unit_type_name: string;
 }
 
 @Injectable({
@@ -141,5 +148,9 @@ export class DataService {
 
   getToggles(): Observable<ToggleOption[]> {
     return this.http.get<ToggleOption[]>('assets/data/toggles.json');
+  }
+
+  getUnitTypes(): Observable<UnitType[]> {
+    return this.http.get<UnitType[]>('assets/data/unittypes.json');
   }
 }
