@@ -89,7 +89,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <div class="col col-12">
                   <div class="form-group">
                     <label class="form-label">Options</label>
-                    <div class="d-flex flex-wrap gap-3">
+                    <div class="options-grid">
                       <div class="form-check" *ngFor="let opt of toggles">
                         <input 
                           class="form-check-input" 
