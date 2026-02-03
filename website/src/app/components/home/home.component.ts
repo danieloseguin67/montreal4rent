@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { DataService, Apartment, Area } from '../../services/data.service';
+import { DataService, Apartment, Area, ToggleOption } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -19,7 +19,10 @@ import { Subject, takeUntil } from 'rxjs';
       <div class="container">
         <div class="hero-content">
           <div class="hero-text fade-in">
-            <h1>{{ t.home?.hero?.title }}</h1>
+            <h1 class="hero-title">
+              <span class="hero-title-top">{{ t.home?.hero?.titleTop || t.home?.hero?.title }}</span>
+              <span class="hero-title-bottom" *ngIf="t.home?.hero?.titleBottom">{{ t.home?.hero?.titleBottom }}</span>
+            </h1>
             <p class="hero-subtitle">{{ t.home?.hero?.subtitle }}</p>
           </div>
         </div>
@@ -69,13 +72,13 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
                 <div class="col col-12 col-md-3">
                   <div class="form-group">
-                    <label class="form-label">{{ t.common?.bedrooms }}</label>
+                    <label class="form-label">Unit Type</label>
                     <select 
                       class="form-control form-select" 
                       [(ngModel)]="selectedBedrooms"
                       (change)="onFiltersChanged()"
                     >
-                      <option value="">{{ t.home?.search?.allBedrooms }}</option>
+                      <option value="">All Unit Types</option>
                       <option value="0">Studio</option>
                       <option value="1">1 {{ t.common?.bedroom }}</option>
                       <option value="2">2 {{ t.common?.bedrooms }}</option>
@@ -83,25 +86,23 @@ import { Subject, takeUntil } from 'rxjs';
                     </select>
                   </div>
                 </div>
-                <div class="col col-12 col-md-3">
+                <div class="col col-12">
                   <div class="form-group">
-                    <label class="form-label">{{ t.home?.search?.maxPrice }}</label>
-                    <select 
-                      class="form-control form-select" 
-                      [(ngModel)]="selectedMaxPrice"
-                      (change)="onFiltersChanged()"
-                    >
-                      <option value="">{{ t.home?.search?.allPrices }}</option>
-                      <option value="1000">1 000 $</option>
-                      <option value="1500">1 500 $</option>
-                      <option value="2000">2 000 $</option>
-                      <option value="2500">2 500 $</option>
-                      <option value="3000">3 000 $</option>
-                      <option value="3500">3 500 $</option>
-                      <option value="4000">4 000 $</option>
-                      <option value="4500">4 500 $</option>
-                      <option value="5000">5 000 $+</option>
-                    </select>
+                    <label class="form-label">Options</label>
+                    <div class="d-flex flex-wrap gap-3">
+                      <div class="form-check" *ngFor="let opt of toggles">
+                        <input 
+                          class="form-check-input" 
+                          type="checkbox" 
+                          [checked]="selectedToggles.has(opt.toggle_name)"
+                          (change)="onToggleChanged(opt.toggle_name, $any($event.target).checked)"
+                          [id]="'toggle-' + opt.toggle_name"
+                        >
+                        <label class="form-check-label" [for]="'toggle-' + opt.toggle_name">
+                          <span class="me-2">{{ opt.toggle_image }}</span>{{ opt.toggle_name }}
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col col-12 col-md-3">
@@ -242,14 +243,6 @@ import { Subject, takeUntil } from 'rxjs';
               <h3 class="agent-subtitle">{{ t.home?.aboutAgent?.subtitle }}</h3>
               
               <div class="agent-contact">
-                <div class="contact-person">
-                  <i class="fas fa-user"></i>
-                  <span class="agent-name">{{ t.home?.aboutAgent?.description }}</span>
-                </div>
-                <div class="contact-item">
-                  <i class="fas fa-phone"></i>
-                  <a href="tel:4385081566">{{ t.home?.aboutAgent?.phone }}</a>
-                </div>
                 <div class="contact-item">
                   <i class="fas fa-envelope"></i>
                   <a href="mailto:info@montreal4rent.com">{{ t.home?.aboutAgent?.email }}</a>
@@ -276,6 +269,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
   areas: Area[] = [];
+  toggles: ToggleOption[] = [];
+  selectedToggles: Set<string> = new Set<string>();
   loading = true;
   t: any = {};
   currentLanguage = 'fr';
@@ -283,7 +278,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   // Filters
   selectedArea = '';
   selectedBedrooms: string = '';
-  selectedMaxPrice: string = '';
   sortBy: 'price-asc' | 'price-desc' = 'price-asc';
   showFilters = false; // Start with filters collapsed
 
@@ -318,6 +312,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(areas => {
         console.log('Loaded areas:', areas);
         this.areas = areas;
+      });
+
+    this.dataService.getToggles()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(opts => {
+        this.toggles = opts || [];
       });
   }
 
@@ -359,11 +359,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (this.selectedMaxPrice) {
-      const maxPrice = parseInt(this.selectedMaxPrice);
-      filtered = filtered.filter(apt => apt.price <= maxPrice);
-    }
-
     // Apply sorting
     this.filteredApartments = this.dataService.sortApartments(filtered, this.sortBy);
   }
@@ -371,13 +366,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   clearFilters(): void {
     this.selectedArea = '';
     this.selectedBedrooms = '';
-    this.selectedMaxPrice = '';
     this.sortBy = 'price-asc';
+    this.selectedToggles.clear();
     this.applyFilters();
   }
 
   hasActiveFilters(): boolean {
-    return !!(this.selectedArea || this.selectedBedrooms !== '' || this.selectedMaxPrice);
+    return !!(this.selectedArea || this.selectedBedrooms !== '' || this.selectedToggles.size > 0);
   }
 
   toggleFilters(): void {
@@ -398,5 +393,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Trigger the header booking modal by dispatching a custom event
     const bookingEvent = new CustomEvent('openBookingModal');
     window.dispatchEvent(bookingEvent);
+  }
+
+  onToggleChanged(name: string, checked: boolean): void {
+    if (checked) {
+      this.selectedToggles.add(name);
+    } else {
+      this.selectedToggles.delete(name);
+    }
+    // Not applying toggle filtering yet per requirements
   }
 }

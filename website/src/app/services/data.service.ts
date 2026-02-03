@@ -40,6 +40,11 @@ export interface AreaData {
   areas: Area[];
 }
 
+export interface ToggleOption {
+  toggle_name: string;
+  toggle_image: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -132,5 +137,9 @@ export class DataService {
           return 0;
       }
     });
+  }
+
+  getToggles(): Observable<ToggleOption[]> {
+    return this.http.get<ToggleOption[]>('assets/data/toggles.json');
   }
 }

@@ -58,6 +58,25 @@
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
+    .hero-title {
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title-top {
+      display: block;
+      font-size: clamp(2.75rem, 6vw, 4.5rem);
+      font-weight: 700;
+    }
+
+    .hero-title-bottom {
+      display: block;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      opacity: 0.95;
+      margin-top: 0.25rem;
+    }
+
     .hero-subtitle {
       font-size: clamp(1.125rem, 2vw, 1.5rem);
       margin-bottom: 2.5rem;

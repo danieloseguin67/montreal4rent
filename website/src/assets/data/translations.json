@@ -39,6 +39,8 @@
       "home": {
         "hero": {
           "title": "Appartements, Chambres et Condos à louer à Montréal",
+          "titleTop": "Appartements, Chambres et Condos",
+          "titleBottom": "à louer à Montréal",
           "subtitle": "Des appartements exceptionnels dans les meilleurs quartiers de la ville",
           "cta": "Explorez nos appartements"
         },
@@ -161,6 +163,8 @@
       "home": {
         "hero": {
           "title": "Apartments, Rooms and Condos for rent in Montreal",
+          "titleTop": "Apartments, Rooms and Condos",
+          "titleBottom": "for rent in Montreal",
           "subtitle": "Exceptional apartments in the city's finest neighborhoods",
           "cta": "Explore Our Apartments"
         },
