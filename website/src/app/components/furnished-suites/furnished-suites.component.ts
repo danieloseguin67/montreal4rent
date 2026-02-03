@@ -168,6 +168,13 @@ import { Subject, takeUntil } from 'rxjs';
                   >
                     {{ currentLanguage === 'fr' ? 'Voir les détails' : 'View Details' }}
                   </a>
+                  <button 
+                    class="btn btn-outline"
+                    *ngIf="apartment.available"
+                    (click)="bookTour(apartment)"
+                  >
+                    {{ currentLanguage === 'fr' ? 'Réserver une visite' : 'Book a Tour' }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -287,5 +294,10 @@ export class FurnishedSuitesComponent implements OnInit, OnDestroy {
       case 'Parking Available': return '🚗';
       default: return '';
     }
+  }
+
+  bookTour(apartment?: Apartment): void {
+    const bookingEvent = new CustomEvent('openBookingModal');
+    window.dispatchEvent(bookingEvent);
   }
 }

@@ -200,6 +200,13 @@ import { Subject, takeUntil } from 'rxjs';
                   >
                     {{ currentLanguage === 'fr' ? 'Voir les détails' : 'View Details' }}
                   </a>
+                  <button 
+                    class="btn btn-outline"
+                    *ngIf="apartment.available"
+                    (click)="bookTour(apartment)"
+                  >
+                    {{ currentLanguage === 'fr' ? 'Réserver une visite' : 'Book a Tour' }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -367,5 +374,10 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
   getUnitType(apartment: Apartment): string {
     const b = this.getBedrooms(apartment);
     return apartment.unit_type_name || (b === 0 ? 'Studio' : `${b} Bedroom${b > 1 ? 's' : ''}`);
+  }
+
+  bookTour(apartment?: Apartment): void {
+    const bookingEvent = new CustomEvent('openBookingModal');
+    window.dispatchEvent(bookingEvent);
   }
 }

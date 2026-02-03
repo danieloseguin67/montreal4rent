@@ -175,11 +175,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                         {{ t.navigation?.bookTour }}
                       </button>
                       <div class="contact-options">
-                        <a href="tel:4385081566" class="btn btn-outline">
-                          <i class="fas fa-phone"></i>
-                          Appeler
-                        </a>
-                        <a href="mailto:info@montreal4rent.com" class="btn btn-outline">
+                        <a href="mailto:info@montreal4rent.com" class="btn btn-outline btn-block">
                           <i class="fas fa-envelope"></i>
                           Email
                         </a>
