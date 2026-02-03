@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'accueil', component: HomeComponent },
   { path: 'appartements', component: ApartmentsComponent },
+  { path: 'apartments', component: ApartmentsComponent },
   { path: 'appartement/:id', component: ApartmentDetailComponent },
   { path: 'commodités', component: AmenitiesComponent },
   { path: 'style-de-vie', component: LifestyleComponent },
@@ -26,7 +27,9 @@ export const routes: Routes = [
   { path: 'unfurnished-suites', component: UnfurnishedSuitesComponent },
   { path: 'chambres-à-louer', component: RoomsForRentComponent },
   { path: 'rooms-for-rent', component: RoomsForRentComponent },
+  { path: 'condo-rentals', component: UnfurnishedSuitesComponent },
   { path: 'galerie', component: GalleryComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'property-owners', component: ContactComponent },
   { path: '**', redirectTo: '' }
 ];

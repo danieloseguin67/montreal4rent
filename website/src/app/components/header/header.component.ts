@@ -24,12 +24,36 @@ import { Subject, takeUntil } from 'rxjs';
           <!-- Desktop Navigation -->
           <nav class="desktop-nav" aria-label="Main navigation">
             <ul class="nav-list">
-              <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}</a></li>
-              <li><a routerLink="/students" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Étudiants' : 'Students' }}</a></li>
-              <li><a routerLink="/furnished-suites" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Suites Meublées' : 'Furnished Suites' }}</a></li>
-              <li><a routerLink="/unfurnished-suites" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Suites Non-Meublées' : 'Unfurnished Suites' }}</a></li>
-              <li><a routerLink="/rooms-for-rent" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a></li>
-              <li><a routerLink="/contact" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Contact' : 'Contact' }}</a></li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/suites-meublées' : '/furnished-suites'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Entièrement Meublés' : 'Fully Furnished' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/suites-non-meublées' : '/condo-rentals'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/chambres-à-louer' : '/rooms-for-rent'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/contact' : '/property-owners'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Propriétaires' : 'Property Owners' }}</a>
+              </li>
             </ul>
           </nav>
 
@@ -87,12 +111,41 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="mobile-menu" [class.show]="showMobileMenu" *ngIf="showMobileMenu">
           <nav class="mobile-nav" aria-label="Navigation mobile">
             <ul class="mobile-nav-list">
-              <li><a routerLink="/" (click)="closeMobileMenu()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">{{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}</a></li>
-              <li><a routerLink="/students" (click)="closeMobileMenu()" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Étudiants' : 'Students' }}</a></li>
-              <li><a routerLink="/furnished-suites" (click)="closeMobileMenu()" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Suites Meublées' : 'Furnished Suites' }}</a></li>
-              <li><a routerLink="/unfurnished-suites" (click)="closeMobileMenu()" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Suites Non-Meublées' : 'Unfurnished Suites' }}</a></li>
-              <li><a routerLink="/rooms-for-rent" (click)="closeMobileMenu()" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a></li>
-              <li><a routerLink="/contact" (click)="closeMobileMenu()" routerLinkActive="active">{{ currentLanguage === 'fr' ? 'Contact' : 'Contact' }}</a></li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/suites-meublées' : '/furnished-suites'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Entièrement Meublés' : 'Fully Furnished' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/suites-non-meublées' : '/condo-rentals'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/chambres-à-louer' : '/rooms-for-rent'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/contact' : '/property-owners'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Propriétaires' : 'Property Owners' }}</a>
+              </li>
             </ul>
           </nav>
         </div>
