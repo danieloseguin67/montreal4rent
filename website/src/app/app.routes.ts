@@ -9,6 +9,7 @@ import { UnfurnishedSuitesComponent } from './components/unfurnished-suites/unfu
 import { RoomsForRentComponent } from './components/rooms-for-rent/rooms-for-rent.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { PropertyOwnersComponent } from './components/property-owners/property-owners.component';
 import { ApartmentDetailComponent } from './components/apartment-detail/apartment-detail.component';
 
 export const routes: Routes = [
@@ -30,6 +31,6 @@ export const routes: Routes = [
   { path: 'condo-rentals', component: UnfurnishedSuitesComponent },
   { path: 'galerie', component: GalleryComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'property-owners', component: ContactComponent },
+  { path: 'property-owners', component: PropertyOwnersComponent },
   { path: '**', redirectTo: '' }
 ];

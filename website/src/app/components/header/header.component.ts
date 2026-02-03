@@ -26,6 +26,12 @@ import { Subject, takeUntil } from 'rxjs';
             <ul class="nav-list">
               <li>
                 <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/accueil' : '/'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}</a>
+              </li>
+              <li>
+                <a 
                   [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
                   routerLinkActive="active"
                 >{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</a>
@@ -50,9 +56,15 @@ import { Subject, takeUntil } from 'rxjs';
               </li>
               <li>
                 <a 
-                  [routerLink]="currentLanguage === 'fr' ? '/contact' : '/property-owners'" 
+                  [routerLink]="'/property-owners'" 
                   routerLinkActive="active"
                 >{{ currentLanguage === 'fr' ? 'Propriétaires' : 'Property Owners' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="'/contact'" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Contactez-Nous' : 'Contact Us' }}</a>
               </li>
             </ul>
           </nav>
@@ -113,6 +125,13 @@ import { Subject, takeUntil } from 'rxjs';
             <ul class="mobile-nav-list">
               <li>
                 <a 
+                  [routerLink]="currentLanguage === 'fr' ? '/accueil' : '/'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Accueil' : 'Home' }}</a>
+              </li>
+              <li>
+                <a 
                   [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
                   (click)="closeMobileMenu()" 
                   routerLinkActive="active"
@@ -141,10 +160,17 @@ import { Subject, takeUntil } from 'rxjs';
               </li>
               <li>
                 <a 
-                  [routerLink]="currentLanguage === 'fr' ? '/contact' : '/property-owners'" 
+                  [routerLink]="'/property-owners'" 
                   (click)="closeMobileMenu()" 
                   routerLinkActive="active"
                 >{{ currentLanguage === 'fr' ? 'Propriétaires' : 'Property Owners' }}</a>
+              </li>
+              <li>
+                <a 
+                  [routerLink]="'/contact'" 
+                  (click)="closeMobileMenu()" 
+                  routerLinkActive="active"
+                >{{ currentLanguage === 'fr' ? 'Contactez-Nous' : 'Contact Us' }}</a>
               </li>
             </ul>
           </nav>
