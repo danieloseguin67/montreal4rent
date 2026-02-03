@@ -17,7 +17,7 @@ import { Subject, takeUntil } from 'rxjs';
         <div class="hero-content">
           <div class="container">
             <h1>{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</h1>
-            <p class="hero-description">{{ currentLanguage === 'fr' ? 'D&eacute;couvrez notre collection compl&egrave;te d\'appartements &agrave; Montr&eacute;al' : 'Explore our complete collection of apartments in Montreal' }}</p>
+            <p class="hero-description">{{ currentLanguage === 'fr' ? 'Découvrez notre collection complète d’appartements à Montréal' : 'Discover our full collection of apartments in Montreal' }}</p>
           </div>
         </div>
         <div class="hero-image">
