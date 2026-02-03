@@ -26,35 +26,6 @@ import { Subject, takeUntil } from 'rxjs';
               </div>
             </div>
 
-            <!-- Contact Info -->
-            <div class="col col-12 col-md-4">
-              <div class="footer-section">
-                <h4>{{ t.footer?.contact }}</h4>
-                <div class="contact-info">
-                  <div class="contact-item">
-                    <i class="fas fa-user"></i>
-                    <div>
-                      <strong>{{ currentLanguage === 'fr' ? 'Agent de location' : 'Leasing Agent' }}</strong>
-                    </div>
-                  </div>
-                  <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                      <strong>{{ t.footer?.phone }}</strong>
-                      <a href="tel:4385081566">438-508-1566</a>
-                    </div>
-                  </div>
-                  <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                      <strong>{{ t.footer?.email }}</strong>
-                      <a href="mailto:info@montreal4rent.com">info&#64;montreal4rent.com</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- Areas Served -->
             <div class="col col-12 col-md-4">
               <div class="footer-section">
