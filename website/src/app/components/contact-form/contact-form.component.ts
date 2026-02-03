@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmailService } from '../../services/email.service';
 
 interface ContactFormData {
   name: string;
@@ -26,25 +27,67 @@ export class ContactFormComponent {
 
   submitted = false;
   showSuccessMessage = false;
+  showErrorMessage = false;
+  isSending = false;
+
+  constructor(private emailService: EmailService) {}
 
   onSubmit(): void {
     this.submitted = true;
 
     // Validate all fields are filled
     if (this.isFormValid()) {
-      // Handle form submission
-      console.log('Form submitted:', this.formData);
+      this.isSending = true;
       
-      // Show success message
-      this.showSuccessMessage = true;
-      
-      // Reset form after submission
-      this.resetForm();
-      
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        this.showSuccessMessage = false;
-      }, 5000);
+      // Prepare email body with HTML formatting
+      const emailBody = `
+        <h3>New Contact Form Submission</h3>
+        <p><strong>From:</strong> ${this.formData.name}</p>
+        <p><strong>Email:</strong> ${this.formData.email}</p>
+        <p><strong>Subject:</strong> ${this.formData.subject}</p>
+        <hr>
+        <p><strong>Message:</strong></p>
+        <p>${this.formData.message.replace(/\n/g, '<br>')}</p>
+      `;
+
+      // Send email to info@montreal4rent.com
+      this.emailService.sendEmail(
+        this.formData.email,
+        'info@montreal4rent.com',
+        `Contact Form: ${this.formData.subject}`,
+        emailBody
+      ).subscribe({
+        next: (success) => {
+          this.isSending = false;
+          if (success) {
+            // Show success message
+            this.showSuccessMessage = true;
+            this.showErrorMessage = false;
+            
+            // Reset form after submission
+            this.resetForm();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+              this.showSuccessMessage = false;
+            }, 5000);
+          } else {
+            // Show error message
+            this.showErrorMessage = true;
+            setTimeout(() => {
+              this.showErrorMessage = false;
+            }, 5000);
+          }
+        },
+        error: (err) => {
+          console.error('Error sending email:', err);
+          this.isSending = false;
+          this.showErrorMessage = true;
+          setTimeout(() => {
+            this.showErrorMessage = false;
+          }, 5000);
+        }
+      });
     }
   }
 

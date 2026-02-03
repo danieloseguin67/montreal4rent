@@ -5,6 +5,10 @@
     Your message has been sent successfully! We'll get back to you soon.
   </div>
 
+  <div *ngIf="showErrorMessage" class="error-message-banner">
+    There was an error sending your message. Please try again later or contact us directly at info@montreal4rent.com
+  </div>
+
   <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
     <div class="form-group">
       <label for="name">Name</label>
@@ -16,6 +20,7 @@
         maxlength="60"
         class="form-control"
         [class.invalid]="isFieldInvalid('name')"
+        [disabled]="isSending"
         placeholder="Enter your name"
         required
       />
@@ -34,6 +39,7 @@
         maxlength="256"
         class="form-control"
         [class.invalid]="isEmailInvalid()"
+        [disabled]="isSending"
         placeholder="Enter your email address"
         required
       />
@@ -52,6 +58,7 @@
         [(ngModel)]="formData.subject"
         class="form-control"
         [class.invalid]="isFieldInvalid('subject')"
+        [disabled]="isSending"
         placeholder="Enter subject"
         required
       />
@@ -69,6 +76,7 @@
         rows="5"
         class="form-control"
         [class.invalid]="isFieldInvalid('message')"
+        [disabled]="isSending"
         placeholder="Enter your message"
         required
       ></textarea>
@@ -77,6 +85,8 @@
       </div>
     </div>
 
-    <button type="submit" class="submit-button">Submit</button>
+    <button type="submit" class="submit-button" [disabled]="isSending">
+      {{ isSending ? 'Sending...' : 'Submit' }}
+    </button>
   </form>
 </div>

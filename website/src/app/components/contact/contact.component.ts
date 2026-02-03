@@ -24,35 +24,6 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
       </section>
 
-      <!-- Contact Info Section with the 3 buttons:  email, phone, and loction -->
-      <section class="contact-info-section">
-        <div class="container">
-          <div class="contact-grid">
-            <div class="contact-card">
-              <div class="contact-icon">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <h3>{{ currentLanguage === 'fr' ? 'Email' : 'Email' }}</h3>
-              <p><a href="mailto:info@montreal4rent.com">info&#64;montreal4rent.com</a></p>
-            </div>
-            <div class="contact-card">
-              <div class="contact-icon">
-                <i class="fas fa-phone"></i>
-              </div>
-              <h3>{{ currentLanguage === 'fr' ? 'Téléphone' : 'Phone' }}</h3>
-              <p><a href="tel:4385081566">(438) 508-1566</a></p>
-            </div>
-            <div class="contact-card">
-              <div class="contact-icon">
-                <i class="fas fa-map-marker-alt"></i>
-              </div>
-              <h3>{{ currentLanguage === 'fr' ? 'Localisation' : 'Location' }}</h3>
-              <p>Montréal, QC<br>Canada</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <!-- Contact Form Section -->
       <section class="contact-form-section">
 
@@ -210,26 +181,6 @@ import { Subject, takeUntil } from 'rxjs';
 
       </section>
 
-      <section class="about-section">
-        <div class="container">
-          <div class="about-content">
-            <div class="about-text">
-              <h2>{{ translations.aboutAgent.title }}</h2>
-              <p>{{ translations.aboutAgent.subtitle }}</p>
-              <ul class="services-list">
-                <li><i class="fas fa-check"></i> {{ translations.aboutSection.furnished }}</li>
-                <li><i class="fas fa-check"></i> {{ translations.aboutSection.student }}</li>
-                <li><i class="fas fa-check"></i> {{ translations.aboutSection.premium }}</li>
-                <li><i class="fas fa-check"></i> {{ translations.aboutSection.service }}</li>
-              </ul>
-            </div>
-            <div class="about-image">
-              <img src="assets/images/contactushouse.jpg" alt="Contact Us" loading="lazy">
-            </div>
-          </div>
-        </div>
-      </section>
-
     </div>
   `,
   styleUrls: ['./contact.component.scss']
@@ -243,16 +194,6 @@ export class ContactComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   translations: any = {
-    aboutAgent: {
-      title: '',
-      subtitle: ''
-    },
-    aboutSection: {
-      furnished: '',
-      student: '',
-      premium: '',
-      service: ''
-    },
     form: {
       header: '',
       subheader: '',
@@ -288,16 +229,6 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   private static readonly TRANSLATIONS = {
     fr: {
-      aboutAgent: {
-        title: 'À Propos de Montreal4Rent',
-        subtitle: 'Montreal4Rent se spécialise dans la location d\'appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles.'
-      },
-      aboutSection: {
-        furnished: 'Appartements meublés et non-meublés',
-        student: 'Logements adaptés aux étudiants',
-        premium: 'Emplacements premium',
-        service: 'Service client 24/7'
-      },
       form: {
         header: 'Envoyez-nous un message',
         subheader: 'Remplissez le formulaire ci-dessous et nous vous répondrons rapidement.',
@@ -331,16 +262,6 @@ export class ContactComponent implements OnInit, OnDestroy {
       }
     },
     en: {
-      aboutAgent: {
-        title: 'About Montreal4Rent',
-        subtitle: 'Montreal4Rent specializes in luxury apartment rentals in Montreal. We offer premium housing in the best neighborhoods of the city, perfect for students, professionals, and families.'
-      },
-      aboutSection: {
-        furnished: 'Furnished and unfurnished apartments',
-        student: 'Student-friendly housing',
-        premium: 'Premium locations',
-        service: '24/7 customer service'
-      },
       form: {
         header: 'Send us a message',
         subheader: 'Fill out the form below and we will get back to you quickly.',
@@ -403,12 +324,6 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   setTranslations(lang: Language) {
     const t = ContactComponent.TRANSLATIONS[lang] || ContactComponent.TRANSLATIONS['en'];
-    this.translations.aboutAgent.title = t.aboutAgent.title;
-    this.translations.aboutAgent.subtitle = t.aboutAgent.subtitle;
-    this.translations.aboutSection.furnished = t.aboutSection.furnished;
-    this.translations.aboutSection.student = t.aboutSection.student;
-    this.translations.aboutSection.premium = t.aboutSection.premium;
-    this.translations.aboutSection.service = t.aboutSection.service;
     this.translations.form.header = t.form.header;
     this.translations.form.subheader = t.form.subheader;
     this.translations.form.moveInDate = t.form.moveInDate;

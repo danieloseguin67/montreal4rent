@@ -1,0 +1,6 @@
+{
+  "smtpHost": "dedrelay.secureserver.net",
+  "smtpPort": 25,
+  "smtpDefaultCredentials": "N",
+  "smtpSecure": "N"
+}
