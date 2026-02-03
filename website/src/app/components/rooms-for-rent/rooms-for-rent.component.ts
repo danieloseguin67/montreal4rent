@@ -136,9 +136,6 @@ import { DataService, Apartment, Area } from '../../services/data.service';
           <div class="room-types-grid">
             <!-- Single Room -->
             <div class="room-type-card">
-              <div class="room-image">
-                <img src="assets/images/rentaroom2.jpg" alt="Single room" loading="lazy">
-              </div>
               <div class="room-content">
                 <h3>{{ currentLanguage === 'fr' ? 'Chambre Simple' : 'Single Room' }}</h3>
                 <p class="room-description">
@@ -172,9 +169,6 @@ import { DataService, Apartment, Area } from '../../services/data.service';
 
             <!-- Double Room -->
             <div class="room-type-card">
-              <div class="room-image">
-                <img src="assets/images/rentaroom3.jpg" alt="Double room" loading="lazy">
-              </div>
               <div class="room-content">
                 <h3>{{ currentLanguage === 'fr' ? 'Chambre Double' : 'Double Room' }}</h3>
                 <p class="room-description">
@@ -232,9 +226,7 @@ import { DataService, Apartment, Area } from '../../services/data.service';
                 <i class="fas fa-parking"></i>
                 <span>{{ currentLanguage === 'fr' ? 'Stationnement' : 'Parking' }}</span>
               </div>
-              <div class="sharedroom-image">
-                <img src="assets/images/rentaroom4.jpg" alt="Shared room" loading="lazy">
-              </div>
+              
             </div>
           </div>
         </div>
