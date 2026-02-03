@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LanguageService, Language } from '../../services/language.service';
+import { EmailService } from '../../services/email.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -299,7 +300,8 @@ export class ContactComponent implements OnInit, OnDestroy {
   constructor(
     private languageService: LanguageService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private emailService: EmailService
   ) {
     this.contactForm = this.formBuilder.group({
       moveInDate: ['', Validators.required],
@@ -369,30 +371,55 @@ export class ContactComponent implements OnInit, OnDestroy {
       // Get form values
       const formData = this.contactForm.value;
       
-      // Create mailto link for email client
-      const subject = encodeURIComponent(`Montreal4Rent - Rental Inquiry`);
-      const body = encodeURIComponent(
-        `Move-in Date: ${formData.moveInDate}\n` +
-        `Name: ${formData.Name}\n` +
-        `Email: ${formData.email}\n` +
-        `Phone: ${formData.phone}\n` +
-        `Max Budget: $${formData.maxBudget}\n` +
-        `Unit Type: ${formData.unitType}\n\n` +
-        `Message:\n${formData.message || 'No additional message'}`
-      );
-      
-      const mailtoLink = `mailto:info@montreal4rent.com?subject=${subject}&body=${body}`;
-      
-      // Open email client
-      window.location.href = mailtoLink;
-      
-      // Show success message briefly then redirect to home
-      this.isSubmitting = false;
-      this.showSuccessMessage = true;
-      
-      setTimeout(() => {
-        this.router.navigate(['/']);
-      }, 2000);
+      // Create HTML email body
+      const emailBody = `
+        <h3>New Contact Form Submission - Montreal4Rent</h3>
+        <hr>
+        <p><strong>Move-in Date:</strong> ${formData.moveInDate}</p>
+        <p><strong>Name:</strong> ${formData.Name}</p>
+        <p><strong>Email:</strong> ${formData.email}</p>
+        <p><strong>Phone:</strong> ${formData.phone}</p>
+        <p><strong>Max Budget:</strong> $${formData.maxBudget} CAD</p>
+        <p><strong>Unit Type:</strong> ${formData.unitType}</p>
+        <hr>
+        <p><strong>Message:</strong></p>
+        <p>${formData.message ? formData.message.replace(/\n/g, '<br>') : 'No additional message'}</p>
+      `;
+
+      const subject = `Montreal4Rent - Rental Inquiry from ${formData.Name}`;
+
+      // Send email using EmailService
+      this.emailService.sendEmail(
+        formData.email,
+        'info@montreal4rent.com',
+        subject,
+        emailBody
+      ).subscribe({
+        next: (success) => {
+          this.isSubmitting = false;
+          if (success) {
+            console.log('Email sent:', success);
+            this.showSuccessMessage = true;
+            this.showErrorMessage = false;
+            
+            // Reset form
+            this.contactForm.reset();
+            
+            // Redirect to home after 3 seconds
+            setTimeout(() => {
+              this.showSuccessMessage = false;
+              this.router.navigate(['/']);
+            }, 3000);
+          } else {
+            this.showErrorMessage = true;
+          }
+        },
+        error: (err) => {
+          console.error('Error sending email:', err);
+          this.isSubmitting = false;
+          this.showErrorMessage = true;
+        }
+      });
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {
