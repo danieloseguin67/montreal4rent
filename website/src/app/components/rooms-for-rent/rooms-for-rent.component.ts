@@ -282,7 +282,7 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(apartments => {
         this.apartments = apartments;
-        this.roomApartments = apartments.filter(a => !!a.roomtorent);
+        this.roomApartments = apartments.filter(a => this.isRoomForRent(a));
         this.loading = false;
       });
 
@@ -358,5 +358,12 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
 
   getUnitType(apartment: Apartment): string {
     return apartment.unit_type_name || (this.getBedrooms(apartment) === 0 ? 'Studio' : `${this.getBedrooms(apartment)} Bedroom${this.getBedrooms(apartment) > 1 ? 's' : ''}`);
+  }
+
+  private isRoomForRent(apartment: Apartment): boolean {
+    const v: unknown = (apartment as any).roomtorent ?? (apartment as any).roomToRent;
+    if (typeof v === 'boolean') return v;
+    if (typeof v === 'string') return v.toLowerCase() === 'true';
+    return false;
   }
 }
