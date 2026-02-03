@@ -16,12 +16,8 @@ import { Subject, takeUntil } from 'rxjs';
       <section class="hero-section">
         <div class="hero-content">
           <div class="container">
-            <h1>{{ currentLanguage === 'fr' ? (t.navigation?.apartments || 'Appartements') : 'Apartments' }}</h1>
-            <p class="hero-description">
-              {{ currentLanguage === 'fr' 
-                ? 'Découvrez notre collection complète d\'appartements à Montréal' 
-                : 'Explore our complete collection of apartments in Montreal' }}
-            </p>
+            <h1>{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</h1>
+            <p class="hero-description">{{ currentLanguage === 'fr' ? 'D&eacute;couvrez notre collection compl&egrave;te d\'appartements &agrave; Montr&eacute;al' : 'Explore our complete collection of apartments in Montreal' }}</p>
           </div>
         </div>
         <div class="hero-image">
@@ -29,120 +25,105 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
       </section>
 
-      <!-- Filters Section -->
-      <section class="filters-section">
+      <!-- Search Section (like Home) -->
+      <section class="search-section">
         <div class="container">
-          <div class="filters-card card">
+          <div class="search-card card">
             <div class="card-body">
-              <div class="row">
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">{{ t.home?.search?.area }}</label>
-                    <select 
-                      class="form-control form-select" 
-                      [(ngModel)]="selectedArea"
-                      (change)="onFiltersChanged()"
-                    >
-                      <option value="">{{ t.home?.search?.allAreas }}</option>
-                      <option *ngFor="let area of areas" [value]="area.id">
-                        {{ currentLanguage === 'fr' ? area.nameFr : area.nameEn }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">{{ t.common?.bedrooms }}</label>
-                    <select 
-                      class="form-control form-select" 
-                      [(ngModel)]="selectedBedrooms"
-                      (change)="onFiltersChanged()"
-                    >
-                      <option value="">Tous</option>
-                      <option value="0">Studio</option>
-                      <option value="1">1 {{ t.common?.bedroom }}</option>
-                      <option value="2">2 {{ t.common?.bedrooms }}</option>
-                      <option value="3">3+ {{ t.common?.bedrooms }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">Unit Type</label>
-                    <select 
-                      class="form-control form-select"
-                      [(ngModel)]="selectedUnitType"
-                      (change)="onFiltersChanged()"
-                    >
-                      <option value="">All</option>
-                      <option *ngFor="let ut of unitTypes" [value]="ut.unit_type_name">{{ ut.unit_type_name }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">Prix min</label>
-                    <input 
-                      type="number" 
-                      class="form-control"
-                      placeholder="0"
-                      [(ngModel)]="minPrice"
-                      (ngModelChange)="onFiltersChanged()"
-                    >
-                  </div>
-                </div>
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">Prix max</label>
-                    <input 
-                      type="number" 
-                      class="form-control"
-                      placeholder="10000"
-                      [(ngModel)]="maxPrice"
-                      (ngModelChange)="onFiltersChanged()"
-                    >
-                  </div>
-                </div>
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">Type</label>
-                    <select 
-                      class="form-control form-select" 
-                      [(ngModel)]="selectedFurnished"
-                      (change)="onFiltersChanged()"
-                    >
-                      <option value="">Tous</option>
-                      <option value="true">{{ t.common?.furnished }}</option>
-                      <option value="false">{{ t.common?.unfurnished }}</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col col-12 col-md-2">
-                  <div class="form-group">
-                    <label class="form-label">{{ t.home?.search?.sortBy }}</label>
-                    <select 
-                      class="form-control form-select" 
-                      [(ngModel)]="sortBy"
-                      (change)="onFiltersChanged()"
-                    >
-                      <option value="price-asc">{{ t.home?.search?.priceAsc }}</option>
-                      <option value="price-desc">{{ t.home?.search?.priceDesc }}</option>
-                    </select>
-                  </div>
+              <div class="search-header">
+                <h2 class="text-center mb-3">{{ t.home?.search?.title || (currentLanguage === 'fr' ? 'Rechercher' : 'Search') }}</h2>
+                <div class="text-center mb-3">
+                  <button 
+                    class="btn btn-filters-toggle" 
+                    (click)="toggleFilters()"
+                    [attr.aria-expanded]="showFilters"
+                    [attr.aria-controls]="'search-filters'"
+                  >
+                    <i class="fas" [class.fa-chevron-down]="!showFilters" [class.fa-chevron-up]="showFilters"></i>
+                    {{ showFilters ? (t.home?.search?.hideFilters || 'Hide Filters') : (t.home?.search?.showFilters || 'Show Filters') }}
+                  </button>
                 </div>
               </div>
-              <div class="filters-actions">
-                <button 
-                  class="btn btn-outline" 
-                  (click)="clearFilters()"
-                  *ngIf="hasActiveFilters()"
-                >
-                  {{ t.common?.clear }}
-                </button>
-                <span class="results-count">
-                  {{ filteredApartments.length }} 
-                  {{ filteredApartments.length === 1 ? 'résultat' : 'résultats' }}
-                </span>
+
+              <div 
+                class="search-form collapse"
+                [class.show]="showFilters"
+                id="search-filters"
+              >
+                <div class="row">
+                  <div class="col col-12 col-md-3">
+                    <div class="form-group">
+                      <label class="form-label">{{ t.home?.search?.area }}</label>
+                      <select 
+                        class="form-control form-select" 
+                        [(ngModel)]="selectedArea"
+                        (change)="onFiltersChanged()"
+                      >
+                        <option value="">{{ t.home?.search?.allAreas }}</option>
+                        <option *ngFor="let area of areas" [value]="area.id">
+                          {{ currentLanguage === 'fr' ? area.nameFr : area.nameEn }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col col-12 col-md-3">
+                    <div class="form-group">
+                      <label class="form-label">Unit Type</label>
+                      <select 
+                        class="form-control form-select" 
+                        [(ngModel)]="selectedBedrooms"
+                        (change)="onFiltersChanged()"
+                      >
+                        <option value="">All Unit Types</option>
+                        <option value="0">Studio</option>
+                        <option value="1">1 {{ t.common?.bedroom }}</option>
+                        <option value="2">2 {{ t.common?.bedrooms }}</option>
+                        <option value="3">3+ {{ t.common?.bedrooms }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col col-12">
+                    <div class="form-group">
+                      <label class="form-label">Options</label>
+                      <div class="options-grid">
+                        <div class="form-check" *ngFor="let opt of toggles">
+                          <input 
+                            class="form-check-input" 
+                            type="checkbox" 
+                            [checked]="selectedToggles.has(opt.toggle_name)"
+                            (change)="onToggleChanged(opt.toggle_name, $any($event.target).checked)"
+                            [id]="'toggle-' + opt.toggle_name"
+                          >
+                          <label class="form-check-label" [for]="'toggle-' + opt.toggle_name">
+                            <span class="me-2">{{ opt.toggle_image }}</span>{{ opt.toggle_name }}
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col col-12 col-md-3">
+                    <div class="form-group">
+                      <label class="form-label">{{ t.home?.search?.sortBy }}</label>
+                      <select 
+                        class="form-control form-select" 
+                        [(ngModel)]="sortBy"
+                        (change)="onFiltersChanged()"
+                      >
+                        <option value="price-asc">{{ t.home?.search?.priceAsc }}</option>
+                        <option value="price-desc">{{ t.home?.search?.priceDesc }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <button 
+                    class="btn btn-outline" 
+                    (click)="clearFilters()"
+                    *ngIf="hasActiveFilters()"
+                  >
+                    {{ t.common?.clear }}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -156,17 +137,6 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="text-center" *ngIf="loading">
             <div class="spinner"></div>
             <p>{{ t.common?.loading }}</p>
-          </div>
-
-          <!-- Toggles Grid -->
-          <div class="toggles-section" *ngIf="toggles.length">
-            <h2 class="toggles-title">{{ currentLanguage === 'fr' ? 'Options & Commodités' : 'Options & Amenities' }}</h2>
-            <div class="toggle-grid">
-              <div class="toggle-card" *ngFor="let opt of toggles | slice:0:9; trackBy: trackByToggle">
-                <div class="toggle-image">{{ opt.toggle_image }}</div>
-                <div class="toggle-name">{{ opt.toggle_name }}</div>
-              </div>
-            </div>
           </div>
 
           <!-- Apartments Grid -->
@@ -272,6 +242,8 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
   loading = true;
   t: any = {};
   currentLanguage = 'fr';
+  selectedToggles: Set<string> = new Set<string>();
+  showFilters = false;
 
   // Filters
   selectedArea = '';
@@ -375,13 +347,7 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
       filtered = filtered.filter(apt => (apt.unit_type_name || '').toLowerCase() === this.selectedUnitType.toLowerCase());
     }
 
-    if (this.minPrice !== null && this.minPrice > 0) {
-      filtered = filtered.filter(apt => apt.price >= this.minPrice!);
-    }
-
-    if (this.maxPrice !== null && this.maxPrice > 0) {
-      filtered = filtered.filter(apt => apt.price <= this.maxPrice!);
-    }
+    // Note: toggles selection UI present for parity with Home; not applied to filtering per requirements
 
     // Apply sorting
     this.filteredApartments = this.dataService.sortApartments(filtered, this.sortBy);
@@ -391,6 +357,7 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
     this.selectedArea = '';
     this.selectedBedrooms = '';
     this.selectedFurnished = '';
+    this.selectedToggles.clear();
     this.minPrice = null;
     this.maxPrice = null;
     this.sortBy = 'price-asc';
@@ -402,6 +369,7 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
       this.selectedArea || 
       this.selectedBedrooms !== '' || 
       this.selectedFurnished !== '' ||
+      this.selectedToggles.size > 0 ||
       this.selectedUnitType !== '' ||
       (this.minPrice !== null && this.minPrice > 0) ||
       (this.maxPrice !== null && this.maxPrice > 0)
@@ -441,5 +409,18 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
 
   getUnitType(apartment: Apartment): string {
     return apartment.unit_type_name || (this.getBedrooms(apartment) === 0 ? 'Studio' : `${this.getBedrooms(apartment)} Bedroom${this.getBedrooms(apartment) > 1 ? 's' : ''}`);
+  }
+
+  toggleFilters(): void {
+    this.showFilters = !this.showFilters;
+  }
+
+  onToggleChanged(name: string, checked: boolean): void {
+    if (checked) {
+      this.selectedToggles.add(name);
+    } else {
+      this.selectedToggles.delete(name);
+    }
+    // Not applying toggle filtering yet per requirements
   }
 }

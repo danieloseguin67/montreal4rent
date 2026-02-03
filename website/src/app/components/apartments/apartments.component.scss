@@ -69,42 +69,104 @@
     }
   }
 
-  .filters-section {
-    padding: 2rem 0;
+  // Search Section (mirrors Home styles)
+  .search-section {
+    padding: 4rem 0;
     background: var(--soft-warm-gray);
-    margin-top: -2rem;
-    position: relative;
-    z-index: 2;
 
-    .filters-card {
-      .form-group {
-        margin-bottom: 1rem;
+    .search-card {
+      margin-top: -3rem;
+      position: relative;
+      z-index: 3;
+      
+      h2 {
+        color: var(--text-dark-gray);
+        margin-bottom: 2rem;
+      }
+    }
 
-        .form-label {
-          font-weight: 600;
-          font-size: 0.875rem;
-          color: var(--text-dark-gray);
-          margin-bottom: 0.5rem;
+    .search-header {
+      .btn-filters-toggle {
+        background: var(--primary-orange);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        
+        &:hover {
+          background: var(--trust-navy);
+          transform: translateY(-2px);
         }
 
-        .form-control {
-          height: 42px;
-          font-size: 0.875rem;
+        i {
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+
+    .search-form {
+      overflow: hidden;
+      transition: all 0.3s ease;
+      
+      &.collapse {
+        max-height: 0;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
+      }
+      
+      &.collapse.show {
+        max-height: 500px; // Adjust based on content
+        padding: 1.5rem 0 0 0;
+        opacity: 1;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        font-weight: 600;
+        color: var(--text-dark-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .form-control {
+        height: 48px;
+        border: 2px solid var(--light-gray);
+        border-radius: 8px;
+        
+        &:focus {
+          border-color: var(--primary-orange);
+          box-shadow: 0 0 0 3px rgba(250, 116, 45, 0.1);
         }
       }
 
-      .filters-actions {
-        display: flex;
-        justify-content: space-between;
+      // Options grid (3 per row)
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem 1.25rem;
         align-items: center;
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid var(--light-gray);
+      }
 
-        .results-count {
-          color: var(--slate-accent);
-          font-weight: 500;
-        }
+      .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 40px;
+      }
+
+      .form-check-label .me-2 {
+        display: inline-block;
+        width: 1.25rem;
+        text-align: center;
       }
     }
   }
@@ -112,48 +174,7 @@
   .apartments-grid-section {
     padding: 4rem 0;
 
-    .toggles-section {
-      margin-bottom: 2.5rem;
-
-      .toggles-title {
-        text-align: center;
-        color: var(--trust-navy);
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin-bottom: 1.25rem;
-      }
-
-      .toggle-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        max-width: 900px;
-        margin: 0 auto 2rem;
-      }
-
-      .toggle-card {
-        background: var(--white);
-        border: 1px solid rgba(11, 61, 145, 0.1);
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-        padding: 1rem;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        min-height: 84px;
-
-        .toggle-image {
-          font-size: 1.5rem;
-        }
-        .toggle-name {
-          color: var(--trust-navy);
-          font-weight: 600;
-          font-size: 0.95rem;
-        }
-      }
-    }
+    // Removed separate toggles-section; options live within search-form now
 
     .apartments-grid {
       display: grid;
@@ -348,10 +369,10 @@
       }
     }
 
-    .filters-section {
+    .search-section {
       padding: 1.5rem 0;
 
-      .filters-card .card-body {
+      .search-card .card-body {
         padding: 1.5rem 1rem;
 
         .row {
@@ -361,13 +382,6 @@
             padding: 0;
             margin-bottom: 1rem;
           }
-        }
-
-        .filters-actions {
-          flex-direction: column;
-          gap: 1rem;
-          align-items: stretch;
-          text-align: center;
         }
       }
     }
@@ -380,9 +394,7 @@
         gap: 1.5rem;
       }
 
-      .toggles-section .toggle-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      // options grid responds naturally via grid
 
       .apartment-card {
         .apartment-details {
