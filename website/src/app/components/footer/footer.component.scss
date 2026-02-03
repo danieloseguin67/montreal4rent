@@ -4,11 +4,11 @@
   padding: 3rem 0 1rem;
 
   .footer-content {
-    padding-bottom: 2rem;
+    padding-bottom: 0; // remove extra gap above footer-bottom
   }
 
   .footer-section {
-    margin-bottom: 2rem;
+    margin-bottom: 0; // tighten spacing in desktop view
 
     h3, h4 {
       color: var(--white);

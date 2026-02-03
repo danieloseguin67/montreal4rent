@@ -388,10 +388,11 @@ export class ContactComponent implements OnInit, OnDestroy {
 
       const subject = `Montreal4Rent - Rental Inquiry from ${formData.Name}`;
 
-      // Send email using EmailService
+      // Send email using EmailService (recipient from config)
+      const toEmail = this.emailService.getContactEmail();
       this.emailService.sendEmail(
         formData.email,
-        'info@montreal4rent.com',
+        toEmail,
         subject,
         emailBody
       ).subscribe({

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService, Apartment, Area } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
@@ -255,17 +255,31 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
 
   constructor(
     private dataService: DataService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.loadData();
     this.subscribeToLanguageChanges();
+    this.initQueryParamListener();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private initQueryParamListener(): void {
+    this.route.queryParamMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const area = params.get('area') || '';
+        if (area !== this.selectedArea) {
+          this.selectedArea = area;
+          this.applyFilters();
+        }
+      });
   }
 
   private loadData(): void {

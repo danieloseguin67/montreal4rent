@@ -7,6 +7,7 @@ export interface EmailConfig {
   smtpPort: number;
   smtpDefaultCredentials: string;
   smtpSecure: string;
+  contactemail?: string;
 }
 
 export interface EmailRequest {
@@ -47,6 +48,13 @@ export class EmailService {
    */
   public getConfig(): EmailConfig | null {
     return this.emailConfig;
+  }
+
+  /**
+   * Get the contact email address from configuration
+   */
+  public getContactEmail(defaultEmail: string = 'info@montreal4rent.com'): string {
+    return this.emailConfig?.contactemail?.trim() || defaultEmail;
   }
 
   /**
