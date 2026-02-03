@@ -32,7 +32,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <h4>{{ t.footer?.areas }}</h4>
                 <ul class="areas-list">
                   <li *ngFor="let area of areas">
-                    <a [routerLink]="['/appartements']" [queryParams]="{area: area.id}">
+                    <a [href]="area.link" target="_blank" rel="noopener">
                       {{ currentLanguage === 'fr' ? area.nameFr : area.nameEn }}
                     </a>
                   </li>

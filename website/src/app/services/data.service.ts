@@ -29,6 +29,7 @@ export interface Area {
   nameEn: string;
   description: string;
   descriptionEn: string;
+  link?: string;
 }
 
 export interface ApartmentData {
