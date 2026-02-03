@@ -3,13 +3,14 @@
     "id": "apt_001",
     "title": "2170, Avenue Lincoln, apt. 1007, Montréal (Ville-Marie)",
     "titleEn": "2170, Avenue Lincoln, apt. 1007, Montréal (Ville-Marie)",
-    "type": "Studio",
-    "bedrooms": 1,
+    "unit_type_name": "Studio",
     "bathrooms": 1.0,
     "squareFootage": 300,
     "price": 1199.0,
     "area": "downtown",
     "furnished": true,
+    "roomtorent": false,
+    "condorentals": false,
     "available": true,
     "description": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
     "descriptionEn": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
@@ -40,19 +41,21 @@
       "media (4).jpg",
       "media (5).jpg",
       "media.jpg"
-    ]
+    ],
+    "toggle_names": []
   },
   {
     "id": "apt_002",
     "title": "2170, Avenue Lincoln, apt. 1008, Montréal (Ville-Marie)",
     "titleEn": "2170, Avenue Lincoln, apt. 1008, Montréal (Ville-Marie)",
-    "type": "Studio",
-    "bedrooms": 1,
+    "unit_type_name": "Studio",
     "bathrooms": 1.0,
     "squareFootage": 300,
     "price": 1199.0,
     "area": "cote-des-neiges",
     "furnished": true,
+    "roomtorent": false,
+    "condorentals": false,
     "available": true,
     "description": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
     "descriptionEn": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
@@ -83,19 +86,21 @@
       "media (4).jpg",
       "media (5).jpg",
       "media.jpg"
-    ]
+    ],
+    "toggle_names": []
   },
   {
     "id": "apt_003",
     "title": "2170, Avenue Lincoln, apt. 1009, Montréal (Ville-Marie)",
     "titleEn": "2170, Avenue Lincoln, apt. 1009, Montréal (Ville-Marie)",
-    "type": "Studio",
-    "bedrooms": 1,
+    "unit_type_name": "Studio",
     "bathrooms": 1.0,
     "squareFootage": 300,
     "price": 1199.0,
     "area": "downtown",
     "furnished": true,
+    "roomtorent": false,
+    "condorentals": false,
     "available": true,
     "description": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
     "descriptionEn": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
@@ -126,19 +131,21 @@
       "media (4).jpg",
       "media (5).jpg",
       "media.jpg"
-    ]
+    ],
+    "toggle_names": []
   },
   {
     "id": "apt_004",
     "title": "2170, Avenue Lincoln, apt. 1010, Montréal (Ville-Marie)",
     "titleEn": "2170, Avenue Lincoln, apt. 1010, Montréal (Ville-Marie)",
-    "type": "Studio",
-    "bedrooms": 1,
+    "unit_type_name": "Studio",
     "bathrooms": 1.0,
     "squareFootage": 300,
     "price": 1199.0,
     "area": "downtown",
     "furnished": true,
+    "roomtorent": false,
+    "condorentals": false,
     "available": true,
     "description": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
     "descriptionEn": "Studio in downtown Montréal. Bright open-concept layout with modern finishes including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
@@ -169,19 +176,21 @@
       "media (4).jpg",
       "media (5).jpg",
       "media.jpg"
-    ]
+    ],
+    "toggle_names": []
   },
   {
     "id": "apt_005",
     "title": "2170, Avenue Lincoln, apt. 311, Montréal (Ville-Marie)",
     "titleEn": "2170, Avenue Lincoln, apt. 311, Montréal (Ville-Marie)",
-    "type": "1 Bedroom",
-    "bedrooms": 1,
+    "unit_type_name": "1 Bedroom",
     "bathrooms": 1.0,
     "squareFootage": 500,
     "price": 1528.0,
     "area": "downtown",
     "furnished": true,
+    "roomtorent": false,
+    "condorentals": false,
     "available": true,
     "description": "Premium furnished 1 bedroom in downtown Montréal. Fully renovated with brand-new furniture. Bright open-concept layout with modern finishes and a fully equipped kitchen including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Gym. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
     "descriptionEn": "Premium furnished 1 bedroom in downtown Montréal. Fully renovated with brand-new furniture. Bright open-concept layout with modern finishes and a fully equipped kitchen including refrigerator, stove, microwave / convection oven, cooktop and dishwasher. Private balcony. Laundry facilities in the building. All utilities and internet included. Quiet building. Gym. Just a 2-minute walk to Atwater metro. Walking distance to shops, cafés, universities and services. Advertised price reflects a promotion with 2 or 3 months free amortized over a 12-month lease.",
@@ -219,6 +228,7 @@
       "311_15.jpg",
       "311_16.jpg",
       "311_17.jpg"
-    ]
+    ],
+    "toggle_names": []
   }
 ]

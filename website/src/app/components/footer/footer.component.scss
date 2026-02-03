@@ -102,14 +102,14 @@
     margin: 0;
 
     li {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.25rem;
 
       a {
         color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
         transition: all 0.3s ease;
         display: block;
-        padding: 0.25rem 0;
+        padding: 0.1rem 0;
 
         &:hover {
           color: var(--primary-orange);
