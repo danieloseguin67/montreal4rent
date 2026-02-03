@@ -1,22 +1,32 @@
 .property-owners-page {
   .hero-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    position: relative;
+    height: 25vh;
+    display: flex;
     align-items: center;
-    gap: 2rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--trust-navy) 0%, var(--primary-orange) 100%);
 
     .hero-content {
-      .container {
-        h1 { font-size: 2rem; margin-bottom: .5rem; }
-        .hero-description { font-size: 1rem; color: #666; }
-      }
-    }
-    .hero-image img {
+      position: relative;
+      z-index: 2;
       width: 100%;
-      height: auto;
-      border-radius: 8px;
-      object-fit: cover;
+      color: var(--white);
+
+      .container {
+        text-align: center;
+        padding: 0 2rem;
+      }
+
+      h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 700; margin-bottom: 1rem; color: var(--white); }
+      .hero-description { font-size: 1.125rem; max-width: 800px; margin: 0 auto 1rem; opacity: 0.95; color: var(--white); }
     }
+
+    .hero-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    .hero-image::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(135deg, rgba(11,61,145,0.7) 0%, rgba(250,116,45,0.7) 100%); z-index:1; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+
+    @media (max-width: 768px) { height: 40vh; }
   }
 
   .services-section {

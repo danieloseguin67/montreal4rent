@@ -6,6 +6,7 @@ import { LifestyleComponent } from './components/lifestyle/lifestyle.component';
 import { StudentsComponent } from './components/students/students.component';
 import { FurnishedSuitesComponent } from './components/furnished-suites/furnished-suites.component';
 import { UnfurnishedSuitesComponent } from './components/unfurnished-suites/unfurnished-suites.component';
+import { CondoRentalsComponent } from './components/condo-rentals/condo-rentals.component';
 import { RoomsForRentComponent } from './components/rooms-for-rent/rooms-for-rent.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -28,7 +29,7 @@ export const routes: Routes = [
   { path: 'unfurnished-suites', component: UnfurnishedSuitesComponent },
   { path: 'chambres-à-louer', component: RoomsForRentComponent },
   { path: 'rooms-for-rent', component: RoomsForRentComponent },
-  { path: 'condo-rentals', component: UnfurnishedSuitesComponent },
+  { path: 'condo-rentals', component: CondoRentalsComponent },
   { path: 'galerie', component: GalleryComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'property-owners', component: PropertyOwnersComponent },
