@@ -174,10 +174,7 @@ import { Subject, takeUntil } from 'rxjs';
               <div class="apartment-details">
                 <div class="detail-item">
                   <i class="fas fa-bed"></i>
-                  <span>
-                    {{ apartment.bedrooms }} 
-                    {{ apartment.bedrooms === 1 ? t.common?.bedroom : t.common?.bedrooms }}
-                  </span>
+                  <span>{{ getUnitType(apartment) }}</span>
                 </div>
                 <div class="detail-item">
                   <i class="fas fa-bath"></i>
@@ -353,9 +350,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.selectedBedrooms !== '') {
       const bedrooms = parseInt(this.selectedBedrooms);
       if (bedrooms >= 3) {
-        filtered = filtered.filter(apt => apt.bedrooms >= 3);
+        filtered = filtered.filter(apt => this.getBedrooms(apt) >= 3);
       } else {
-        filtered = filtered.filter(apt => apt.bedrooms === bedrooms);
+        filtered = filtered.filter(apt => this.getBedrooms(apt) === bedrooms);
       }
     }
 
@@ -402,5 +399,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.selectedToggles.delete(name);
     }
     // Not applying toggle filtering yet per requirements
+  }
+
+  private getBedrooms(apartment: Apartment): number {
+    if (typeof apartment.bedrooms === 'number') return apartment.bedrooms;
+    const name = (apartment.unit_type_name || '').toLowerCase();
+    if (name.includes('studio')) return 0;
+    if (name.startsWith('1')) return 1;
+    if (name.startsWith('2')) return 2;
+    if (name.startsWith('3')) return 3;
+    const m = name.match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : 0;
+  }
+
+  getUnitType(apartment: Apartment): string {
+    const b = this.getBedrooms(apartment);
+    if (apartment.unit_type_name) return apartment.unit_type_name;
+    return b === 0 ? 'Studio' : `${b} ${b === 1 ? (this.t.common?.bedroom || 'Bedroom') : (this.t.common?.bedrooms || 'Bedrooms')}`;
   }
 }
