@@ -55,7 +55,9 @@ export class ContactFormComponent {
         this.formData.email,
         'info@montreal4rent.com',
         `Contact Form: ${this.formData.subject}`,
-        emailBody
+        emailBody,
+        'contact-form',
+        this.formData.name
       ).subscribe({
         next: (success) => {
           this.isSending = false;

@@ -1,7 +1,7 @@
 {
-  "smtpHost": "dedrelay.secureserver.net",
-  "smtpPort": 25,
+  "smtpHost": "smpt.office365.com",
+  "smtpPort": 587,
   "smtpDefaultCredentials": "N",
-  "smtpSecure": "N",
+  "smtpSecure": "Y",
   "contactemail": "info@montreal4rent.com"
 }

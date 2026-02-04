@@ -394,7 +394,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         formData.email,
         toEmail,
         subject,
-        emailBody
+        emailBody,
+        'rental-inquiry',
+        formData.Name
       ).subscribe({
         next: (success) => {
           this.isSubmitting = false;

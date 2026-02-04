@@ -367,7 +367,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.bookingForm.email,
       toEmail,
       subject,
-      bodyHtml
+      bodyHtml,
+      'book-tour',
+      this.bookingForm.name
     ).subscribe({
       next: (success) => {
         this.isSending = false;
