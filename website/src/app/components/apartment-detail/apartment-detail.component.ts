@@ -174,7 +174,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                         <i class="fas fa-calendar-alt"></i>
                         {{ t.navigation?.bookTour }}
                       </button>
-                      <div class="contact-options">
+                      <div class="contact-actions">
                         <a href="mailto:info@montreal4rent.com" class="btn btn-outline btn-block">
                           <i class="fas fa-envelope"></i>
                           Email
@@ -191,7 +191,10 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <a 
                       class="similar-item" 
                       *ngFor="let similar of similarApartments"
-                      [routerLink]="['/appartement', similar.id]"
+                      [routerLink]="[currentLanguage === 'fr' ? '/appartement' : '/apartments', similar.id]"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      [attr.aria-label]="currentLanguage === 'fr' ? ('Voir appartement ' + similar.title) : ('View apartment ' + similar.titleEn)"
                     >
                       <div class="similar-image">
                         <img 

@@ -18,6 +18,7 @@ export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
   { path: 'appartements', component: ApartmentsComponent },
   { path: 'apartments', component: ApartmentsComponent },
+  { path: 'apartments/:id', component: ApartmentDetailComponent },
   { path: 'appartement/:id', component: ApartmentDetailComponent },
   { path: 'commodités', component: AmenitiesComponent },
   { path: 'style-de-vie', component: LifestyleComponent },
