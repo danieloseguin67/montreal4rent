@@ -2,28 +2,29 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Montreal4Rent - Appartements de Luxe à Montréal</title>
-  <base href="/montreal4rent/">
+  <title>Montreal4Rent - Redirection</title>
+  <base href="/test/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Découvrez des appartements de luxe à louer à Montréal avec Montreal4Rent. Agent immobilier spécialisé dans la location d'appartements haut de gamme.">
-  <meta name="keywords" content="appartements, location, Montréal, luxe, immobilier, agent">
-  <meta name="author" content="Jessica Larmour">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script>
-    // GitHub Pages SPA redirect
-    const path = window.location.pathname.replace('/montreal4rent/', '');
-    const query = window.location.search;
-    const hash = window.location.hash;
-    const redirect = '/montreal4rent/' + (path ? path + query + hash : '');
-    window.location.replace(redirect);
+  <script type="text/javascript">
+    /*
+     * Single Page Apps for GitHub Pages
+     * https://github.com/rafrex/spa-github-pages
+     *
+     * Redirect 404s to the SPA entry, encoding the original path.
+     * segmentCount=1 for Project Pages (username.github.io/repo).
+     */
+    (function() {
+      var l = window.location;
+      var segmentCount = 1;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    })();
   </script>
-  <meta http-equiv="refresh" content="0;URL='/montreal4rent/'">
 </head>
-<body>
-  <app-root></app-root>
-</body>
+<body></body>
 </html>

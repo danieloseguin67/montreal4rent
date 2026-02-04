@@ -257,6 +257,9 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Scroll to top when component loads
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     this.subscribeToLanguageChanges();
     this.loadApartment();
     this.loadAreas();
@@ -276,6 +279,10 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(params => {
           const id = params.get('id');
+          // Reset image index when loading new apartment
+          this.currentImageIndex = 0;
+          // Scroll to top when switching apartments
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           return id ? this.dataService.getApartment(id) : [];
         }),
         takeUntil(this.destroy$)

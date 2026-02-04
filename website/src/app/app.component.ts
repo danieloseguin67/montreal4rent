@@ -31,7 +31,9 @@ export class AppComponent implements OnInit {
     const redirect = sessionStorage['redirect'];
     delete sessionStorage['redirect'];
     if (redirect && redirect !== location.href) {
-      const path = redirect.replace(location.origin + '/montreal4rent/', '');
+      // Get base href from document
+      const baseHref = document.getElementsByTagName('base')[0]?.href || location.origin + '/';
+      const path = redirect.replace(baseHref, '');
       this.router.navigateByUrl('/' + path);
     }
   }

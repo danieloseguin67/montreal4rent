@@ -31,6 +31,7 @@
               "src/favicon.ico",
               "src/favicon.svg",
               "src/404.html",
+              "src/.htaccess",
               "src/assets",
               {
                 "glob": "**/*",
@@ -53,8 +54,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "12kb",
-                  "maximumError": "15kb"
+                  "maximumWarning": "14kb",
+                  "maximumError": "16kb"
                 }
               ],
               "fileReplacements": [

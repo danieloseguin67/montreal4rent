@@ -67,6 +67,8 @@
         display: flex;
         justify-content: space-between;
         padding: 0 2rem;
+        z-index: 10;
+        pointer-events: none;
 
         .nav-btn {
           background: rgba(0, 0, 0, 0.7);
@@ -80,6 +82,8 @@
           display: flex;
           align-items: center;
           justify-content: center;
+          pointer-events: auto;
+          flex-shrink: 0;
 
           &:hover:not(:disabled) {
             background: var(--primary-orange);
@@ -93,6 +97,7 @@
 
           i {
             font-size: 1.125rem;
+            pointer-events: none;
           }
         }
       }
