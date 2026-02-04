@@ -188,7 +188,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                 <div class="similar-apartments" *ngIf="similarApartments.length > 0">
                   <h3>Appartements similaires</h3>
                   <div class="similar-list">
-                    <div 
+                    <a 
                       class="similar-item" 
                       *ngFor="let similar of similarApartments"
                       [routerLink]="['/appartement', similar.id]"
@@ -207,7 +207,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                           {{ similar.bedrooms }} ch. • {{ similar.bathrooms }} sdb
                         </div>
                       </div>
-                    </div>
+                    </a>
                   </div>
                 </div>
               </div>
