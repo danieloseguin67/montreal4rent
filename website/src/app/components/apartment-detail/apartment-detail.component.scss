@@ -5,7 +5,7 @@
     border-bottom: 1px solid #eee;
     padding: 1rem 0;
     position: sticky;
-    top: 80px; // Account for main header height
+    top: 80px; /* Account for main header height */
     z-index: 100;
 
     .container {
@@ -356,6 +356,7 @@
           color: orangered;
           margin-bottom: 1rem;
         }
+      }
 
       .contact-actions2 {
         .btn-block {
@@ -369,8 +370,8 @@
           grid-template-columns: 1fr 1fr;
           gap: 0.75rem;
 
-          // Ensure a single option spans full width to match
-          // the "Book a Tour" button size
+          /* Ensure a single option spans full width to match
+             the "Book a Tour" button size */
           > :only-child {
             grid-column: 1 / -1;
           }
@@ -381,6 +382,8 @@
           }
         }
       }
+
+      /* End of contact-card */
     }
 
     .similar-apartments {
@@ -474,7 +477,7 @@
   }
 }
 
-// Responsive Design
+/* Responsive Design */
 @media (max-width: 767.98px) {
   .apartment-detail {
     .apartment-hero {
