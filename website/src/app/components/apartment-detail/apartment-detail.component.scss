@@ -354,6 +354,12 @@
         .btn-block {
           width: 100%;
           margin-bottom: 1rem;
+          background-color: #ff8c42;
+          color: white;
+          
+          &:hover:not(:disabled) {
+            background-color: #e67a33;
+          }
         }
       }
 
@@ -361,6 +367,12 @@
         .btn-block {
           width: 100%;
           margin-bottom: 1rem;
+          background-color: darkcyan;
+          color: white;
+          
+          &:hover:not(:disabled) {
+            background-color: #008080;
+          }
         }
 
         .contact-options {
