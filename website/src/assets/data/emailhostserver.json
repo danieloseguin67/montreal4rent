@@ -1,5 +1,5 @@
 {
-  "smtpHost": "smpt.office365.com",
+  "smtpHost": "smtp.office365.com",
   "smtpPort": 587,
   "smtpDefaultCredentials": "N",
   "smtpSecure": "Y",

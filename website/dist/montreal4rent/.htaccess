@@ -2,11 +2,11 @@
 RewriteEngine On
 
 # Redirect all requests to index.html for Angular routing
-RewriteBase /test/
+# Use relative target so this works in subfolders (e.g., /test)
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /test/index.html [L]
+RewriteRule . index.html [L]
 
 # Enable GZIP compression
 <IfModule mod_deflate.c>

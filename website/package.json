@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:prod": "ng build --configuration production",
-    "deploy:ghpages": "ng build --configuration production --base-href /montreal4rent/ && npx angular-cli-ghpages --dir=dist/montreal4rent"
+    "deploy:ghpages": "ng build --configuration production --base-href /montreal4rent/ && npx angular-cli-ghpages --dir=dist/montreal4rent",
+    "build:subdir": "powershell -NoProfile -Command \"$p=$env:BASE_HREF; if([string]::IsNullOrEmpty($p)){ $p='/test/'}; ng build --configuration production --base-href $p\""
   },
   "private": true,
   "dependencies": {

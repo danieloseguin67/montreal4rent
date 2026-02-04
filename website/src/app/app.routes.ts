@@ -13,6 +13,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { PropertyOwnersComponent } from './components/property-owners/property-owners.component';
 import { ApartmentDetailComponent } from './components/apartment-detail/apartment-detail.component';
 import { EmailLogsComponent } from './components/email-logs/email-logs.component';
+import { TestComponent } from './components/test/test.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,5 +37,6 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'property-owners', component: PropertyOwnersComponent },
   { path: 'email-logs', component: EmailLogsComponent },
+  { path: 'test', component: TestComponent },
   { path: '**', redirectTo: '' }
 ];
