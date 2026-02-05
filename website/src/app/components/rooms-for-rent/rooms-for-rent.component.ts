@@ -188,8 +188,20 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
   }
 
   bookTour(apartment?: Apartment): void {
-    const bookingEvent = new CustomEvent('openBookingModal');
-    window.dispatchEvent(bookingEvent);
+    const apartmentInfo = apartment 
+      ? `\n\nRoom: ${this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn}\nPrice: $${apartment.price} CAD/month\nUnit Type: ${this.getUnitType(apartment)}\nArea: ${this.getAreaName(apartment.area)}`
+      : '';
+    
+    const subject = this.currentLanguage === 'fr' 
+      ? 'Demande de réservation - Montreal4Rent'
+      : 'Book Now - Montreal4Rent';
+    
+    const body = (this.currentLanguage === 'fr'
+      ? `Bonjour,\n\nJe souhaite réserver cette chambre:${apartmentInfo}\n\nNom: \nEmail: \nTéléphone: \nMessage: `
+      : `Hello,\n\nI would like to book this room:${apartmentInfo}\n\nName: \nEmail: \nPhone: \nMessage: `);
+    
+    const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
   }
 
   getBedrooms(apartment: Apartment): number {

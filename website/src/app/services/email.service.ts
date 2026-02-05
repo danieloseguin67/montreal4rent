@@ -87,21 +87,7 @@ export class EmailService {
     formType: string = 'general',
     senderName?: string
   ): Observable<boolean> {
-    if (!this.emailConfig) {
-      console.error('Email configuration not loaded');
-      // Log the failed attempt
-      this.emailLogger.logEmail({
-        formType,
-        fromEmail: strFromEmail,
-        toEmail: strTo,
-        subject: strSubject,
-        status: 'failed',
-        errorMessage: 'Email configuration not loaded',
-        senderName
-      });
-      return of(false);
-    }
-
+    // Prepare the email request payload
     const emailRequest: EmailRequest = {
       fromEmail: strFromEmail,
       to: strTo,
@@ -112,43 +98,29 @@ export class EmailService {
       senderName
     };
 
-    const emailData = {
-      ...emailRequest,
-      smtpConfig: {
-        host: this.emailConfig.smtpHost,
-        port: this.emailConfig.smtpPort,
-        useDefaultCredentials: this.emailConfig.smtpDefaultCredentials === 'Y',
-        enableSsl: this.emailConfig.smtpSecure === 'Y'
-      }
-    };
+    console.log('[EmailService] Sending email to /contact.php', emailRequest);
 
-    // TODO: Replace with your actual backend API endpoint
-    // Example: return this.http.post<any>('/api/email/send', emailData)
-    //   .pipe(
-    //     map(() => true),
-    //     catchError((error) => {
-    //       console.error('Email send error:', error);
-    //       return of(false);
-    //     })
-    //   );
-
-    // For now, just log and return success (replace with actual API call)
-    console.log('Email to be sent:', emailData);
-    
-    return of(true).pipe(
-      tap((success) => {
-        // Log the email activity
+    // Call PHP endpoint deployed at the site root on GoDaddy
+    return this.http.post<{ success: boolean; message?: string }>(
+      '/contact.php',
+      emailRequest
+    ).pipe(
+      tap((resp) => {
+        console.log('[EmailService] Response received:', resp);
         this.emailLogger.logEmail({
           formType,
           fromEmail: strFromEmail,
           toEmail: strTo,
           subject: strSubject,
-          status: success ? 'success' : 'failed',
-          senderName
+          status: resp?.success ? 'success' : 'failed',
+          senderName,
+          errorMessage: resp?.success ? undefined : (resp?.message || 'Send failed')
         });
       }),
       catchError((ex) => {
-        // Log the failed email attempt
+        console.error('[EmailService] HTTP Error:', ex);
+        console.error('[EmailService] Error status:', ex.status);
+        console.error('[EmailService] Error body:', ex.error);
         this.emailLogger.logEmail({
           formType,
           fromEmail: strFromEmail,
@@ -158,10 +130,26 @@ export class EmailService {
           errorMessage: ex?.message || 'Unknown error',
           senderName
         });
-        // Ignore email error, probably due to SMTP server not being defined
-        console.warn('Email sending failed:', ex);
         return of(false);
-      })
+      }),
+      // Map the response to a boolean
+      // Using a minimal inline mapping to avoid extra imports
+      // resp.success => true/false
+      // In case of unexpected shape, default to false
+      // We rely on tap/catchError for logging
+      ((source$) => new Observable<boolean>((observer) => {
+        const sub = source$.subscribe({
+          next: (resp: any) => {
+            observer.next(!!(resp && resp.success));
+            observer.complete();
+          },
+          error: (err) => {
+            observer.next(false);
+            observer.complete();
+          }
+        });
+        return () => sub.unsubscribe();
+      }))
     );
   }
 
@@ -192,5 +180,31 @@ export class EmailService {
         enableSsl: this.emailConfig.smtpSecure === 'Y'
       }
     };
+  }
+
+  /**
+   * Send a simple test email to verify the email pipeline.
+   * Note: This uses the current `sendEmail` implementation, which
+   * logs and returns success unless a backend API is configured.
+   */
+  public sendTestEmail(): Observable<boolean> {
+    const to = 'daniel@seguin.dev';
+    const from = this.getContactEmail('info@montreal4rent.com');
+    const subject = 'Montreal4Rent: Test Email';
+    const body = `
+      <div>
+        <p>This is a test email generated from the Montreal4Rent site.</p>
+        <p>Timestamp: ${new Date().toISOString()}</p>
+      </div>
+    `;
+
+    return this.sendEmail(
+      from,
+      to,
+      subject,
+      body,
+      'test',
+      'Montreal4Rent System'
+    );
   }
 }

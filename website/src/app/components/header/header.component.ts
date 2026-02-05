@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LanguageService, Language } from '../../services/language.service';
-import { EmailService } from '../../services/email.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -243,9 +242,9 @@ import { Subject, takeUntil } from 'rxjs';
                 <button type="button" class="btn btn-outline" (click)="closeBookingModal()">
                   {{ currentLanguage === 'fr' ? 'Annuler' : 'Cancel' }}
                 </button>
-                <button type="submit" class="btn btn-primary" [disabled]="!bookingFormRef.form.valid || isSending">
+                <button type="submit" class="btn btn-primary" [disabled]="!bookingFormRef.form.valid">
                   <i class="fas fa-paper-plane"></i>
-                  {{ isSending ? (currentLanguage === 'fr' ? 'Envoi...' : 'Sending...') : (currentLanguage === 'fr' ? 'Envoyer la demande' : 'Send Request') }}
+                  {{ currentLanguage === 'fr' ? 'Envoyer un courriel' : 'Send Email' }}
                 </button>
               </div>
             </form>
@@ -262,7 +261,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showBookingModal = false;
   currentLanguage: Language = 'fr';
   t: any = {};
-  isSending = false;
   
   bookingForm = {
     name: '',
@@ -273,7 +271,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   private destroy$ = new Subject<void>();
 
-  constructor(private languageService: LanguageService, private emailService: EmailService) {}
+  constructor(private languageService: LanguageService) {}
 
   ngOnInit(): void {
     this.languageService.currentLanguage$
@@ -331,8 +329,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   submitBookingForm(): void {
-    console.log('Form submitted with data:', this.bookingForm);
-    
     // Check if all required fields are filled
     if (!this.bookingForm.name || !this.bookingForm.email || !this.bookingForm.phone) {
       alert(this.currentLanguage === 'fr' 
@@ -349,52 +345,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : 'Please enter a valid email address.');
       return;
     }
+    
     // Prepare email details
-    const subject = 'Demande de visite - Montreal4Rent';
-    const toEmail = this.emailService.getContactEmail('info@montreal4rent.com');
-    const bodyHtml = `
-      <h3>Nouvelle demande de visite</h3>
-      <p><strong>Nom:</strong> ${this.bookingForm.name}</p>
-      <p><strong>Email:</strong> ${this.bookingForm.email}</p>
-      <p><strong>Téléphone:</strong> ${this.bookingForm.phone}</p>
-      <hr>
-      <p><strong>Message:</strong></p>
-      <p>${(this.bookingForm.message || 'Aucun message spécial').replace(/\n/g, '<br>')}</p>
-    `;
-
-    this.isSending = true;
-    this.emailService.sendEmail(
-      this.bookingForm.email,
-      toEmail,
-      subject,
-      bodyHtml,
-      'book-tour',
-      this.bookingForm.name
-    ).subscribe({
-      next: (success) => {
-        this.isSending = false;
-        if (success) {
-          // Reset form and close modal
-          this.bookingForm = { name: '', email: '', phone: '', message: '' };
-          this.closeBookingModal();
-          // Show success message
-          alert(this.currentLanguage === 'fr'
-            ? 'Votre demande a été envoyée! Nous vous contacterons bientôt.'
-            : 'Your request has been sent! We will contact you soon.');
-        } else {
-          alert(this.currentLanguage === 'fr'
-            ? 'Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.'
-            : 'There was an error sending your message. Please try again later.');
-        }
-      },
-      error: (err) => {
-        console.error('Error sending booking email:', err);
-        this.isSending = false;
-        alert(this.currentLanguage === 'fr'
-          ? 'Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.'
-          : 'There was an error sending your message. Please try again later.');
-      }
-    });
+    const subject = this.currentLanguage === 'fr' 
+      ? 'Demande de visite - Montreal4Rent'
+      : 'Book a Tour - Montreal4Rent';
+    
+    const emailBody = `${this.currentLanguage === 'fr' ? 'Nouvelle demande de visite' : 'New Tour Request'}\n\nName: ${this.bookingForm.name}\nEmail: ${this.bookingForm.email}\nPhone: ${this.bookingForm.phone}\n\nMessage:\n${this.bookingForm.message || (this.currentLanguage === 'fr' ? 'Aucun message spécial' : 'No additional message')}`;
+    
+    const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Open user's default email client
+    window.location.href = mailtoLink;
+    
+    // Reset form and close modal after brief delay
+    setTimeout(() => {
+      this.bookingForm = { name: '', email: '', phone: '', message: '' };
+      this.closeBookingModal();
+    }, 500);
   }
 
   bookTour(): void {

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LanguageService, Language } from '../../services/language.service';
-import { EmailService } from '../../services/email.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -159,21 +158,10 @@ import { Subject, takeUntil } from 'rxjs';
               <button 
                 type="submit" 
                 class="send-email-btn"
-                [disabled]="contactForm.invalid || isSubmitting">
-                <i class="fas fa-paper-plane" *ngIf="!isSubmitting"></i>
-                <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
-                {{ isSubmitting ? translations.form.sending : translations.form.submitRequest }}
+                [disabled]="contactForm.invalid">
+                <i class="fas fa-paper-plane"></i>
+                {{ translations.form.submitRequest }}
               </button>
-            </div>
-            
-            <div class="form-message success" *ngIf="showSuccessMessage">
-              <i class="fas fa-check-circle"></i>
-              {{ translations.form.successMessage }}
-            </div>
-            
-            <div class="form-message error" *ngIf="showErrorMessage">
-              <i class="fas fa-exclamation-circle"></i>
-              {{ translations.form.errorMessage }}
             </div>
 
             </form>
@@ -189,9 +177,6 @@ import { Subject, takeUntil } from 'rxjs';
 export class ContactComponent implements OnInit, OnDestroy {
   currentLanguage: Language = 'fr';
   contactForm: FormGroup;
-  isSubmitting = false;
-  showSuccessMessage = false;
-  showErrorMessage = false;
   private destroy$ = new Subject<void>();
 
   translations: any = {
@@ -220,11 +205,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       '2bedrooms': '',
       '3bedrooms': '',
       message: '',
-      messageRequired: '',
-      sending: '',
-      submitRequest: '',
-      successMessage: '',
-      errorMessage: ''
+      submitRequest: ''
     }
   };
 
@@ -255,11 +236,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         '2bedrooms': '2 chambres',
         '3bedrooms': '3 chambres',
         message: 'Message',
-        messageRequired: 'Le message est requis.',
-        sending: 'Envoi...',
-        submitRequest: 'Soumettre la demande',
-        successMessage: 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.',
-        errorMessage: 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.'
+        submitRequest: 'Envoyer un courriel'
       }
     },
     en: {
@@ -288,11 +265,7 @@ export class ContactComponent implements OnInit, OnDestroy {
         '2bedrooms': '2 Bedrooms',
         '3bedrooms': '3 Bedrooms',
         message: 'Message',
-        messageRequired: 'Message is required.',
-        sending: 'Sending...',
-        submitRequest: 'Submit Request',
-        successMessage: 'Your message has been sent successfully! We\'ll get back to you soon.',
-        errorMessage: 'An error occurred while sending. Please try again.'
+        submitRequest: 'Send Email'
       }
     }
   };
@@ -300,8 +273,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   constructor(
     private languageService: LanguageService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private emailService: EmailService
+    private router: Router
   ) {
     this.contactForm = this.formBuilder.group({
       moveInDate: ['', Validators.required],
@@ -350,11 +322,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.translations.form['2bedrooms'] = t.form['2bedrooms'];
     this.translations.form['3bedrooms'] = t.form['3bedrooms'];
     this.translations.form.message = t.form.message;
-    this.translations.form.messageRequired = t.form.messageRequired;
-    this.translations.form.sending = t.form.sending;
     this.translations.form.submitRequest = t.form.submitRequest;
-    this.translations.form.successMessage = t.form.successMessage;
-    this.translations.form.errorMessage = t.form.errorMessage;
   }
 
   ngOnDestroy(): void {
@@ -364,65 +332,47 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
-      this.isSubmitting = true;
-      this.showSuccessMessage = false;
-      this.showErrorMessage = false;
-
       // Get form values
       const formData = this.contactForm.value;
       
-      // Create HTML email body
-      const emailBody = `
-        <h3>New Contact Form Submission - Montreal4Rent</h3>
-        <hr>
-        <p><strong>Move-in Date:</strong> ${formData.moveInDate}</p>
-        <p><strong>Name:</strong> ${formData.Name}</p>
-        <p><strong>Email:</strong> ${formData.email}</p>
-        <p><strong>Phone:</strong> ${formData.phone}</p>
-        <p><strong>Max Budget:</strong> $${formData.maxBudget} CAD</p>
-        <p><strong>Unit Type:</strong> ${formData.unitType}</p>
-        <hr>
-        <p><strong>Message:</strong></p>
-        <p>${formData.message ? formData.message.replace(/\n/g, '<br>') : 'No additional message'}</p>
-      `;
+      // Get unit type label
+      const unitTypeLabels: {[key: string]: string} = {
+        'studio': this.translations.form.studio,
+        '1_bedroom': this.translations.form['1bedroom'],
+        '2_bedrooms': this.translations.form['2bedrooms'],
+        '3_bedrooms': this.translations.form['3bedrooms']
+      };
+      const unitTypeLabel = unitTypeLabels[formData.unitType] || formData.unitType;
+      
+      // Create email body with plain text formatting
+      const emailBody = `Montreal4Rent - Rental Inquiry
+
+Move-in Date: ${formData.moveInDate}
+Name: ${formData.Name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Max Budget: $${formData.maxBudget} CAD
+Unit Type: ${unitTypeLabel}
+
+Message:
+${formData.message || 'No additional message'}
+
+---
+This inquiry was submitted via the Montreal4Rent contact form.`;
 
       const subject = `Montreal4Rent - Rental Inquiry from ${formData.Name}`;
 
-      // Send email using EmailService (recipient from config)
-      const toEmail = this.emailService.getContactEmail();
-      this.emailService.sendEmail(
-        formData.email,
-        toEmail,
-        subject,
-        emailBody,
-        'rental-inquiry',
-        formData.Name
-      ).subscribe({
-        next: (success) => {
-          this.isSubmitting = false;
-          if (success) {
-            console.log('Email sent:', success);
-            this.showSuccessMessage = true;
-            this.showErrorMessage = false;
-            
-            // Reset form
-            this.contactForm.reset();
-            
-            // Redirect to home after 3 seconds
-            setTimeout(() => {
-              this.showSuccessMessage = false;
-              this.router.navigate(['/']);
-            }, 3000);
-          } else {
-            this.showErrorMessage = true;
-          }
-        },
-        error: (err) => {
-          console.error('Error sending email:', err);
-          this.isSubmitting = false;
-          this.showErrorMessage = true;
-        }
-      });
+      // Create mailto link
+      const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+      
+      // Open user's default email client
+      window.location.href = mailtoLink;
+      
+      // Reset form and navigate to home after opening email client
+      setTimeout(() => {
+        this.contactForm.reset();
+        this.router.navigate(['/']);
+      }, 500);
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {

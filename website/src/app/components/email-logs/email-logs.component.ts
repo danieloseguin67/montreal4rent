@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmailLoggerService, EmailLogEntry } from '../../services/email-logger.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-email-logs',
@@ -112,6 +113,48 @@ import { EmailLoggerService, EmailLogEntry } from '../../services/email-logger.s
         </table>
         <div class="no-logs" *ngIf="filteredLogs.length === 0">
           <p>No email logs found{{ filterFormType || filterStatus ? ' matching the selected filters' : '' }}.</p>
+        </div>
+      </div>
+
+      <!-- Server Email History -->
+      <div class="history-container">
+        <div class="history-header">
+          <h3>Server Email History</h3>
+          <div class="header-actions">
+            <button class="btn btn-primary" (click)="loadServerHistory()">🔄 Load History</button>
+          </div>
+        </div>
+
+        <div *ngIf="historyLoading" class="loading">Loading server history…</div>
+
+        <table class="logs-table" *ngIf="serverHistory.length > 0">
+          <thead>
+            <tr>
+              <th>Saved</th>
+              <th>Form</th>
+              <th>Sender</th>
+              <th>To</th>
+              <th>Subject</th>
+              <th>Size</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let h of serverHistory">
+              <td>{{ formatDate(h.mtime) }}</td>
+              <td><span class="badge">{{ h.formType || '-' }}</span></td>
+              <td>{{ h.fromEmail || '-' }}</td>
+              <td>{{ h.toEmail || '-' }}</td>
+              <td class="subject-cell">{{ h.subject || h.file }}</td>
+              <td>{{ h.size | number }} B</td>
+              <td>
+                <button class="btn btn-success" (click)="downloadHistory(h.file)">📥 Download</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="no-logs" *ngIf="!historyLoading && serverHistory.length === 0">
+          <p>No server history files found. Click Load History to refresh.</p>
         </div>
       </div>
     </div>
@@ -388,6 +431,24 @@ import { EmailLoggerService, EmailLogEntry } from '../../services/email-logger.s
       margin: 0;
       font-size: 16px;
     }
+
+    .history-container {
+      margin-top: 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .loading {
+      padding: 10px;
+      color: #555;
+    }
   `]
 })
 export class EmailLogsComponent implements OnInit {
@@ -396,6 +457,8 @@ export class EmailLogsComponent implements OnInit {
   statistics: any = {};
   filterFormType = '';
   filterStatus = '';
+  serverHistory: any[] = [];
+  historyLoading = false;
 
   // Make Object available in template
   Object = Object;
@@ -440,5 +503,24 @@ export class EmailLogsComponent implements OnInit {
       minute: '2-digit',
       second: '2-digit'
     });
+  }
+
+  // Server history helpers
+  loadServerHistory(): void {
+    this.historyLoading = true;
+    this.emailLogger.fetchServerEmailHistory(200).subscribe({
+      next: (items) => {
+        this.serverHistory = items || [];
+        this.historyLoading = false;
+      },
+      error: () => {
+        this.serverHistory = [];
+        this.historyLoading = false;
+      }
+    });
+  }
+
+  downloadHistory(fileName: string): void {
+    this.emailLogger.downloadServerEmailHistoryFile(fileName);
   }
 }

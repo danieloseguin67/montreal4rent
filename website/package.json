@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:prod": "ng build --configuration production",
     "deploy:ghpages": "ng build --configuration production --base-href /montreal4rent/ && npx angular-cli-ghpages --dir=dist/montreal4rent",
-    "build:subdir": "powershell -NoProfile -Command \"$p=$env:BASE_HREF; if([string]::IsNullOrEmpty($p)){ $p='/test/'}; ng build --configuration production --base-href $p\""
+    "build:subdir": "powershell -NoProfile -Command \"$p=$env:BASE_HREF; if([string]::IsNullOrEmpty($p)){ $p='/test/'}; ng build --configuration production --base-href $p\"",
+    "server": "node server.js"
   },
   "private": true,
   "dependencies": {
@@ -23,7 +24,9 @@
     "@angular/router": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.15.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.0.0",

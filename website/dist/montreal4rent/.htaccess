@@ -1,3 +1,5 @@
+Options -MultiViews
+
 # Enable Rewrite Engine
 RewriteEngine On
 
@@ -7,6 +9,9 @@ RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.html [L]
+
+# Ensure index.html is default for the folder
+DirectoryIndex index.html
 
 # Enable GZIP compression
 <IfModule mod_deflate.c>

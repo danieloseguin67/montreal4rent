@@ -297,7 +297,19 @@ export class FurnishedSuitesComponent implements OnInit, OnDestroy {
   }
 
   bookTour(apartment?: Apartment): void {
-    const bookingEvent = new CustomEvent('openBookingModal');
-    window.dispatchEvent(bookingEvent);
+    const apartmentInfo = apartment 
+      ? `\n\nApartment: ${this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn}\nPrice: $${apartment.price} CAD/month\nUnit Type: ${this.getUnitType(apartment)}`
+      : '';
+    
+    const subject = this.currentLanguage === 'fr' 
+      ? 'Demande de visite - Montreal4Rent'
+      : 'Book a Tour - Montreal4Rent';
+    
+    const body = (this.currentLanguage === 'fr'
+      ? `Bonjour,\n\nJe souhaite réserver une visite pour:${apartmentInfo}\n\nNom: \nEmail: \nTéléphone: \nMessage: `
+      : `Hello,\n\nI would like to book a tour for:${apartmentInfo}\n\nName: \nEmail: \nPhone: \nMessage: `);
+    
+    const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
   }
 }

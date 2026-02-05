@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export interface EmailLogEntry {
   timestamp: string;
@@ -11,6 +13,18 @@ export interface EmailLogEntry {
   senderName?: string;
 }
 
+export interface ServerEmailHistoryEntry {
+  file: string;
+  size: number;
+  mtime: string;
+  subject?: string;
+  toEmail?: string;
+  fromEmail?: string;
+  formType?: string;
+  status?: 'success' | 'failed';
+  timestamp?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +32,9 @@ export class EmailLoggerService {
   private logEntries: EmailLogEntry[] = [];
   private readonly LOG_STORAGE_KEY = 'montreal4rent_email_logs';
   private readonly MAX_LOG_ENTRIES = 1000; // Prevent unlimited growth
+  private readonly HISTORY_ENDPOINT = environment.production ? '/email-history.php' : '/api/email-history';
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loadLogsFromStorage();
   }
 
@@ -51,6 +66,35 @@ export class EmailLoggerService {
       subject: logEntry.subject,
       status: logEntry.status
     });
+
+    // Persist each email log as an individual history file (best-effort)
+    // Dev: hits local Node /api/email-history; Prod: PHP /email-history.php
+    this.http.post(this.HISTORY_ENDPOINT, logEntry, { responseType: 'text' as 'json' })
+      .subscribe({
+        error: (err) => {
+          // Silently ignore to avoid breaking UX
+        }
+      });
+  }
+
+  /**
+   * Fetch server-side email history list (most recent first)
+   */
+  fetchServerEmailHistory(limit: number = 200) {
+    const clamped = Math.max(1, Math.min(1000, limit));
+    return this.http.get<ServerEmailHistoryEntry[]>(`${this.HISTORY_ENDPOINT}?limit=${clamped}`);
+  }
+
+  /**
+   * Download a specific server-side email history file
+   */
+  downloadServerEmailHistoryFile(fileName: string): void {
+    const base = environment.production ? '/email-history.php' : '/api/email-history/file';
+    const url = environment.production ? `${base}?file=${encodeURIComponent(fileName)}` : `${base}/${encodeURIComponent(fileName)}`;
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.click();
   }
 
   /**
