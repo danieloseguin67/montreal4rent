@@ -16,6 +16,28 @@ cd website
 npm run build:prod
 ```
 
+### Windows One-Click Deploy (optional)
+
+Use the helper script to build, package, and optionally upload via WinSCP:
+
+```bat
+REM From the website folder
+website\deploy-prod.bat
+
+REM To enable FTP upload via WinSCP, set these first:
+set USE_WINSCP=1
+set FTP_HOST=your-ftp-host
+set FTP_USER=your-ftp-username
+set FTP_PASS=your-ftp-password
+set FTP_TARGET=/public_html
+website\deploy-prod.bat
+```
+
+Notes:
+- The script creates a ZIP under `website/deploy/` named `montreal4rent-prod-YYYYMMDD-HHMM.zip`.
+- If WinSCP is available and `USE_WINSCP=1` is set with credentials, the script will mirror `dist/montreal4rent/` to `/public_html`.
+- You can change `FTP_TARGET` to deploy to a subfolder (e.g., `/public_html/test`).
+
 ## Deployment Steps
 
 ### Option 1: Using FTP/SFTP (Recommended for Economy Hosting)
@@ -37,7 +59,43 @@ npm run build:prod
    - All .css files (styles.*.css)
    - assets/ folder (complete directory)
 
-4. **Important:** Upload the `.htaccess` file (see configuration below)
+4. **Important:** Upload the `.htaccess` file (see configuration below). For subfolders, ensure `.htaccess` uses relative routing rules.
+
+### Deploying to a Subfolder (e.g., https://yourdomain.com/test/)
+
+If you upload the build into a subdirectory like `public_html/test`, you must build with a matching base href; otherwise you’ll see a white page because the JS bundles load from the wrong path.
+
+**IMPORTANT: To avoid white pages, always use the correct deploy command for your target folder.**
+
+#### Quick Deploy to /test/ (Recommended)
+
+Use the dedicated helper script that automatically builds with `/test/` base-href:
+
+```bat
+cd website
+deploy-test.bat
+```
+
+This prevents the common white-page error by ensuring assets load from `/test/` instead of the domain root.
+
+#### Manual Deploy to Any Subfolder
+
+1. Build with the base href set to your subfolder path:
+
+  ```powershell
+  cd website
+  # For /test/ subfolder
+  .\deploy-prod.bat test
+
+  # For any other subfolder (e.g., /staging/)
+  .\deploy-prod.bat staging
+  ```
+
+2. Upload the contents of `website/dist/montreal4rent/` into `public_html/<your-subdir>`
+
+3. Ensure a `.htaccess` file exists inside that subfolder as well (same rules as below)
+
+Note: If you deploy to the domain root, use `.\deploy-prod.bat` without arguments (defaults to `/`).
 
 ### Option 2: Using File Manager in cPanel
 
@@ -50,18 +108,18 @@ npm run build:prod
 
 ## Required .htaccess Configuration
 
-Create a `.htaccess` file in your public_html directory with the following content:
+Create a `.htaccess` file in your `public_html` (or subfolder) with directory-relative rules (works for root and subfolders):
 
 ```apache
 # Enable Rewrite Engine
 RewriteEngine On
 
 # Redirect all requests to index.html for Angular routing
-RewriteBase /
+# Use relative target so this works in subfolders
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
+RewriteRule . index.html [L]
 
 # Enable GZIP compression
 <IfModule mod_deflate.c>
@@ -167,7 +225,20 @@ Your build is already optimized with:
 
 ## Email Service Configuration
 
-Update `website/src/assets/data/emailhostserver.json` with your GoDaddy email server details if using the contact form.
+To enable the contact form to send email on GoDaddy Economy hosting:
+
+- Upload the PHP endpoints from `website/php/` to your server root (`public_html`):
+  - `contact.php` (handles sending email to info@montreal4rent.com)
+  - `email-history.php` (persists and lists submission logs)
+- Ensure the server-side history directory exists and is writable:
+  - `public_html/history/emails/`
+  - Create it if missing; default permissions `0775` are fine on cPanel.
+- The Angular app posts to `/contact.php`. No Node server is required in production.
+- Optional: Update `website/src/assets/data/emailhostserver.json` for reference; browsers do not use SMTP directly.
+
+Notes:
+- This setup uses PHP's native `mail()` for simplicity. Deliverability depends on your domain SPF/DMARC records and GoDaddy mail policies.
+- For improved deliverability, you can replace `mail()` with PHPMailer over SMTP (Office365 or GoDaddy SMTP) later.
 
 ## Build Information
 
@@ -186,11 +257,20 @@ For GoDaddy-specific hosting issues:
 
 ## Quick Deployment Checklist
 
-- [ ] Production build completed (`npm run build:prod`)
-- [ ] FTP/SFTP credentials ready
-- [ ] .htaccess file created
-- [ ] All files from dist/montreal4rent/ uploaded
-- [ ] .htaccess file uploaded
+**For /test/ subfolder deployment:**
+- [ ] Run `deploy-test.bat` (this builds with correct base-href automatically)
+- [ ] Upload `dist/montreal4rent/*` to `public_html/test/`
+- [ ] Upload `php/contact.php` and `php/email-history.php` to `public_html/`
+- [ ] Create `public_html/history/emails/` (writable) for server-side logs
+- [ ] Verify .htaccess is in `public_html/test/`
+
+**For root domain deployment:**
+- [ ] Run `deploy-prod.bat` (without arguments)
+- [ ] Upload `dist/montreal4rent/*` to `public_html/`
+- [ ] Upload PHP endpoints to `public_html/`
+- [ ] Create history folder as above
+
+**General checklist:**
 - [ ] Domain DNS pointing to GoDaddy hosting
 - [ ] Website tested in browser
 - [ ] All routes tested
