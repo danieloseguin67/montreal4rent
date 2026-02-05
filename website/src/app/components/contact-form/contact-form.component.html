@@ -73,8 +73,17 @@
       </div>
     </div>
 
-    <button type="submit" class="submit-button">
-      Send Email
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" class="submit-button" [disabled]="sending">
+      <span *ngIf="!sending">Send Email</span>
+      <span *ngIf="sending">Sending...</span>
     </button>
   </form>
 </div>

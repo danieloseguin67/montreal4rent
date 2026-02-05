@@ -1,5 +1,9 @@
 <?php
 // contact.php - Email sender using PHPMailer + Office365 SMTP
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Don't display errors to user
+ini_set('log_errors', 1);
+
 require_once __DIR__ . '/PHPMailer.php';
 
 use PHPMailer\PHPMailer\PHPMailer;

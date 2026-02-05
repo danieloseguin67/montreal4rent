@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LanguageService, Language } from '../../services/language.service';
+import { EmailService } from '../../services/email.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -238,13 +239,21 @@ import { Subject, takeUntil } from 'rxjs';
                 ></textarea>
               </div>
               
+              <div *ngIf="bookingSuccess" class="alert alert-success">
+                {{ bookingSuccess }}
+              </div>
+
+              <div *ngIf="bookingError" class="alert alert-error">
+                {{ bookingError }}
+              </div>
+              
               <div class="form-actions">
                 <button type="button" class="btn btn-outline" (click)="closeBookingModal()">
                   {{ currentLanguage === 'fr' ? 'Annuler' : 'Cancel' }}
                 </button>
-                <button type="submit" class="btn btn-primary" [disabled]="!bookingFormRef.form.valid">
+                <button type="submit" class="btn btn-primary" [disabled]="!bookingFormRef.form.valid || sendingBooking">
                   <i class="fas fa-paper-plane"></i>
-                  {{ currentLanguage === 'fr' ? 'Envoyer un courriel' : 'Send Email' }}
+                  {{ sendingBooking ? (currentLanguage === 'fr' ? 'Envoi en cours...' : 'Sending...') : (currentLanguage === 'fr' ? 'Envoyer un courriel' : 'Send Email') }}
                 </button>
               </div>
             </form>
@@ -269,9 +278,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     message: ''
   };
   
+  sendingBooking = false;
+  bookingSuccess = '';
+  bookingError = '';
+  
   private destroy$ = new Subject<void>();
 
-  constructor(private languageService: LanguageService) {}
+  constructor(
+    private languageService: LanguageService,
+    private emailService: EmailService
+  ) {}
 
   ngOnInit(): void {
     this.languageService.currentLanguage$
@@ -329,40 +345,91 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   submitBookingForm(): void {
+    this.bookingSuccess = '';
+    this.bookingError = '';
+
     // Check if all required fields are filled
     if (!this.bookingForm.name || !this.bookingForm.email || !this.bookingForm.phone) {
-      alert(this.currentLanguage === 'fr' 
+      this.bookingError = this.currentLanguage === 'fr' 
         ? 'Veuillez remplir tous les champs obligatoires.'
-        : 'Please fill in all required fields.');
+        : 'Please fill in all required fields.';
       return;
     }
     
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(this.bookingForm.email)) {
-      alert(this.currentLanguage === 'fr' 
+      this.bookingError = this.currentLanguage === 'fr' 
         ? 'Veuillez entrer une adresse courriel valide.'
-        : 'Please enter a valid email address.');
+        : 'Please enter a valid email address.';
       return;
     }
     
+    this.sendingBooking = true;
+
     // Prepare email details
     const subject = this.currentLanguage === 'fr' 
       ? 'Demande de visite - Montreal4Rent'
       : 'Book a Tour - Montreal4Rent';
     
-    const emailBody = `${this.currentLanguage === 'fr' ? 'Nouvelle demande de visite' : 'New Tour Request'}\n\nName: ${this.bookingForm.name}\nEmail: ${this.bookingForm.email}\nPhone: ${this.bookingForm.phone}\n\nMessage:\n${this.bookingForm.message || (this.currentLanguage === 'fr' ? 'Aucun message spécial' : 'No additional message')}`;
+    const emailBody = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #333;">${this.currentLanguage === 'fr' ? 'Nouvelle demande de visite' : 'New Tour Request'}</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Name:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${this.bookingForm.name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Email:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${this.bookingForm.email}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Phone:</td>
+            <td style="padding: 8px; border-bottom: 1px solid #ddd;">${this.bookingForm.phone}</td>
+          </tr>
+        </table>
+        ${this.bookingForm.message ? `
+        <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007bff;">
+          <h3 style="margin-top: 0; color: #333;">${this.currentLanguage === 'fr' ? 'Message' : 'Message'}:</h3>
+          <p style="white-space: pre-wrap; color: #555;">${this.bookingForm.message}</p>
+        </div>` : ''}
+      </div>
+    `;
     
-    const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open user's default email client
-    window.location.href = mailtoLink;
-    
-    // Reset form and close modal after brief delay
-    setTimeout(() => {
-      this.bookingForm = { name: '', email: '', phone: '', message: '' };
-      this.closeBookingModal();
-    }, 500);
+    // Send email via backend PHP service
+    this.emailService.sendEmail(
+      this.bookingForm.email,
+      'info@montreal4rent.com',
+      subject,
+      emailBody,
+      'book-tour',
+      this.bookingForm.name
+    ).subscribe({
+      next: (success) => {
+        this.sendingBooking = false;
+        if (success) {
+          this.bookingSuccess = this.currentLanguage === 'fr'
+            ? 'Votre demande a été envoyée avec succès!'
+            : 'Your tour request has been sent successfully!';
+          setTimeout(() => {
+            this.bookingForm = { name: '', email: '', phone: '', message: '' };
+            this.closeBookingModal();
+          }, 2000);
+        } else {
+          this.bookingError = this.currentLanguage === 'fr'
+            ? 'Erreur lors de l\'envoi. Veuillez réessayer.'
+            : 'Error sending request. Please try again.';
+        }
+      },
+      error: (err) => {
+        this.sendingBooking = false;
+        this.bookingError = this.currentLanguage === 'fr'
+          ? 'Erreur lors de l\'envoi. Veuillez réessayer.'
+          : 'Error sending request. Please try again.';
+        console.error('Booking email error:', err);
+      }
+    });
   }
 
   bookTour(): void {

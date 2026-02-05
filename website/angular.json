@@ -37,6 +37,16 @@
                 "glob": "**/*",
                 "input": "../images/",
                 "output": "/assets/images/"
+              },
+              {
+                "glob": "**/*",
+                "input": "php/",
+                "output": "/php/"
+              },
+              {
+                "glob": "*.html",
+                "input": "./",
+                "output": "/"
               }
             ],
             "styles": [

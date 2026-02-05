@@ -3,5 +3,6 @@
   "smtpPort": 587,
   "smtpDefaultCredentials": "N",
   "smtpSecure": "Y",
+  "smtp_password": "cev28Lev$",
   "contactemail": "info@montreal4rent.com"
 }

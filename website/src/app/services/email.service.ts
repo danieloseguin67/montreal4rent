@@ -98,11 +98,11 @@ export class EmailService {
       senderName
     };
 
-    console.log('[EmailService] Sending email to /contact.php', emailRequest);
+    console.log('[EmailService] Sending email to php/contact.php', emailRequest);
 
-    // Call PHP endpoint deployed at the site root on GoDaddy
+    // Call PHP endpoint - uses relative path to work in both root and /test/ deployments
     return this.http.post<{ success: boolean; message?: string }>(
-      '/contact.php',
+      'php/contact.php',
       emailRequest
     ).pipe(
       tap((resp) => {

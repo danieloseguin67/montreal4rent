@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LanguageService, Language } from '../../services/language.service';
+import { EmailService } from '../../services/email.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -32,6 +33,16 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="form-header">
             <h2>{{ translations.form.header }}</h2>
             <p>{{ translations.form.subheader }}</p>
+          </div>
+
+          <!-- Success Message -->
+          <div *ngIf="successMessage" class="alert alert-success" style="padding: 15px; margin: 20px 0; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 4px;">
+            {{ successMessage }}
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="alert alert-error" style="padding: 15px; margin: 20px 0; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px;">
+            {{ errorMessage }}
           </div>
           
           <!-- add move in date formgroup here -->
@@ -158,9 +169,9 @@ import { Subject, takeUntil } from 'rxjs';
               <button 
                 type="submit" 
                 class="send-email-btn"
-                [disabled]="contactForm.invalid">
+                [disabled]="contactForm.invalid || sending">
                 <i class="fas fa-paper-plane"></i>
-                {{ translations.form.submitRequest }}
+                {{ sending ? (currentLanguage === 'fr' ? 'Envoi en cours...' : 'Sending...') : translations.form.submitRequest }}
               </button>
             </div>
 
@@ -178,6 +189,9 @@ export class ContactComponent implements OnInit, OnDestroy {
   currentLanguage: Language = 'fr';
   contactForm: FormGroup;
   private destroy$ = new Subject<void>();
+  sending = false;
+  successMessage = '';
+  errorMessage = '';
 
   translations: any = {
     form: {
@@ -273,7 +287,8 @@ export class ContactComponent implements OnInit, OnDestroy {
   constructor(
     private languageService: LanguageService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private emailService: EmailService
   ) {
     this.contactForm = this.formBuilder.group({
       moveInDate: ['', Validators.required],
@@ -332,6 +347,10 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.contactForm.valid) {
+      this.sending = true;
+      this.successMessage = '';
+      this.errorMessage = '';
+      
       // Get form values
       const formData = this.contactForm.value;
       
@@ -344,35 +363,78 @@ export class ContactComponent implements OnInit, OnDestroy {
       };
       const unitTypeLabel = unitTypeLabels[formData.unitType] || formData.unitType;
       
-      // Create email body with plain text formatting
-      const emailBody = `Montreal4Rent - Rental Inquiry
-
-Move-in Date: ${formData.moveInDate}
-Name: ${formData.Name}
-Email: ${formData.email}
-Phone: ${formData.phone}
-Max Budget: $${formData.maxBudget} CAD
-Unit Type: ${unitTypeLabel}
-
-Message:
-${formData.message || 'No additional message'}
-
----
-This inquiry was submitted via the Montreal4Rent contact form.`;
+      // Create HTML email body
+      const emailBody = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">Montreal4Rent - Rental Inquiry</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Move-in Date:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${formData.moveInDate}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Name:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${formData.Name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Email:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${formData.email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Phone:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${formData.phone}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Max Budget:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">$${formData.maxBudget} CAD</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Unit Type:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${unitTypeLabel}</td>
+            </tr>
+          </table>
+          <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007bff;">
+            <h3 style="margin-top: 0; color: #333;">Message:</h3>
+            <p style="white-space: pre-wrap; color: #555;">${formData.message || 'No additional message'}</p>
+          </div>
+          <p style="margin-top: 20px; font-size: 12px; color: #666;">This inquiry was submitted via the Montreal4Rent contact form.</p>
+        </div>
+      `;
 
       const subject = `Montreal4Rent - Rental Inquiry from ${formData.Name}`;
 
-      // Create mailto link
-      const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Open user's default email client
-      window.location.href = mailtoLink;
-      
-      // Reset form and navigate to home after opening email client
-      setTimeout(() => {
-        this.contactForm.reset();
-        this.router.navigate(['/']);
-      }, 500);
+      // Send email via backend PHP service
+      this.emailService.sendEmail(
+        formData.email,
+        'info@montreal4rent.com',
+        subject,
+        emailBody,
+        'contact',
+        formData.Name
+      ).subscribe({
+        next: (success: boolean) => {
+          this.sending = false;
+          if (success) {
+            this.successMessage = this.currentLanguage === 'fr' 
+              ? 'Votre message a été envoyé avec succès! Nous vous répondrons bientôt.' 
+              : 'Your message has been sent successfully! We will get back to you soon.';
+            this.contactForm.reset();
+            // Scroll to top to show success message
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            this.errorMessage = this.currentLanguage === 'fr'
+              ? 'Une erreur s\'est produite lors de l\'envoi de votre message. Veuillez réessayer.'
+              : 'There was an error sending your message. Please try again later.';
+          }
+        },
+        error: (err: any) => {
+          this.sending = false;
+          this.errorMessage = this.currentLanguage === 'fr'
+            ? 'Une erreur s\'est produite lors de l\'envoi de votre message. Veuillez réessayer.'
+            : 'There was an error sending your message. Please try again later.';
+          console.error('Email send error:', err);
+        }
+      });
     } else {
       // Mark all fields as touched to show validation errors
       Object.keys(this.contactForm.controls).forEach(key => {

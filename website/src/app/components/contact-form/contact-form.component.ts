@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmailService } from '../../services/email.service';
 
 interface ContactFormData {
   name: string;
@@ -25,25 +26,70 @@ export class ContactFormComponent {
   };
 
   submitted = false;
+  sending = false;
+  successMessage = '';
+  errorMessage = '';
+
+  constructor(private emailService: EmailService) {}
 
   onSubmit(): void {
     this.submitted = true;
+    this.successMessage = '';
+    this.errorMessage = '';
 
     // Validate all fields are filled
     if (this.isFormValid()) {
-      // Prepare email body
-      const emailBody = `Name: ${this.formData.name}\nEmail: ${this.formData.email}\n\nMessage:\n${this.formData.message}`;
+      this.sending = true;
+
+      // Prepare email body with HTML formatting
+      const emailBody = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #333;">Contact Form Submission</h2>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Name:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${this.formData.name}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Email:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${this.formData.email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">Subject:</td>
+              <td style="padding: 8px; border-bottom: 1px solid #ddd;">${this.formData.subject}</td>
+            </tr>
+          </table>
+          <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #007bff;">
+            <h3 style="margin-top: 0; color: #333;">Message:</h3>
+            <p style="white-space: pre-wrap; color: #555;">${this.formData.message}</p>
+          </div>
+        </div>
+      `;
       
-      // Create mailto link
-      const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(this.formData.subject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Open user's default email client
-      window.location.href = mailtoLink;
-      
-      // Reset form after opening email client
-      setTimeout(() => {
-        this.resetForm();
-      }, 500);
+      // Send email via backend PHP service
+      this.emailService.sendEmail(
+        this.formData.email,
+        'info@montreal4rent.com',
+        this.formData.subject,
+        emailBody,
+        'contact',
+        this.formData.name
+      ).subscribe({
+        next: (success) => {
+          this.sending = false;
+          if (success) {
+            this.successMessage = 'Your message has been sent successfully! We will get back to you soon.';
+            this.resetForm();
+          } else {
+            this.errorMessage = 'There was an error sending your message. Please try again later.';
+          }
+        },
+        error: (err) => {
+          this.sending = false;
+          this.errorMessage = 'There was an error sending your message. Please try again later.';
+          console.error('Email send error:', err);
+        }
+      });
     }
   }
 
