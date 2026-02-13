@@ -13,12 +13,12 @@ import { RouterModule } from '@angular/router';
         <div class="hero-content">
           <div class="container">
             <h1>Property Owners</h1>
-            <p class="hero-description">Leasing and rental services for Montreal property owners.</p>
-            <p>Specializing in high-volume rentals: multi-residential, new construction, and value-add properties.</p>
+              <p class="hero-description" style="font-size: 1.5rem; font-weight: bold;">High-Performance Leasing for Multi-Residential Properties</p>
+              <p>Specializing in high-volume rentals, new construction, and value-add assets.</p>
           </div>
         </div>
         <div class="hero-image">
-          <img src="assets/images/unfurnished1.jpg" alt="Property Owners" loading="lazy">
+          <img src="assets/images/property-rental-owners.jpg" alt="Property Owners" loading="lazy">
         </div>
       </section>
 
@@ -31,8 +31,16 @@ import { RouterModule } from '@angular/router';
               <p>Professional leasing processes designed to minimize vacancy and maximize rent.</p>
             </div>
             <div class="service-card">
-              <h3>Tenant Screening</h3>
-              <p>Rigorous screening including credit, income verification, and rental history.</p>
+              <h3>Property Evaluation & Market Positioning</h3>
+              <ul>
+                <li>On-site evaluation of rent-ready condition with clear recommendations on repairs & cleaning</li>
+                <li>Pricing analysis</li>
+                <li>Comparable research</li>
+                <li>Promotion structuring</li>
+                <li>Ongoing feedback from showings</li>
+                <li>Market response used to refine pricing</li>
+                <li>Fully furnished VS Unfurnished marketing strategies</li>
+              </ul>
             </div>
             <div class="service-card">
               <h3>Marketing</h3>

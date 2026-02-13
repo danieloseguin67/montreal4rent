@@ -39,10 +39,24 @@
     }
 
     .service-card {
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      padding: 1rem;
-      background: #fff;
+      background: linear-gradient(135deg, var(--primary-orange) 0%, var(--trust-navy) 100%);
+      color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(11,61,145,0.15);
+      padding: 2rem 1.5rem;
+      border: none;
+      transition: box-shadow 0.2s;
+        }
+        .service-card:hover {
+          box-shadow: 0 8px 24px rgba(11,61,145,0.25);
+        }
+        .service-card h3 {
+          color: #fff;
+          font-weight: 700;
+        }
+        .service-card p, .service-card ul, .service-card li {
+          color: #fff;
+        }
     }
 
     .cta-buttons {
@@ -62,4 +76,3 @@
       box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     }
   }
-}
