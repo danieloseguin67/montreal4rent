@@ -28,7 +28,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
           <img 
             [src]="'assets/images/' + apartment.images[currentImageIndex]" 
             [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-            onerror="this.src='assets/images/' + apartment.images[0]"
+            (error)="onImageError($event, apartment)"
           >
           <div class="image-navigation" *ngIf="apartment.images.length > 1">
             <button 
@@ -149,7 +149,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     <img 
                       [src]="'assets/images/' + image" 
                       [alt]="'Image ' + (i + 1)"
-                      onerror="this.src='assets/images/' + apartment.images[0]"
+                      (error)="onImageError($event, apartment)"
                     >
                   </div>
                 </div>
@@ -239,6 +239,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
   styleUrls: ['./apartment-detail.component.scss']
 })
 export class ApartmentDetailComponent implements OnInit, OnDestroy {
+    onImageError(event: Event, apartment: any) {
+      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
+    }
   apartment: Apartment | null = null;
   similarApartments: Apartment[] = [];
   areas: Area[] = [];

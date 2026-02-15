@@ -149,7 +149,7 @@ import { Subject, takeUntil } from 'rxjs';
                 <img 
                   [src]="'assets/images/' + apartment.images[0]" 
                   [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-                  onerror="this.src='assets/images/' + apartment.images[0]"
+                  (error)="onImageError($event, apartment)"
                 >
                 <div class="apartment-badge" [class.available]="apartment.available">
                   {{ apartment.available ? (currentLanguage === 'fr' ? 'Disponible' : 'Available') : (currentLanguage === 'fr' ? 'Non disponible' : 'Not Available') }}
@@ -207,6 +207,9 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./unfurnished-suites.component.scss']
 })
 export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
+    onImageError(event: Event, apartment: any) {
+      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
+    }
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
 

@@ -49,7 +49,7 @@ import { DataService, Apartment, Area } from '../../services/data.service';
                 <img 
                   [src]="'assets/images/' + apartment.images[0]" 
                   [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-                  onerror="this.src='assets/images/' + apartment.images[0]"
+                  (error)="onImageError($event, apartment)"
                 >
                 <div class="apartment-badge" [class.available]="apartment.available">
                   {{ apartment.available ? (t.common?.available || (currentLanguage === 'fr' ? 'Disponible' : 'Available')) : (t.common?.notAvailable || (currentLanguage === 'fr' ? 'Non disponible' : 'Not Available')) }}
@@ -131,6 +131,9 @@ import { DataService, Apartment, Area } from '../../services/data.service';
   styleUrls: ['./rooms-for-rent.component.scss']
 })
 export class RoomsForRentComponent implements OnInit, OnDestroy {
+    onImageError(event: Event, apartment: any) {
+      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
+    }
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
 
