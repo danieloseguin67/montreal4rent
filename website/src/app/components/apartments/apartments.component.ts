@@ -234,9 +234,6 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./apartments.component.scss']
 })
 export class ApartmentsComponent implements OnInit, OnDestroy {
-    onImageError(event: Event, apartment: any) {
-      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
-    }
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
   areas: Area[] = [];
@@ -425,5 +422,13 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
       this.selectedToggles.delete(name);
     }
     // Not applying toggle filtering yet per requirements
+  }
+
+  onImageError(event: Event, apartment: any) {
+    const img = event.target as HTMLImageElement;
+    // Prevent infinite error loop
+    if (!img.src.includes('image-not-available')) {
+      img.src = 'assets/images/image-not-available.svg';
+    }
   }
 }

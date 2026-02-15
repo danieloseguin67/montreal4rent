@@ -195,7 +195,7 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="no-results text-center" *ngIf="!loading && filteredApartments.length === 0">
             <i class="fas fa-search"></i>
             <h3>{{ currentLanguage === 'fr' ? 'Aucun condo trouvé' : 'No condos found' }}</h3>
-            <p>{{ currentLanguage === 'fr' ? 'Essayez d\'ajuster vos critères de recherche.' : 'Try adjusting your search criteria.' }}</p>
+            <p>{{ currentLanguage === 'fr' ? "Essayez d'ajuster vos critères de recherche." : 'Try adjusting your search criteria.' }}</p>
             <button class="btn btn-primary" (click)="clearFilters()">
               {{ currentLanguage === 'fr' ? 'Effacer les filtres' : 'Clear Filters' }}
             </button>
@@ -207,9 +207,6 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./unfurnished-suites.component.scss']
 })
 export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
-    onImageError(event: Event, apartment: any) {
-      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
-    }
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
 
@@ -343,5 +340,13 @@ export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
   getUnitType(apartment: Apartment): string {
     const b = this.getBedrooms(apartment);
     return apartment.unit_type_name || (b === 0 ? 'Studio' : `${b} Bedroom${b > 1 ? 's' : ''}`);
+  }
+
+  onImageError(event: Event, apartment: any) {
+    const img = event.target as HTMLImageElement;
+    // Prevent infinite error loop
+    if (!img.src.includes('image-not-available')) {
+      img.src = 'assets/images/image-not-available.svg';
+    }
   }
 }

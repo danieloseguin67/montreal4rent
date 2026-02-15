@@ -189,8 +189,8 @@ import { Subject, takeUntil } from 'rxjs';
                   </div>
                 </div>
 
-                <div class="apartment-description">
-                  <p>{{ currentLanguage === 'fr' ? apartment.description : apartment.descriptionEn }}</p>
+                <div class="apartment-description" *ngIf="apartment.description || apartment.descriptionEn">
+                  <p>{{ truncateDescription(currentLanguage === 'fr' ? apartment.description : apartment.descriptionEn) }}</p>
                 </div>
 
                 <div class="apartment-actions">
@@ -216,7 +216,7 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="no-results text-center" *ngIf="!loading && filteredApartments.length === 0">
             <i class="fas fa-search"></i>
             <h3>{{ currentLanguage === 'fr' ? 'Aucun condo trouvé' : 'No condos found' }}</h3>
-            <p>{{ currentLanguage === 'fr' ? 'Essayez d\'ajuster vos critères de recherche.' : 'Try adjusting your search criteria.' }}</p>
+            <p>{{ currentLanguage === 'fr' ? "Essayez d'ajuster vos critères de recherche." : 'Try adjusting your search criteria.' }}</p>
             <button class="btn btn-primary" (click)="clearFilters()">
               {{ currentLanguage === 'fr' ? 'Effacer les filtres' : 'Clear Filters' }}
             </button>
@@ -228,9 +228,6 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./condo-rentals.component.scss']
 })
 export class CondoRentalsComponent implements OnInit, OnDestroy {
-    onImageError(event: Event, apartment: any) {
-      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
-    }
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
   areas: Area[] = [];
@@ -394,5 +391,20 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
     
     const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
+  }
+
+  truncateDescription(description: string | undefined): string {
+    if (!description) return '';
+    const maxLength = 150;
+    if (description.length <= maxLength) return description;
+    return description.substring(0, maxLength).trim() + '...';
+  }
+
+  onImageError(event: Event, apartment: any) {
+    const img = event.target as HTMLImageElement;
+    // Prevent infinite error loop
+    if (!img.src.includes('image-not-available')) {
+      img.src = 'assets/images/image-not-available.svg';
+    }
   }
 }

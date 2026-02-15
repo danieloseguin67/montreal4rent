@@ -28,6 +28,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
           <img 
             [src]="'assets/images/' + apartment.images[currentImageIndex]" 
             [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
+            (load)="onImageLoad()"
             (error)="onImageError($event, apartment)"
           >
           <div class="image-navigation" *ngIf="apartment.images.length > 1">
@@ -51,7 +52,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
           </div>
         </div>
         
-        <div class="hero-content">
+        <div class="hero-content" [class.visible]="imageLoaded">
           <div class="container">
             <div class="apartment-header">
               <div class="apartment-title-section">
@@ -123,7 +124,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                 </p>
               </div>
 
-              <div class="content-section">
+              <div class="content-section" *ngIf="((currentLanguage === 'fr' ? apartment.features : apartment.featuresEn) || []).length > 0">
                 <h2>Caractéristiques</h2>
                 <div class="features-grid">
                   <div 
@@ -239,14 +240,12 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
   styleUrls: ['./apartment-detail.component.scss']
 })
 export class ApartmentDetailComponent implements OnInit, OnDestroy {
-    onImageError(event: Event, apartment: any) {
-      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
-    }
   apartment: Apartment | null = null;
   similarApartments: Apartment[] = [];
   areas: Area[] = [];
   currentImageIndex = 0;
   loading = true;
+  imageLoaded = false;
   t: any = {};
   currentLanguage = 'fr';
 
@@ -284,6 +283,8 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
           const id = params.get('id');
           // Reset image index when loading new apartment
           this.currentImageIndex = 0;
+          // Reset image loaded state
+          this.imageLoaded = false;
           // Scroll to top when switching apartments
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return id ? this.dataService.getApartment(id) : [];
@@ -334,17 +335,20 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
 
   previousImage(): void {
     if (this.currentImageIndex > 0) {
+      this.imageLoaded = false;
       this.currentImageIndex--;
     }
   }
 
   nextImage(): void {
     if (this.apartment && this.currentImageIndex < this.apartment.images.length - 1) {
+      this.imageLoaded = false;
       this.currentImageIndex++;
     }
   }
 
   selectImage(index: number): void {
+    this.imageLoaded = false;
     this.currentImageIndex = index;
   }
 
@@ -352,5 +356,21 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     // Trigger the header booking modal by dispatching a custom event
     const bookingEvent = new CustomEvent('openBookingModal');
     window.dispatchEvent(bookingEvent);
+  }
+
+  onImageLoad(): void {
+    this.imageLoaded = true;
+  }
+
+  onImageError(event: Event, apartment: any) {
+    const img = event.target as HTMLImageElement;
+    // Prevent infinite error loop
+    if (!img.src.includes('image-not-available')) {
+      img.src = 'assets/images/image-not-available.svg';
+      // Don't set imageLoaded yet - let the fallback image load first
+    } else {
+      // Fallback image also failed, show the content anyway
+      this.imageLoaded = true;
+    }
   }
 }

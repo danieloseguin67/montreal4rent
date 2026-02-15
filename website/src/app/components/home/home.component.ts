@@ -156,7 +156,7 @@ import { Subject, takeUntil } from 'rxjs';
           >
             <div class="apartment-image">
               <img 
-                [src]="'assets/images/' + apartment.images[0]" 
+                [src]="'assets/images/' + (apartment.images[0] || 'image-not-available.svg')" 
                 [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
                 (error)="onImageError($event, apartment)"
               >
@@ -263,9 +263,6 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-    onImageError(event: Event, apartment: any) {
-      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
-    }
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
   areas: Area[] = [];
@@ -299,7 +296,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private loadData(): void {
-    this.dataService.getFeaturedApartments(8)
+    // Load all apartments (no default filtering on homepage)
+    this.dataService.getApartments()
       .pipe(takeUntil(this.destroy$))
       .subscribe(apartments => {
         this.apartments = apartments;
@@ -419,5 +417,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     const b = this.getBedrooms(apartment);
     if (apartment.unit_type_name) return apartment.unit_type_name;
     return b === 0 ? 'Studio' : `${b} ${b === 1 ? (this.t.common?.bedroom || 'Bedroom') : (this.t.common?.bedrooms || 'Bedrooms')}`;
+  }
+
+  onImageError(event: Event, apartment: any) {
+    const img = event.target as HTMLImageElement;
+    // Prevent infinite error loop
+    if (!img.src.includes('image-not-available.svg')) {
+      img.src = 'assets/images/image-not-available.svg';
+    }
   }
 }

@@ -131,9 +131,6 @@ import { DataService, Apartment, Area } from '../../services/data.service';
   styleUrls: ['./rooms-for-rent.component.scss']
 })
 export class RoomsForRentComponent implements OnInit, OnDestroy {
-    onImageError(event: Event, apartment: any) {
-      (event.target as HTMLImageElement).src = 'assets/images/fallback.jpg';
-    }
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
 
@@ -216,5 +213,13 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
     if (typeof v === 'boolean') return v;
     if (typeof v === 'string') return v.toLowerCase() === 'true';
     return false;
+  }
+
+  onImageError(event: Event, apartment: any) {
+    const img = event.target as HTMLImageElement;
+    // Prevent infinite error loop
+    if (!img.src.includes('image-not-available')) {
+      img.src = 'assets/images/image-not-available.svg';
+    }
   }
 }
