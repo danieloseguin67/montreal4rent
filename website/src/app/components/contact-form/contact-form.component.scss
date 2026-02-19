@@ -103,6 +103,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
     margin-top: 0.5rem;
+    min-height: 44px;
+    width: 100%;
+    max-width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 
     &:hover {
       background-color: #0056b3;
@@ -159,6 +165,21 @@
 
     .submit-button {
       padding: 0.75rem 1.5rem;
+      width: 100%;
+      max-width: 100%;
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+@media (max-width: 374.98px) {
+  .contact-form-container {
+    margin: 0.5rem;
+    padding: 1rem;
+    
+    .submit-button {
+      padding: 0.625rem 1.25rem;
+      font-size: 0.875rem;
     }
   }
 }

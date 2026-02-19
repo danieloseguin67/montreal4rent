@@ -427,8 +427,8 @@
 // Extra small mobile (Samsung Galaxy, small Android phones)
 @media (max-width: 374.98px) {
   .header .container {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
   }
   
   .header-content {
@@ -438,20 +438,29 @@
   .header-actions {
     gap: 0.25rem;
     flex-shrink: 0; // Prevent shrinking
+    margin-left: auto;
   }
 
   .book-tour-btn {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.65rem;
+    padding: 0.5rem 0.6rem;
+    font-size: 0.7rem;
     white-space: nowrap;
+    min-width: auto;
+    
+    // Show only text, hide icon
+    .fas {
+      display: none;
+    }
   }
 
   .language-switcher {
     .language-btn {
-      padding: 0.4rem 0.5rem;
-      min-width: 40px; // Ensure touchable area
+      padding: 0.5rem 0.6rem;
+      min-width: 44px; // Ensure touchable area (WCAG standard)
+      min-height: 44px;
       justify-content: center;
       font-size: 0.75rem;
+      gap: 0.25rem;
       
       .current-lang {
         display: inline;
@@ -459,22 +468,23 @@
       
       .fas.fa-chevron-down {
         display: block;
-        margin-left: 0.2rem;
+        margin-left: 0;
         font-size: 0.65rem;
       }
     }
     
     .language-dropdown {
       right: 0;
-      min-width: 130px;
+      min-width: 120px;
+      left: auto;
     }
   }
 
   .mobile-menu-btn {
-    padding: 0.4rem 0.5rem;
+    padding: 0.5rem;
     margin-right: 0;
-    min-width: 40px; // Ensure touchable area
-    min-height: 40px;
+    min-width: 44px; // Ensure touchable area (WCAG standard)
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -494,31 +504,39 @@
   }
 
   .logo {
+    flex-shrink: 2; // Allow logo to shrink more on tiny screens
+    min-width: 0;
+    overflow: hidden;
+    
     .logo-link h1 {
       font-size: 1.1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
 
 @media (max-width: 767.98px) {
   .header .container {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
   
   .header-content {
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .header-actions {
-    gap: 0.4rem;
+    gap: 0.5rem;
     flex-shrink: 0; // Prevent shrinking
+    margin-left: auto;
   }
 
   .book-tour-btn {
-    padding: 0.5rem 0.75rem;
+    padding: 0.625rem 0.875rem;
     font-size: 0.75rem;
     white-space: nowrap;
+    min-width: auto;
 
     .fas {
       display: none;
@@ -527,27 +545,30 @@
 
   .language-switcher {
     .language-btn {
-      padding: 0.5rem 0.75rem;
-      min-width: 50px; // Ensure touchable area
+      padding: 0.625rem 0.875rem;
+      min-width: 44px; // Ensure touchable area (WCAG standard)
+      min-height: 44px;
       justify-content: center;
+      gap: 0.25rem;
       
       .fas.fa-chevron-down {
         display: block;
-        margin-left: 0.25rem;
+        margin-left: 0;
       }
     }
     
     .language-dropdown {
       right: 0;
+      left: auto;
       min-width: 140px;
     }
   }
 
   .mobile-menu-btn {
-    padding: 0.5rem;
+    padding: 0.625rem;
     margin-right: 0;
-    min-width: 50px; // Ensure touchable area
-    min-height: 50px;
+    min-width: 44px; // Ensure touchable area (WCAG standard)
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;

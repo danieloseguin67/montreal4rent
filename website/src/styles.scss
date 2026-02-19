@@ -90,10 +90,18 @@ a {
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
+  min-height: 44px; // Ensure touchable area
   
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+  
+  // Mobile responsiveness
+  @media (max-width: 374.98px) {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    min-height: 40px;
   }
 }
 
@@ -304,6 +312,16 @@ a {
   
   .text-mobile-center { text-align: center; }
   .text-mobile-left { text-align: left; }
+  
+  .btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+  }
+  
+  .btn-large {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+  }
 }
 
 @media (min-width: 768px) {

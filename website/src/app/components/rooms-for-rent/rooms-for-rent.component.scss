@@ -316,6 +316,7 @@
         
         @media (max-width: 768px) {
           flex-direction: column;
+          gap: 0.75rem;
         }
       }
       
@@ -335,9 +336,17 @@
         gap: 0.5rem;
         text-decoration: none;
         min-width: 160px;
+        min-height: 44px;
         
         @media (max-width: 768px) {
           width: 100%;
+          padding: 0.75rem 1.5rem;
+        }
+        
+        @media (max-width: 374.98px) {
+          padding: 0.625rem 1.25rem;
+          font-size: 0.9375rem;
+          min-width: auto;
         }
         
         &:hover:not(:disabled) {
