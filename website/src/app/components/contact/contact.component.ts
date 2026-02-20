@@ -406,7 +406,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       // Send email via backend PHP service
       this.emailService.sendEmail(
         formData.email,
-        'info@montreal4rent.com',
+        'Rental.express.ca@gmail.com',
         subject,
         emailBody,
         'contact',

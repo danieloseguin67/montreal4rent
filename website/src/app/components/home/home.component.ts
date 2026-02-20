@@ -242,7 +242,7 @@ import { Subject, takeUntil } from 'rxjs';
               <div class="agent-contact">
                 <div class="contact-item">
                   <i class="fas fa-envelope"></i>
-                  <a href="mailto:info@montreal4rent.com">{{ t.home?.aboutAgent?.email }}</a>
+                  <a href="mailto:Rental.express.ca@gmail.com">{{ t.home?.aboutAgent?.email }}</a>
                 </div>
               </div>
 

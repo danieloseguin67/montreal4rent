@@ -68,7 +68,7 @@ $formType = trim($data['formType'] ?? 'general');
 $senderName = trim($data['senderName'] ?? '');
 
 // Lock recipient to the site inbox to avoid abuse
-$allowedRecipient = 'info@montreal4rent.com';
+$allowedRecipient = 'Rental.express.ca@gmail.com';
 if (strcasecmp($to, $allowedRecipient) !== 0) {
   $to = $allowedRecipient;
 }

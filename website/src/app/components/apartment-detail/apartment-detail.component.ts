@@ -176,7 +176,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                         {{ t.navigation?.bookTour }}
                       </button>
                       <div class="contact-actions2">
-                        <a href="mailto:info@montreal4rent.com" class="btn btn-primary btn-block">
+                        <a href="mailto:Rental.express.ca@gmail.com" class="btn btn-primary btn-block">
                           <i class="fas fa-envelope"></i>
                           Email
                         </a>

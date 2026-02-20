@@ -389,7 +389,7 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
       ? `Bonjour,\n\nJe souhaite réserver une visite pour:${apartmentInfo}\n\nNom: \nEmail: \nTéléphone: \nMessage: `
       : `Hello,\n\nI would like to book a tour for:${apartmentInfo}\n\nName: \nEmail: \nPhone: \nMessage: `);
     
-    const mailtoLink = `mailto:info@montreal4rent.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailtoLink = `mailto:Rental.express.ca@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoLink;
   }
 

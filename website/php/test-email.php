@@ -27,11 +27,11 @@ $info = [
 
 // Test sending a simple email if ?test=send is provided
 if (isset($_GET['test']) && $_GET['test'] === 'send') {
-  $to = 'info@montreal4rent.com';
+  $to = 'Rental.express.ca@gmail.com';
   $subject = 'Test Email from montreal4rent.com';
   $message = 'This is a test email sent at ' . gmdate('Y-m-d H:i:s') . ' UTC';
   $headers = [
-    'From: Montreal4Rent Test <info@montreal4rent.com>',
+    'From: Montreal4Rent Test <Rental.express.ca@gmail.com>',
     'Content-Type: text/plain; charset=UTF-8',
     'X-Mailer: PHP/' . phpversion()
   ];
