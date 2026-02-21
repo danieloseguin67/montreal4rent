@@ -39,7 +39,7 @@ import { Subject, takeUntil } from 'rxjs';
               </li>
               <li>
                 <a 
-                  [routerLink]="currentLanguage === 'fr' ? '/suites-non-meublées' : '/condo-rentals'" 
+                  [routerLink]="currentLanguage === 'fr' ? '/condos-à-louer' : '/condo-rentals'" 
                   routerLinkActive="active"
                 >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>
               </li>
@@ -66,50 +66,41 @@ import { Subject, takeUntil } from 'rxjs';
 
           <!-- Right Side Actions -->
           <div class="header-actions">
-            <!-- Language Switcher -->
-            <div class="language-switcher" [class.active]="showLanguageDropdown">
-              <button 
-                class="language-btn"
-                (click)="toggleLanguageDropdown()"
-                [attr.aria-expanded]="showLanguageDropdown"
-                aria-label="Changer de langue"
-              >
-                <span class="current-lang">{{ currentLanguage === 'fr' ? 'FR' : 'EN' }}</span>
-                <i class="fas fa-chevron-down"></i>
-              </button>
-              <div class="language-dropdown" *ngIf="showLanguageDropdown">
+            <div class="header-top-actions">
+              <!-- Language Switcher (Side by Side) -->
+              <div class="language-switcher">
                 <button 
-                  class="language-option" 
+                  class="lang-btn" 
                   [class.active]="currentLanguage === 'fr'"
                   (click)="setLanguage('fr')"
+                  aria-label="Français"
                 >
-                  <span class="flag">🇫🇷</span>
-                  Français
+                  FR
                 </button>
                 <button 
-                  class="language-option" 
+                  class="lang-btn" 
                   [class.active]="currentLanguage === 'en'"
                   (click)="setLanguage('en')"
+                  aria-label="English"
                 >
-                  <span class="flag">EN</span>
-                  English
+                  EN
                 </button>
               </div>
+
+              <!-- Mobile Menu Button - Shows on tablet and mobile only -->
+              <button 
+                class="mobile-menu-btn"
+                (click)="toggleMobileMenu()"
+                [attr.aria-expanded]="showMobileMenu"
+                aria-label="Menu principal"
+              >
+                <i class="fas" [class.fa-bars]="!showMobileMenu" [class.fa-times]="showMobileMenu"></i>
+              </button>
             </div>
 
             <!-- Book Tour Button -->
             <button class="book-tour-btn" (click)="openBookingModal()">
               {{ t.navigation?.bookTour }}
-            </button>
-
-            <!-- Mobile Menu Button - Shows on tablet and mobile only -->
-            <button 
-              class="mobile-menu-btn"
-              (click)="toggleMobileMenu()"
-              [attr.aria-expanded]="showMobileMenu"
-              aria-label="Menu principal"
-            >
-              <i class="fas" [class.fa-bars]="!showMobileMenu" [class.fa-times]="showMobileMenu"></i>
             </button>
           </div>
         </div>
@@ -135,7 +126,7 @@ import { Subject, takeUntil } from 'rxjs';
               </li>
               <li>
                 <a 
-                  [routerLink]="currentLanguage === 'fr' ? '/suites-non-meublées' : '/condo-rentals'" 
+                  [routerLink]="currentLanguage === 'fr' ? '/condos-à-louer' : '/condo-rentals'" 
                   (click)="closeMobileMenu()" 
                   routerLinkActive="active"
                 >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>

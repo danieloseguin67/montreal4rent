@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LanguageService, Language } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { DataService, Apartment, Area } from '../../services/data.service';
+import { CacheBustingService } from '../../services/cache-busting.service';
 
 @Component({
   selector: 'app-rooms-for-rent',
@@ -14,7 +15,7 @@ import { DataService, Apartment, Area } from '../../services/data.service';
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-image">
-           <img src="assets/images/rentaroom.jpg" alt="Cozy room rental space" loading="lazy">
+           <img [src]="getImageUrl('rentaroom.jpg')" alt="Cozy room rental space" loading="lazy">
         </div>
         <div class="hero-content">
           <div class="container">
@@ -47,7 +48,7 @@ import { DataService, Apartment, Area } from '../../services/data.service';
             >
               <div class="apartment-image">
                 <img 
-                  [src]="'assets/images/' + apartment.images[0]" 
+                  [src]="getImageUrl(apartment.images[0])" 
                   [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
                   (error)="onImageError($event, apartment)"
                 >
@@ -144,7 +145,8 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
   constructor(
     private languageService: LanguageService,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private cacheBusting: CacheBustingService
   ) {}
 
   ngOnInit(): void {
@@ -215,11 +217,15 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  getImageUrl(imagePath: string): string {
+    return this.cacheBusting.getImageUrl(imagePath);
+  }
+
   onImageError(event: Event, apartment: any) {
     const img = event.target as HTMLImageElement;
     // Prevent infinite error loop
     if (!img.src.includes('image-not-available')) {
-      img.src = 'assets/images/image-not-available.svg';
+      img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CacheBustingService } from '../../services/cache-busting.service';
 
 @Component({
   selector: 'app-property-owners',
@@ -13,12 +14,12 @@ import { RouterModule } from '@angular/router';
         <div class="hero-content">
           <div class="container">
             <h1>Property Owners</h1>
-              <p class="hero-description" style="font-size: 1.5rem; font-weight: bold;">High-Performance Leasing for Multi-Residential Properties</p>
-              <p>Specializing in high-volume rentals, new construction, and value-add assets.</p>
+              <p class="hero-description">High-Performance Leasing for Multi-Residential Properties</p>
+              <p class="hero-subtitle">Specializing in high-volume rentals, new construction, and value-add assets.</p>
           </div>
         </div>
         <div class="hero-image">
-          <img src="assets/images/property-rental-owners.jpg" alt="Property Owners" loading="lazy">
+          <img [src]="getImageUrl('property-rental-owners.jpg')" alt="Property Owners" loading="lazy">
         </div>
       </section>
 
@@ -56,7 +57,7 @@ import { RouterModule } from '@angular/router';
       <section class="showcase-section">
         <div class="container">
           <img 
-            src="assets/images/montrealdowntown.jpg" 
+            [src]="getImageUrl('montrealdowntown.jpg')" 
             alt="Montreal condo high-rise" 
             loading="lazy" 
             class="showcase-image"
@@ -67,4 +68,10 @@ import { RouterModule } from '@angular/router';
   `,
   styleUrls: ['./property-owners.component.scss']
 })
-export class PropertyOwnersComponent {}
+export class PropertyOwnersComponent {
+  constructor(private cacheBusting: CacheBustingService) {}
+
+  getImageUrl(imagePath: string): string {
+    return this.cacheBusting.getImageUrl(imagePath);
+  }
+}

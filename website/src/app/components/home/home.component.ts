@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService, Apartment, Area, ToggleOption } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
+import { CacheBustingService } from '../../services/cache-busting.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -156,7 +157,7 @@ import { Subject, takeUntil } from 'rxjs';
           >
             <div class="apartment-image">
               <img 
-                [src]="'assets/images/' + (apartment.images[0] || 'image-not-available.svg')" 
+                [src]="getImageUrl(apartment.images[0])" 
                 [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
                 (error)="onImageError($event, apartment)"
               >
@@ -282,7 +283,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private dataService: DataService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private cacheBusting: CacheBustingService
   ) {}
 
   ngOnInit(): void {
@@ -419,11 +421,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     return b === 0 ? 'Studio' : `${b} ${b === 1 ? (this.t.common?.bedroom || 'Bedroom') : (this.t.common?.bedrooms || 'Bedrooms')}`;
   }
 
+  getImageUrl(imagePath: string): string {
+    return this.cacheBusting.getImageUrl(imagePath);
+  }
+
   onImageError(event: Event, apartment: any) {
     const img = event.target as HTMLImageElement;
     // Prevent infinite error loop
     if (!img.src.includes('image-not-available.svg')) {
-      img.src = 'assets/images/image-not-available.svg';
+      img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
     }
   }
 }

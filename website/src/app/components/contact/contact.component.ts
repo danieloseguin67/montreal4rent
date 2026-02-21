@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 import { LanguageService, Language } from '../../services/language.service';
 import { EmailService } from '../../services/email.service';
+import { CacheBustingService } from '../../services/cache-busting.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -21,7 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img src="assets/images/contactusbanner.jpg" alt="Contact Us" loading="lazy">
+          <img [src]="getImageUrl('contactusbanner.jpg')" alt="Contact Us" loading="lazy">
         </div>
       </section>
 
@@ -288,7 +289,8 @@ export class ContactComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private cacheBusting: CacheBustingService
   ) {
     this.contactForm = this.formBuilder.group({
       moveInDate: ['', Validators.required],
@@ -441,5 +443,9 @@ export class ContactComponent implements OnInit, OnDestroy {
         this.contactForm.get(key)?.markAsTouched();
       });
     }
+  }
+
+  getImageUrl(imagePath: string): string {
+    return this.cacheBusting.getImageUrl(imagePath);
   }
 }

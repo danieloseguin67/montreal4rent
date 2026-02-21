@@ -3,6 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { DataService, Apartment, Area } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
+import { CacheBustingService } from '../../services/cache-busting.service';
 import { Subject, takeUntil, switchMap } from 'rxjs';
 
 @Component({
@@ -26,7 +27,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
       <section class="apartment-hero">
         <div class="hero-image">
           <img 
-            [src]="'assets/images/' + apartment.images[currentImageIndex]" 
+            [src]="getImageUrl(apartment.images[currentImageIndex])" 
             [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
             (load)="onImageLoad()"
             (error)="onImageError($event, apartment)"
@@ -148,7 +149,7 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     [class.active]="i === currentImageIndex"
                   >
                     <img 
-                      [src]="'assets/images/' + image" 
+                      [src]="getImageUrl(image)" 
                       [alt]="'Image ' + (i + 1)"
                       (error)="onImageError($event, apartment)"
                     >
@@ -199,9 +200,9 @@ import { Subject, takeUntil, switchMap } from 'rxjs';
                     >
                       <div class="similar-image">
                         <img 
-                          [src]="'assets/images/' + similar.images[0]" 
+                          [src]="getImageUrl(similar.images[0])" 
                           [alt]="currentLanguage === 'fr' ? similar.title : similar.titleEn"
-                          onerror="this.src='assets/images/' + similar.images[0]"
+                          (error)="onImageError($event, similar)"
                         >
                       </div>
                       <div class="similar-content">
@@ -255,7 +256,8 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private dataService: DataService,
     private languageService: LanguageService,
-    private location: Location
+    private location: Location,
+    private cacheBusting: CacheBustingService
   ) {}
 
   ngOnInit(): void {
@@ -358,6 +360,10 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     window.dispatchEvent(bookingEvent);
   }
 
+  getImageUrl(imagePath: string): string {
+    return this.cacheBusting.getImageUrl(imagePath);
+  }
+
   onImageLoad(): void {
     this.imageLoaded = true;
   }
@@ -366,7 +372,7 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     const img = event.target as HTMLImageElement;
     // Prevent infinite error loop
     if (!img.src.includes('image-not-available')) {
-      img.src = 'assets/images/image-not-available.svg';
+      img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
       // Don't set imageLoaded yet - let the fallback image load first
     } else {
       // Fallback image also failed, show the content anyway

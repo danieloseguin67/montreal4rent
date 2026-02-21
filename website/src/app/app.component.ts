@@ -15,9 +15,28 @@ import { FooterComponent } from './components/footer/footer.component';
     <app-footer></app-footer>
   `,
   styles: [`
+    :host {
+      display: block;
+      width: 100%;
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+    
     .main-content {
       min-height: calc(100vh - 80px - 200px); // Account for header and footer
       padding-top: 80px; // Account for fixed header
+      width: 100%;
+      overflow-x: hidden;
+      max-width: 100%;
+      box-sizing: border-box;
+      
+      @media (max-width: 767.98px) {
+        padding-top: 110px; // Account for taller mobile header
+      }
+      
+      @media (max-width: 374.98px) {
+        padding-top: 115px; // Account for even taller tiny screen header
+      }
     }
   `]
 })
