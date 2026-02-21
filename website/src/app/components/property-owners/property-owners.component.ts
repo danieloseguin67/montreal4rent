@@ -8,18 +8,28 @@ import { CacheBustingService } from '../../services/cache-busting.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <div class="property-owners-page">
+    <main tabindex="-1">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
+      </div>
+
+      <div class="property-owners-page">
       <!-- Hero Section -->
-      <section class="hero-section">
+      <section
+        class="hero-section"
+        role="region"
+        tabindex="0"
+        aria-label="Property Owners banner. High-Performance Leasing for Multi-Residential Properties. Specializing in high-volume rentals, new construction, and value-add assets."
+      >
         <div class="hero-content">
           <div class="container">
-            <h1>Property Owners</h1>
+            <h1 id="property-owners-hero-title">Property Owners</h1>
               <p class="hero-description">High-Performance Leasing for Multi-Residential Properties</p>
               <p class="hero-subtitle">Specializing in high-volume rentals, new construction, and value-add assets.</p>
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('property-rental-owners.jpg')" alt="Property Owners" loading="lazy">
+          <img [src]="getImageUrl('property-rental-owners.jpg')" alt="Property Owners" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -27,12 +37,27 @@ import { CacheBustingService } from '../../services/cache-busting.service';
       <section class="services-section">
         <div class="container">
           <div class="services-grid">
-            <div class="service-card">
-              <h3>Leasing</h3>
-              <p>Professional leasing processes designed to minimize vacancy and maximize rent.</p>
+            <div
+              class="service-card"
+              role="group"
+              tabindex="0"
+              aria-labelledby="service-leasing-title"
+              aria-describedby="service-leasing-desc"
+            >
+              <h3 id="service-leasing-title">Leasing</h3>
+              <p id="service-leasing-desc">Professional leasing processes designed to minimize vacancy and maximize rent.</p>
             </div>
-            <div class="service-card">
-              <h3>Property Evaluation & Market Positioning</h3>
+            <div
+              class="service-card"
+              role="group"
+              tabindex="0"
+              aria-labelledby="service-eval-title"
+              aria-describedby="service-eval-desc"
+            >
+              <h3 id="service-eval-title">Property Evaluation & Market Positioning</h3>
+              <p class="sr-only" id="service-eval-desc">
+                On-site evaluation of rent-ready condition with clear recommendations on repairs and cleaning. Pricing analysis. Comparable research. Promotion structuring. Ongoing feedback from showings. Market response used to refine pricing. Fully furnished versus unfurnished marketing strategies.
+              </p>
               <ul>
                 <li>On-site evaluation of rent-ready condition with clear recommendations on repairs & cleaning</li>
                 <li>Pricing analysis</li>
@@ -43,9 +68,15 @@ import { CacheBustingService } from '../../services/cache-busting.service';
                 <li>Fully furnished VS Unfurnished marketing strategies</li>
               </ul>
             </div>
-            <div class="service-card">
-              <h3>Marketing</h3>
-              <p>Targeted marketing campaigns, high-quality listings, and lead management.</p>
+            <div
+              class="service-card"
+              role="group"
+              tabindex="0"
+              aria-labelledby="service-marketing-title"
+              aria-describedby="service-marketing-desc"
+            >
+              <h3 id="service-marketing-title">Marketing</h3>
+              <p id="service-marketing-desc">Targeted marketing campaigns, high-quality listings, and lead management.</p>
             </div>
           </div>
 
@@ -58,17 +89,21 @@ import { CacheBustingService } from '../../services/cache-busting.service';
         <div class="container">
           <img 
             [src]="getImageUrl('montrealdowntown.jpg')" 
+            loading="lazy"
+            decoding="async"
             alt="Montreal condo high-rise" 
-            loading="lazy" 
             class="showcase-image"
           >
         </div>
       </section>
     </div>
+    </main>
   `,
   styleUrls: ['./property-owners.component.scss']
 })
 export class PropertyOwnersComponent {
+  liveAnnouncement = '';
+
   constructor(private cacheBusting: CacheBustingService) {}
 
   getImageUrl(imagePath: string): string {

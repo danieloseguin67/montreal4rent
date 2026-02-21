@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService, Apartment, Area, ToggleOption, UnitType } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
@@ -12,7 +12,12 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, CurrencyPipe],
   template: `
-    <div class="condo-rentals-page">
+    <main #pageMain tabindex="-1">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
+      </div>
+
+      <div class="condo-rentals-page">
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-content">
@@ -22,7 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('unfurnished1.jpg')" alt="Condo rentals banner" loading="lazy">
+          <img [src]="getImageUrl('unfurnished1.jpg')" alt="Condo rentals banner" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -93,7 +98,8 @@ import { Subject, takeUntil } from 'rxjs';
                             type="checkbox" 
                             [checked]="selectedToggles.has(opt.toggle_name)"
                             (change)="onToggleChanged(opt.toggle_name, $any($event.target).checked)"
-                            [id]="'toggle-' + opt.toggle_name"
+                              (keydown.enter)="$event.preventDefault(); $event.stopPropagation(); $any($event.target).click()"
+                              [id]="'toggle-' + opt.toggle_name"
                           >
                           <label class="form-check-label" [for]="'toggle-' + opt.toggle_name">
                             <span class="me-2">{{ opt.toggle_image }}</span>{{ opt.toggle_name }}
@@ -157,9 +163,9 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
                 <div class="apartment-price">{{ apartment.price | currency:'CAD':'symbol':'1.0-0' }}/{{ currentLanguage === 'fr' ? 'mois' : 'month' }}</div>
                 <div class="image-overlay">
-                  <a class="btn btn-primary btn-sm" [routerLink]="['/appartement', apartment.id]">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="openApartment(apartment.id)">
                     {{ currentLanguage === 'fr' ? 'Voir les détails' : 'View Details' }}
-                  </a>
+                  </button>
                 </div>
               </div>
               
@@ -195,12 +201,13 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
 
                 <div class="apartment-actions">
-                  <a 
-                    [routerLink]="['/appartement', apartment.id]" 
+                  <button
+                    type="button"
                     class="btn btn-primary"
+                    (click)="openApartment(apartment.id)"
                   >
                     {{ currentLanguage === 'fr' ? 'Voir les détails' : 'View Details' }}
-                  </a>
+                  </button>
                   <button 
                     class="btn btn-outline"
                     *ngIf="apartment.available"
@@ -225,6 +232,7 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
       </section>
     </div>
+    </main>
   `,
   styleUrls: ['./condo-rentals.component.scss']
 })
@@ -244,12 +252,15 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
   selectedBedrooms: string = '';
   sortBy: 'price-asc' | 'price-desc' = 'price-asc';
 
+  liveAnnouncement = '';
+
   private destroy$ = new Subject<void>();
 
   constructor(
     private dataService: DataService,
     private languageService: LanguageService,
     private route: ActivatedRoute,
+    private router: Router,
     private cacheBusting: CacheBustingService
   ) {}
 
@@ -412,5 +423,11 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
     if (!img.src.includes('image-not-available')) {
       img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
     }
+  }
+
+  openApartment(apartmentId: string): void {
+    sessionStorage['focusContentAfterNav'] = '1';
+    const basePath = this.currentLanguage === 'fr' ? '/appartement' : '/apartments';
+    this.router.navigate([basePath, apartmentId]);
   }
 }

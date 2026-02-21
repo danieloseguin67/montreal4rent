@@ -12,7 +12,12 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, CurrencyPipe],
   template: `
-    <div class="furnished-suites-page">
+    <main #pageMain tabindex="-1">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
+      </div>
+
+      <div class="furnished-suites-page">
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-content">
@@ -22,7 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('furnished1.jpg')" alt="Furnished apartment" loading="lazy">
+          <img [src]="getImageUrl('furnished1.jpg')" alt="Furnished apartment" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -78,6 +83,7 @@ import { Subject, takeUntil } from 'rxjs';
                             type="checkbox" 
                             [checked]="selectedToggles.has(opt)"
                             (change)="onToggleChanged(opt, $any($event.target).checked)"
+                            (keydown.enter)="$event.preventDefault(); $event.stopPropagation(); $any($event.target).click()"
                             [id]="'toggle-' + opt"
                           >
                           <label class="form-check-label" [for]="'toggle-' + opt">
@@ -193,12 +199,15 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
       </section>
     </div>
+    </main>
   `,
   styleUrls: ['./furnished-suites.component.scss']
 })
 export class FurnishedSuitesComponent implements OnInit, OnDestroy {
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
+
+  liveAnnouncement = '';
 
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];

@@ -22,7 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('unfurnished1.jpg')" alt="Condo rentals banner" loading="lazy">
+          <img [src]="getImageUrl('unfurnished1.jpg')" alt="Condo rentals banner" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -93,7 +93,8 @@ import { Subject, takeUntil } from 'rxjs';
                             type="checkbox" 
                             [checked]="selectedToggles.has(opt.toggle_name)"
                             (change)="onToggleChanged(opt.toggle_name, $any($event.target).checked)"
-                            [id]="'toggle-' + opt.toggle_name"
+                             [id]="'toggle-' + opt.toggle_name"
+                             (keydown.enter)="$event.preventDefault(); $event.stopPropagation(); $any($event.target).click()"
                           >
                           <label class="form-check-label" [for]="'toggle-' + opt.toggle_name">
                             <span class="me-2">{{ opt.toggle_image }}</span>{{ opt.toggle_name }}

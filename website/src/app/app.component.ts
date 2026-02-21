@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { Subject, filter, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,9 @@ import { FooterComponent } from './components/footer/footer.component';
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
     <app-header></app-header>
-    <main class="main-content">
+    <div class="main-content" id="app-main-content" tabindex="-1" role="main">
       <router-outlet></router-outlet>
-    </main>
+    </div>
     <app-footer></app-footer>
   `,
   styles: [`
@@ -40,8 +41,10 @@ import { FooterComponent } from './components/footer/footer.component';
     }
   `]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'montreal4rent';
+
+  private destroy$ = new Subject<void>();
   
   constructor(private router: Router) {}
   
@@ -55,5 +58,36 @@ export class AppComponent implements OnInit {
       const path = redirect.replace(baseHref, '');
       this.router.navigateByUrl('/' + path);
     }
+
+    // On every navigation, focus the top menu bar so screen readers
+    // start at the header consistently (instead of the browser URL).
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        const focusContentAfterNav = sessionStorage['focusContentAfterNav'] === '1';
+        delete sessionStorage['focusContentAfterNav'];
+        setTimeout(() => {
+          if (focusContentAfterNav) {
+            const contentMain = document.querySelector('.main-content main[tabindex="-1"], .main-content main') as HTMLElement | null;
+            (contentMain ?? document.getElementById('app-main-content'))?.focus();
+            return;
+          }
+
+          document.getElementById('top-menu-bar')?.focus();
+        }, 0);
+      });
+
+    // Initial focus on first load.
+    setTimeout(() => {
+      document.getElementById('top-menu-bar')?.focus();
+    }, 0);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

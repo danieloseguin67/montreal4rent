@@ -11,54 +11,77 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <header class="header">
+    <header
+      class="header"
+      id="top-menu-bar"
+      tabindex="-1"
+      [attr.aria-label]="currentLanguage === 'fr' ? 'Barre de menu principale' : 'Top menu bar'"
+    >
       <div class="container">
         <div class="header-content" [class.french-layout]="currentLanguage === 'fr'">
           <!-- Logo -->
           <div class="logo">
-            <a routerLink="/" class="logo-link">
-              <h1>Montreal4Rent</h1>
+            <a routerLink="/" class="logo-link" aria-label="Montreal4Rent - Go to home page" (click)="onNavActivated()">
+              <h1 aria-label="Montreal4Rent">Montreal4Rent</h1>
             </a>
           </div>
 
           <!-- Desktop Navigation -->
-          <nav class="desktop-nav" aria-label="Main navigation">
-            <ul class="nav-list">
+          <nav class="desktop-nav" role="navigation" aria-label="Main navigation">
+            <ul class="nav-list" role="menubar">
               
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
                   routerLinkActive="active"
+                  (click)="onNavActivated()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir tous les appartements' : 'View all apartments'"
                 >{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/suites-meublées' : '/furnished-suites'" 
                   routerLinkActive="active"
+                  (click)="onNavActivated()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les appartements entièrement meublés' : 'View fully furnished apartments'"
                 >{{ currentLanguage === 'fr' ? 'Entièrement Meublés' : 'Fully Furnished' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/condos-à-louer' : '/condo-rentals'" 
                   routerLinkActive="active"
+                  (click)="onNavActivated()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les condos à louer' : 'View condo rentals'"
                 >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/chambres-à-louer' : '/rooms-for-rent'" 
                   routerLinkActive="active"
+                  (click)="onNavActivated()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les chambres à louer' : 'View rooms for rent'"
                 >{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="'/property-owners'" 
                   routerLinkActive="active"
+                  (click)="onNavActivated()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Information pour les propriétaires' : 'Information for property owners'"
                 >{{ currentLanguage === 'fr' ? 'Propriétaires' : 'Property Owners' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="'/contact'" 
                   routerLinkActive="active"
+                  (click)="onNavActivated()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Contactez-nous' : 'Contact us'"
                 >{{ currentLanguage === 'fr' ? 'Contactez-Nous' : 'Contact Us' }}</a>
               </li>
             </ul>
@@ -68,12 +91,14 @@ import { Subject, takeUntil } from 'rxjs';
           <div class="header-actions">
             <div class="header-top-actions">
               <!-- Language Switcher (Side by Side) -->
-              <div class="language-switcher">
+              <div class="language-switcher" role="group" aria-label="Language selection">
                 <button 
                   class="lang-btn" 
                   [class.active]="currentLanguage === 'fr'"
                   (click)="setLanguage('fr')"
-                  aria-label="Français"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Français sélectionné' : 'Changer la langue en français'"
+                  [attr.aria-pressed]="currentLanguage === 'fr'"
+                  type="button"
                 >
                   FR
                 </button>
@@ -81,7 +106,9 @@ import { Subject, takeUntil } from 'rxjs';
                   class="lang-btn" 
                   [class.active]="currentLanguage === 'en'"
                   (click)="setLanguage('en')"
-                  aria-label="English"
+                  [attr.aria-label]="currentLanguage === 'en' ? 'English selected' : 'Switch language to English'"
+                  [attr.aria-pressed]="currentLanguage === 'en'"
+                  type="button"
                 >
                   EN
                 </button>
@@ -92,64 +119,87 @@ import { Subject, takeUntil } from 'rxjs';
                 class="mobile-menu-btn"
                 (click)="toggleMobileMenu()"
                 [attr.aria-expanded]="showMobileMenu"
-                aria-label="Menu principal"
+                [attr.aria-label]="showMobileMenu ? (currentLanguage === 'fr' ? 'Fermer le menu principal' : 'Close main menu') : (currentLanguage === 'fr' ? 'Ouvrir le menu principal' : 'Open main menu')"
+                type="button"
               >
-                <i class="fas" [class.fa-bars]="!showMobileMenu" [class.fa-times]="showMobileMenu"></i>
+                <i class="fas" [class.fa-bars]="!showMobileMenu" [class.fa-times]="showMobileMenu" aria-hidden="true"></i>
               </button>
             </div>
 
             <!-- Book Tour Button -->
-            <button class="book-tour-btn" (click)="openBookingModal()">
+            <button 
+              class="book-tour-btn" 
+              (click)="openBookingModal()"
+              [attr.aria-label]="currentLanguage === 'fr' ? 'Réserver une visite guidée' : 'Book a tour of an apartment'"
+              type="button"
+            >
               {{ t.navigation?.bookTour }}
             </button>
           </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div class="mobile-menu" [class.show]="showMobileMenu" *ngIf="showMobileMenu">
-          <nav class="mobile-nav" aria-label="Navigation mobile">
-            <ul class="mobile-nav-list">
+        <div 
+          class="mobile-menu" 
+          [class.show]="showMobileMenu" 
+          *ngIf="showMobileMenu"
+          [attr.aria-hidden]="!showMobileMenu"
+        >
+          <nav class="mobile-nav" role="navigation" [attr.aria-label]="currentLanguage === 'fr' ? 'Navigation mobile' : 'Mobile navigation'">
+            <ul class="mobile-nav-list" role="menu">
               
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/appartements' : '/apartments'" 
-                  (click)="closeMobileMenu()" 
+                  (click)="onNavActivated(); closeMobileMenu()" 
                   routerLinkActive="active"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir tous les appartements' : 'View all apartments'"
                 >{{ currentLanguage === 'fr' ? 'Appartements' : 'Apartments' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/suites-meublées' : '/furnished-suites'" 
-                  (click)="closeMobileMenu()" 
+                  (click)="onNavActivated(); closeMobileMenu()" 
                   routerLinkActive="active"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les appartements entièrement meublés' : 'View fully furnished apartments'"
                 >{{ currentLanguage === 'fr' ? 'Entièrement Meublés' : 'Fully Furnished' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/condos-à-louer' : '/condo-rentals'" 
-                  (click)="closeMobileMenu()" 
+                  (click)="onNavActivated(); closeMobileMenu()" 
                   routerLinkActive="active"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les condos à louer' : 'View condo rentals'"
                 >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="currentLanguage === 'fr' ? '/chambres-à-louer' : '/rooms-for-rent'" 
-                  (click)="closeMobileMenu()" 
+                  (click)="onNavActivated(); closeMobileMenu()" 
                   routerLinkActive="active"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les chambres à louer' : 'View rooms for rent'"
                 >{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="'/property-owners'" 
-                  (click)="closeMobileMenu()" 
+                  (click)="onNavActivated(); closeMobileMenu()" 
                   routerLinkActive="active"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Information pour les propriétaires' : 'Information for property owners'"
                 >{{ currentLanguage === 'fr' ? 'Propriétaires' : 'Property Owners' }}</a>
               </li>
-              <li>
+              <li role="none">
                 <a 
+                  role="menuitem"
                   [routerLink]="'/contact'" 
-                  (click)="closeMobileMenu()" 
+                  (click)="onNavActivated(); closeMobileMenu()" 
                   routerLinkActive="active"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Contactez-nous' : 'Contact us'"
                 >{{ currentLanguage === 'fr' ? 'Contactez-Nous' : 'Contact Us' }}</a>
               </li>
             </ul>
@@ -162,88 +212,118 @@ import { Subject, takeUntil } from 'rxjs';
         class="mobile-menu-overlay" 
         *ngIf="showMobileMenu"
         (click)="closeMobileMenu()"
+        aria-hidden="true"
       ></div>
 
       <!-- Booking Modal -->
-      <div class="booking-modal-overlay" *ngIf="showBookingModal" (click)="closeBookingModal()">
-        <div class="booking-modal" (click)="$event.stopPropagation()">
+      <div 
+        class="booking-modal-overlay" 
+        *ngIf="showBookingModal" 
+        (click)="closeBookingModal()"
+        role="dialog"
+        aria-modal="true"
+        [attr.aria-label]="currentLanguage === 'fr' ? 'Formulaire de réservation de visite' : 'Tour booking form'"
+      >
+        <div class="booking-modal" (click)="$event.stopPropagation()" role="document">
           <div class="modal-header">
-            <h3>{{ t.navigation?.bookTour }}</h3>
-            <button class="modal-close" (click)="closeBookingModal()">
-              <i class="fas fa-times"></i>
+            <h3 id="booking-modal-title">{{ t.navigation?.bookTour }}</h3>
+            <button 
+              class="modal-close" 
+              (click)="closeBookingModal()"
+              [attr.aria-label]="currentLanguage === 'fr' ? 'Fermer le formulaire' : 'Close form'"
+              type="button"
+            >
+              <i class="fas fa-times" aria-hidden="true"></i>
             </button>
           </div>
           
           <div class="modal-body">
-            <form class="booking-form" (ngSubmit)="submitBookingForm()" #bookingFormRef="ngForm">
+            <form class="booking-form" (ngSubmit)="submitBookingForm()" #bookingFormRef="ngForm" aria-labelledby="booking-modal-title">
               <div class="form-group">
-                <label for="name">{{ currentLanguage === 'fr' ? 'Nom complet' : 'Full Name' }} *</label>
+                <label for="booking-name">{{ currentLanguage === 'fr' ? 'Nom complet' : 'Full Name' }} *</label>
                 <input 
                   type="text" 
-                  id="name" 
+                  id="booking-name" 
                   name="name"
                   [(ngModel)]="bookingForm.name" 
                   class="form-control" 
                   required
                   #nameField="ngModel"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Nom complet, requis' : 'Full name, required'"
+                  [attr.aria-required]="true"
                   placeholder="{{ currentLanguage === 'fr' ? 'Votre nom complet' : 'Your full name' }}"
                 >
               </div>
               
               <div class="form-group">
-                <label for="email">{{ currentLanguage === 'fr' ? 'Courriel' : 'Email' }} *</label>
+                <label for="booking-email">{{ currentLanguage === 'fr' ? 'Courriel' : 'Email' }} *</label>
                 <input 
                   type="email" 
-                  id="email" 
+                  id="booking-email" 
                   name="email"
                   [(ngModel)]="bookingForm.email" 
                   class="form-control" 
                   required
                   #emailField="ngModel"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Adresse courriel, requis' : 'Email address, required'"
+                  [attr.aria-required]="true"
                   placeholder="{{ currentLanguage === 'fr' ? 'votre@email.com' : 'your@email.com' }}"
                 >
               </div>
               
               <div class="form-group">
-                <label for="phone">{{ currentLanguage === 'fr' ? 'Téléphone' : 'Phone Number' }} *</label>
+                <label for="booking-phone">{{ currentLanguage === 'fr' ? 'Téléphone' : 'Phone Number' }} *</label>
                 <input 
                   type="tel" 
-                  id="phone" 
+                  id="booking-phone" 
                   name="phone"
                   [(ngModel)]="bookingForm.phone" 
                   class="form-control" 
                   required
                   #phoneField="ngModel"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Numéro de téléphone, requis' : 'Phone number, required'"
+                  [attr.aria-required]="true"
                   placeholder="{{ currentLanguage === 'fr' ? '(514) 123-4567' : '(514) 123-4567' }}"
                 >
               </div>
               
               <div class="form-group">
-                <label for="message">{{ currentLanguage === 'fr' ? 'Message' : 'Message' }}</label>
+                <label for="booking-message">{{ currentLanguage === 'fr' ? 'Message' : 'Message' }}</label>
                 <textarea 
-                  id="message" 
+                  id="booking-message" 
                   name="message"
                   [(ngModel)]="bookingForm.message" 
                   class="form-control" 
                   rows="4"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Message optionnel' : 'Optional message'"
                   placeholder="{{ currentLanguage === 'fr' ? 'Décrivez vos besoins et préférences...' : 'Describe your needs and preferences...' }}"
                 ></textarea>
               </div>
               
-              <div *ngIf="bookingSuccess" class="alert alert-success">
+              <div *ngIf="bookingSuccess" class="alert alert-success" role="status" aria-live="polite">
                 {{ bookingSuccess }}
               </div>
 
-              <div *ngIf="bookingError" class="alert alert-error">
+              <div *ngIf="bookingError" class="alert alert-error" role="alert" aria-live="assertive">
                 {{ bookingError }}
               </div>
               
               <div class="form-actions">
-                <button type="button" class="btn btn-outline" (click)="closeBookingModal()">
+                <button 
+                  type="button" 
+                  class="btn btn-outline" 
+                  (click)="closeBookingModal()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Annuler et fermer le formulaire' : 'Cancel and close form'"
+                >
                   {{ currentLanguage === 'fr' ? 'Annuler' : 'Cancel' }}
                 </button>
-                <button type="submit" class="btn btn-primary" [disabled]="!bookingFormRef.form.valid || sendingBooking">
-                  <i class="fas fa-paper-plane"></i>
+                <button 
+                  type="submit" 
+                  class="btn btn-primary" 
+                  [disabled]="!bookingFormRef.form.valid || sendingBooking"
+                  [attr.aria-label]="sendingBooking ? (currentLanguage === 'fr' ? 'Envoi en cours' : 'Sending') : (currentLanguage === 'fr' ? 'Envoyer le formulaire de réservation' : 'Send booking form')"
+                >
+                  <i class="fas fa-paper-plane" aria-hidden="true"></i>
                   {{ sendingBooking ? (currentLanguage === 'fr' ? 'Envoi en cours...' : 'Sending...') : (currentLanguage === 'fr' ? 'Envoyer un courriel' : 'Send Email') }}
                 </button>
               </div>
@@ -425,5 +505,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   bookTour(): void {
     this.openBookingModal();
+  }
+
+  onNavActivated(): void {
+    // When a page is selected from the menu (Enter/click), move focus into
+    // page content after the route change so screen readers can read down.
+    sessionStorage['focusContentAfterNav'] = '1';
   }
 }

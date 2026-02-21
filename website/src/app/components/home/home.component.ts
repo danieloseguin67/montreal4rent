@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService, Apartment, Area, ToggleOption } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
@@ -12,26 +12,37 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, CurrencyPipe],
   template: `
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-background">
-        <div class="hero-overlay"></div>
+    <main tabindex="-1">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
       </div>
-      <div class="container">
-        <div class="hero-content">
-          <div class="hero-text fade-in">
-            <h1 class="hero-title">
-              <span class="hero-title-top">{{ t.home?.hero?.titleTop || t.home?.hero?.title }}</span>
-              <span class="hero-title-bottom" *ngIf="t.home?.hero?.titleBottom">{{ t.home?.hero?.titleBottom }}</span>
-            </h1>
-            <p class="hero-subtitle">{{ t.home?.hero?.subtitle }}</p>
-          </div>
+
+      <div class="home-page">
+
+    <!-- Hero Section -->
+    <section class="hero-section" aria-label="Welcome banner">
+      <div class="hero-content">
+        <div class="container">
+          <h1>
+            {{ t.home?.hero?.titleTop || t.home?.hero?.title }}
+            <span *ngIf="t.home?.hero?.titleBottom"> {{ t.home?.hero?.titleBottom }}</span>
+          </h1>
+          <p class="hero-description">{{ t.home?.hero?.subtitle }}</p>
         </div>
+      </div>
+      <div class="hero-image" aria-hidden="true">
+        <img
+          [src]="getImageUrl('montrealwithtrees.jpg')"
+          alt=""
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        >
       </div>
     </section>
 
     <!-- Search Section -->
-    <section class="search-section">
+    <section class="search-section" aria-label="Search and filter apartments">
       <div class="container">
         <div class="search-card card">
           <div class="card-body">
@@ -43,8 +54,9 @@ import { Subject, takeUntil } from 'rxjs';
                   (click)="toggleFilters()"
                   [attr.aria-expanded]="showFilters"
                   [attr.aria-controls]="'search-filters'"
+                  [attr.aria-label]="showFilters ? (t.home?.search?.hideFilters || 'Hide search filters') : (t.home?.search?.showFilters || 'Show search filters')"
                 >
-                  <i class="fas" [class.fa-chevron-down]="!showFilters" [class.fa-chevron-up]="showFilters"></i>
+                  <i class="fas" [class.fa-chevron-down]="!showFilters" [class.fa-chevron-up]="showFilters" aria-hidden="true"></i>
                   {{ showFilters ? (t.home?.search?.hideFilters || 'Hide Filters') : (t.home?.search?.showFilters || 'Show Filters') }}
                 </button>
               </div>
@@ -54,15 +66,19 @@ import { Subject, takeUntil } from 'rxjs';
               class="search-form collapse"
               [class.show]="showFilters"
               id="search-filters"
+              role="region"
+              [attr.aria-hidden]="!showFilters"
             >
               <div class="row">
                 <div class="col col-12 col-md-3">
                   <div class="form-group">
-                    <label class="form-label">{{ t.home?.search?.area }}</label>
+                    <label class="form-label" for="area-select">{{ t.home?.search?.area }}</label>
                     <select 
+                      id="area-select"
                       class="form-control form-select" 
                       [(ngModel)]="selectedArea"
                       (change)="onFiltersChanged()"
+                      aria-label="Select neighborhood or area"
                     >
                       <option value="">{{ t.home?.search?.allAreas }}</option>
                       <option *ngFor="let area of areas" [value]="area.id">
@@ -73,11 +89,13 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
                 <div class="col col-12 col-md-3">
                   <div class="form-group">
-                    <label class="form-label">Unit Type</label>
+                    <label class="form-label" for="unit-type-select">Unit Type</label>
                     <select 
+                      id="unit-type-select"
                       class="form-control form-select" 
                       [(ngModel)]="selectedBedrooms"
                       (change)="onFiltersChanged()"
+                      aria-label="Select number of bedrooms"
                     >
                       <option value="">All Unit Types</option>
                       <option value="0">Studio</option>
@@ -89,18 +107,20 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
                 <div class="col col-12">
                   <div class="form-group">
-                    <label class="form-label">Options</label>
-                    <div class="options-grid">
+                    <label class="form-label" id="options-label">Options</label>
+                    <div class="options-grid" role="group" aria-labelledby="options-label">
                       <div class="form-check" *ngFor="let opt of toggles">
                         <input 
                           class="form-check-input" 
                           type="checkbox" 
                           [checked]="selectedToggles.has(opt.toggle_name)"
                           (change)="onToggleChanged(opt.toggle_name, $any($event.target).checked)"
+                          (keydown.enter)="$event.preventDefault(); $event.stopPropagation(); $any($event.target).click()"
                           [id]="'toggle-' + opt.toggle_name"
+                          [attr.aria-label]="opt.toggle_name"
                         >
                         <label class="form-check-label" [for]="'toggle-' + opt.toggle_name">
-                          <span class="me-2">{{ opt.toggle_image }}</span>{{ opt.toggle_name }}
+                          <span class="me-2" aria-hidden="true">{{ opt.toggle_image }}</span>{{ opt.toggle_name }}
                         </label>
                       </div>
                     </div>
@@ -108,11 +128,13 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
                 <div class="col col-12 col-md-3">
                   <div class="form-group">
-                    <label class="form-label">{{ t.home?.search?.sortBy }}</label>
+                    <label class="form-label" for="sort-select">{{ t.home?.search?.sortBy }}</label>
                     <select 
+                      id="sort-select"
                       class="form-control form-select" 
                       [(ngModel)]="sortBy"
                       (change)="onFiltersChanged()"
+                      aria-label="Sort apartments by price"
                     >
                       <option value="price-asc">{{ t.home?.search?.priceAsc }}</option>
                       <option value="price-desc">{{ t.home?.search?.priceDesc }}</option>
@@ -125,6 +147,7 @@ import { Subject, takeUntil } from 'rxjs';
                   class="btn btn-outline" 
                   (click)="clearFilters()"
                   *ngIf="hasActiveFilters()"
+                  aria-label="Clear all search filters"
                 >
                   {{ t.common?.clear }}
                 </button>
@@ -136,7 +159,7 @@ import { Subject, takeUntil } from 'rxjs';
     </section>
 
     <!-- Featured Apartments -->
-    <section class="featured-apartments">
+    <section class="apartments-grid-section" aria-label="Available apartments">
       <div class="container">
         <div class="section-header text-center mb-5">
           <h2>{{ t.home?.featured?.title }}</h2>
@@ -144,87 +167,146 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
 
         <!-- Loading State -->
-        <div class="text-center" *ngIf="loading">
-          <div class="spinner"></div>
+        <div class="text-center" *ngIf="loading" role="status" aria-live="polite">
+          <div class="spinner" aria-hidden="true"></div>
           <p>{{ t.common?.loading }}</p>
         </div>
 
         <!-- Apartments Grid -->
-        <div class="apartments-grid" *ngIf="!loading && filteredApartments.length > 0">
-          <div 
+        <div 
+          class="apartments-grid" 
+          *ngIf="!loading && filteredApartments.length > 0"
+          role="list"
+          aria-label="Search results"
+          aria-live="polite"
+          aria-atomic="false"
+        >
+          <article 
             class="apartment-card card slide-up" 
             *ngFor="let apartment of filteredApartments; trackBy: trackByApartment"
+            role="listitem"
+            [attr.aria-label]="getApartmentCardLabel(apartment)"
           >
-            <div class="apartment-image">
-              <img 
-                [src]="getImageUrl(apartment.images[0])" 
-                [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-                (error)="onImageError($event, apartment)"
-              >
-              <div class="apartment-badge" [class.available]="apartment.available">
-                {{ apartment.available ? t.common?.available : t.common?.notAvailable }}
+            <button 
+              type="button"
+              class="apartment-image-link"
+              (click)="openApartment(apartment.id)"
+            >
+              <span class="sr-only">
+                {{ (t.common?.viewDetails || 'View details') + ': ' + (currentLanguage === 'fr' ? apartment.title : apartment.titleEn) }}
+              </span>
+              <div class="apartment-image">
+                <img 
+                  [src]="getImageUrl(apartment.images[0])" 
+                  [alt]="getApartmentImageAlt(apartment)"
+                  loading="lazy"
+                  decoding="async"
+                  (error)="onImageError($event, apartment)"
+                >
+
+                <div class="image-overlay" aria-hidden="true">
+                  <span class="btn btn-primary btn-sm" aria-hidden="true">
+                    {{ t.common?.viewDetails || 'View details' }}
+                  </span>
+                </div>
+                
+                <div 
+                  class="apartment-badge" 
+                  [class.available]="apartment.available"
+                  role="status"
+                  [attr.aria-label]="apartment.available ? (t.common?.available || 'Available') : (t.common?.notAvailable || 'Not available')"
+                >
+                  {{ apartment.available ? t.common?.available : t.common?.notAvailable }}
+                </div>
+                <div 
+                  class="apartment-price"
+                  [attr.aria-label]="'Price: ' + (apartment.price | currency:'CAD':'symbol':'1.0-0') + ' per month'"
+                >
+                  {{ apartment.price | currency:'CAD':'symbol':'1.0-0' }}/{{ t.common?.month }}
+                </div>
               </div>
-              <div class="apartment-price">{{ apartment.price | currency:'CAD':'symbol':'1.0-0' }}/{{ t.common?.month }}</div>
-            </div>
+            </button>
             
             <div class="card-body">
               <h3 class="apartment-title">
                 {{ currentLanguage === 'fr' ? apartment.title : apartment.titleEn }}
               </h3>
               
-              <div class="apartment-details">
+              <dl class="apartment-details" aria-label="Apartment specifications">
                 <div class="detail-item">
-                  <i class="fas fa-bed"></i>
-                  <span>{{ getUnitType(apartment) }}</span>
+                  <dt class="sr-only">Bedrooms</dt>
+                  <i class="fas fa-bed" aria-hidden="true"></i>
+                  <dd><span>{{ getUnitType(apartment) }}</span></dd>
                 </div>
                 <div class="detail-item">
-                  <i class="fas fa-bath"></i>
-                  <span>
-                    {{ apartment.bathrooms }} 
-                    {{ apartment.bathrooms === 1 ? t.common?.bathroom : t.common?.bathrooms }}
-                  </span>
+                  <dt class="sr-only">Bathrooms</dt>
+                  <i class="fas fa-bath" aria-hidden="true"></i>
+                  <dd>
+                    <span>
+                      {{ apartment.bathrooms }} 
+                      {{ apartment.bathrooms === 1 ? t.common?.bathroom : t.common?.bathrooms }}
+                    </span>
+                  </dd>
                 </div>
                 <div class="detail-item">
-                  <i class="fas fa-ruler-combined"></i>
-                  <span>{{ apartment.squareFootage }} {{ t.common?.sqft }}</span>
+                  <dt class="sr-only">Square footage</dt>
+                  <i class="fas fa-ruler-combined" aria-hidden="true"></i>
+                  <dd><span>{{ apartment.squareFootage }} {{ t.common?.sqft }}</span></dd>
                 </div>
                 <div class="detail-item">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <span>{{ getAreaName(apartment.area) }}</span>
+                  <dt class="sr-only">Location</dt>
+                  <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                  <dd><span>{{ getAreaName(apartment.area) }}</span></dd>
                 </div>
-              </div>
+              </dl>
 
-              <div class="apartment-features">
-                <span class="feature-badge" [class.furnished]="apartment.furnished">
+              <div class="apartment-features" aria-label="Furnishing status">
+                <span 
+                  class="feature-badge" 
+                  [class.furnished]="apartment.furnished"
+                  role="status"
+                >
                   {{ apartment.furnished ? t.common?.furnished : t.common?.unfurnished }}
                 </span>
               </div>
 
-              <div class="apartment-actions">
-                <a 
-                  [routerLink]="['/appartement', apartment.id]" 
+              <div class="apartment-actions" role="group" aria-label="Apartment actions">
+                <button
+                  type="button"
                   class="btn btn-primary"
+                  (click)="openApartment(apartment.id)"
+                  [attr.aria-label]="'View details for ' + (currentLanguage === 'fr' ? apartment.title : apartment.titleEn)"
                 >
                   {{ t.common?.viewDetails }}
-                </a>
+                </button>
                 <button 
                   class="btn btn-outline"
                   *ngIf="apartment.available"
                   (click)="bookTour(apartment)"
+                  [attr.aria-label]="'Book a tour for ' + (currentLanguage === 'fr' ? apartment.title : apartment.titleEn)"
                 >
                   {{ t.common?.bookNow }}
                 </button>
               </div>
             </div>
-          </div>
+          </article>
         </div>
 
         <!-- No Results -->
-        <div class="no-results text-center" *ngIf="!loading && filteredApartments.length === 0">
-          <i class="fas fa-search"></i>
+        <div 
+          class="no-results text-center" 
+          *ngIf="!loading && filteredApartments.length === 0"
+          role="status"
+          aria-live="polite"
+        >
+          <i class="fas fa-search" aria-hidden="true"></i>
           <h3>Aucun résultat trouvé</h3>
           <p>Essayez d'ajuster vos critères de recherche.</p>
-          <button class="btn btn-primary" (click)="clearFilters()">
+          <button 
+            class="btn btn-primary" 
+            (click)="clearFilters()"
+            aria-label="Clear all filters and show all apartments"
+          >
             Effacer les filtres
           </button>
         </div>
@@ -232,7 +314,7 @@ import { Subject, takeUntil } from 'rxjs';
     </section>
 
     <!-- About Agent Section -->
-    <section class="about-agent">
+    <section class="about-agent" aria-label="Contact information">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col col-12 col-lg-8">
@@ -242,16 +324,29 @@ import { Subject, takeUntil } from 'rxjs';
               
               <div class="agent-contact">
                 <div class="contact-item">
-                  <i class="fas fa-envelope"></i>
-                  <a href="mailto:Rental.express.ca@gmail.com">{{ t.home?.aboutAgent?.email }}</a>
+                  <i class="fas fa-envelope" aria-hidden="true"></i>
+                  <a 
+                    href="mailto:Rental.express.ca@gmail.com"
+                    aria-label="Email us at Rental.express.ca@gmail.com"
+                  >
+                    {{ t.home?.aboutAgent?.email }}
+                  </a>
                 </div>
               </div>
 
-              <div class="agent-actions">
-                <a routerLink="/contact" class="btn btn-primary">
+              <div class="agent-actions" role="group" aria-label="Contact actions">
+                <a 
+                  routerLink="/contact" 
+                  class="btn btn-primary"
+                  aria-label="Go to contact page"
+                >
                   {{ t.home?.aboutAgent?.contactButton }}
                 </a>
-                <button class="btn btn-outline" (click)="bookTour()">
+                <button 
+                  class="btn btn-outline" 
+                  (click)="bookTour()"
+                  aria-label="Book a tour of an apartment"
+                >
                   {{ t.navigation?.bookTour }}
                 </button>
               </div>
@@ -260,6 +355,8 @@ import { Subject, takeUntil } from 'rxjs';
         </div>
       </div>
     </section>
+      </div>
+    </main>
   `,
   styleUrls: ['./home.component.scss']
 })
@@ -273,6 +370,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   t: any = {};
   currentLanguage = 'fr';
 
+  liveAnnouncement = '';
+
   // Filters
   selectedArea = '';
   selectedBedrooms: string = '';
@@ -284,7 +383,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private dataService: DataService,
     private languageService: LanguageService,
-    private cacheBusting: CacheBustingService
+    private cacheBusting: CacheBustingService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -395,6 +495,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     window.dispatchEvent(bookingEvent);
   }
 
+  openApartment(apartmentId: string): void {
+    sessionStorage['focusContentAfterNav'] = '1';
+    const basePath = this.currentLanguage === 'fr' ? '/appartement' : '/apartments';
+    this.router.navigate([basePath, apartmentId]);
+  }
+
   onToggleChanged(name: string, checked: boolean): void {
     if (checked) {
       this.selectedToggles.add(name);
@@ -431,5 +537,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!img.src.includes('image-not-available.svg')) {
       img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
     }
+  }
+
+  getApartmentCardLabel(apartment: Apartment): string {
+    const title = this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn;
+    const unitType = this.getUnitType(apartment);
+    const area = this.getAreaName(apartment.area);
+    const price = apartment.price;
+    const status = apartment.available ? 
+      (this.t.common?.available || 'Available') : 
+      (this.t.common?.notAvailable || 'Not available');
+    
+    return `${title}, ${unitType}, ${apartment.bathrooms} ${apartment.bathrooms === 1 ? 'bathroom' : 'bathrooms'}, ${apartment.squareFootage} square feet, ${area}, ${price} dollars per month, ${status}`;
+  }
+
+  getApartmentImageAlt(apartment: Apartment): string {
+    const title = this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn;
+    const area = this.getAreaName(apartment.area);
+    return `Photo of ${title} in ${area}`;
   }
 }

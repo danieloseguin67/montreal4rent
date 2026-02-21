@@ -19,7 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('study0.jpg')" alt="Studient living" loading="lazy">
+          <img [src]="getImageUrl('study0.jpg')" alt="Studient living" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -29,17 +29,17 @@ import { Subject, takeUntil } from 'rxjs';
           <h2>{{ currentLanguage === 'fr' ? 'Parfait pour les Étudiants' : 'Perfect for Students' }}</h2>
           <div class="features-grid">
             <div class="feature-card">
-              <img [src]="getImageUrl('study.jpg')" alt="Study area" loading="lazy">
+              <img [src]="getImageUrl('study.jpg')" alt="Study area" loading="lazy" decoding="async">
               <h3>{{ currentLanguage === 'fr' ? 'Espaces d\\'Étude' : 'Study-Friendly Spaces' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Environnements calmes parfaits pour étudier avec des espaces de travail dédiés.' : 'Quiet environments perfect for studying with dedicated workspace areas.' }}</p>
             </div>
             <div class="feature-card">
-              <img [src]="getImageUrl('kitchen.jpg')" alt="All equipped kitchen" loading="lazy">
+              <img [src]="getImageUrl('kitchen.jpg')" alt="All equipped kitchen" loading="lazy" decoding="async">
               <h3>{{ currentLanguage === 'fr' ? 'Cuisines Équipées' : 'Fully Equipped Kitchens' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Cuisinez vos propres repas et économisez avec nos installations de cuisine modernes.' : 'Cook your own meals and save money with our modern kitchen facilities.' }}</p>
             </div>
             <div class="feature-card">
-              <img [src]="getImageUrl('nearuniversity.jpg')" alt="Univerties near by" loading="lazy">
+              <img [src]="getImageUrl('nearuniversity.jpg')" alt="Univerties near by" loading="lazy" decoding="async">
               <h3>{{ currentLanguage === 'fr' ? 'Près des Universités' : 'Near Universities' }}</h3>
               <p>{{ currentLanguage === 'fr' ? 'Proche de McGill, Concordia et UQAM avec un accès facile au métro.' : 'Close to McGill, Concordia, and UQAM with easy metro access.' }}</p>
             </div>

@@ -12,7 +12,12 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
-    <div class="contact-page">
+    <main #pageMain tabindex="-1">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
+      </div>
+
+      <div class="contact-page">
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-content">
@@ -22,7 +27,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('contactusbanner.jpg')" alt="Contact Us" loading="lazy">
+          <img [src]="getImageUrl('contactusbanner.jpg')" alt="Contact Us" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
@@ -182,7 +187,8 @@ import { Subject, takeUntil } from 'rxjs';
 
       </section>
 
-    </div>
+      </div>
+    </main>
   `,
   styleUrls: ['./contact.component.scss']
 })
@@ -193,6 +199,8 @@ export class ContactComponent implements OnInit, OnDestroy {
   sending = false;
   successMessage = '';
   errorMessage = '';
+
+  liveAnnouncement = '';
 
   translations: any = {
     form: {

@@ -130,7 +130,7 @@
     "price": 1450,
     "area": "",
     "furnished": false,
-    "roomtorent": false,
+    "roomtorent": true,
     "condorentals": false,
     "available": true,
     "description": "🏡 Studio à louer – 1 450 $\n📍 3965 rue St-Dominique\n\nStudio lumineux non meublé, disponible immédiatement, situé dans un secteur central et animé — idéal pour les étudiants ou jeunes professionnels.\n\n✨ Caractéristiques et inclusions :\n• Cuisinière et four\n• Lave-vaisselle\n• Laveuse et sécheuse\n• Réfrigérateur\n• Micro-ondes\n• Air climatisé\n• Animaux acceptés 🐾\n\n🚗 Options supplémentaires :\n• Stationnement extérieur : 300$/mois\n• Rangement au sous-sol : 40 $/mois\n\n📍 Points forts de l’emplacement :\n• À distance de marche du métro Berri-UQAM\n• À distance de marche du centre-ville\n• Près des stations de métro\n• Proche des bars, restaurants, commerces et pharmacies\n• Emplacement parfait pour les étudiants\n\n📅 Disponible immédiatement\n📩 Écrivez-moi pour plus d’informations ou pour planifier une visite !",
@@ -162,7 +162,7 @@
     "area": "",
     "furnished": false,
     "roomtorent": false,
-    "condorentals": false,
+    "condorentals": true,
     "available": true,
     "description": "🏡 Appartement 3 chambres NON meublé à louer – 2 690 $ Animaux accepte\n\n📍 3965 rue Saint-Dominique\nSpacieux appartement 3 chambres et 2 salles de bains  disponible immédiatement, situé dans un secteur central et animé — idéal pour les étudiants ou les professionnels.\n\n✨ Caractéristiques et inclusions :\n• Cuisinière et four\n• Lave-vaisselle\n• Laveuse et sécheuse\n• Réfrigérateur\n• Micro-ondes\n• Air climatisé\n\n🚗 Options supplémentaires :\n• Stationnement : 300 $/mois\n• Espace de rangement au sous-sol : 40 $/mois\n\n📍 Points forts de l’emplacement :\n• À distance de marche du métro Berri-UQAM\n• Proche des bars, cafés et restaurants\n• À proximité de tous les commerces et pharmacies\n• Emplacement parfait pour les étudiants\n• Quartier central et très vivant\n\n📅 Disponible immédiatement\n📩 Écrivez-moi pour plus d’informations ou pour planifier une visite !",
     "descriptionEn": "🏡 3-Bedroom NOT Furnished Apartment for Rent – $2,690 Pet friendly\n\n📍 3965 Saint Dominic Street\nSpacious  3-bedroom 2 bathrooms unit available immediately, located in a prime and lively area — great for students or professionals.\n\n✨ Features & Inclusions:\n• Stove & oven\n• Dishwasher\n• Washer & dryer\n• Refrigerator\n• Microwave\n• Air conditioning\n\n🚗 Optional Add-ons:\n• Parking: $300/month\n• Basement storage: $40/month\n\n📍 Location Highlights:\n• Walking distance to Berri-UQAM metro\n• Close to bars, cafés, and restaurants\n• Near shops and pharmacies\n• Excellent location for students\n• Central, vibrant neighborhood\n\n📅 Available immediately\n📩 Message for more details or to schedule a visit!\n",
@@ -436,159 +436,5 @@
       "Gym",
       "Elevator"
     ]
-  },
-  {
-    "id": "apt_001",
-    "title": "123 Main St, Montreal (Downtown)",
-    "titleEn": "123 Main St, Montreal (Downtown)",
-    "unit_type_name": "2 Bedroom",
-    "bathrooms": 1,
-    "squareFootage": 850,
-    "price": 1500,
-    "area": "downtown",
-    "furnished": false,
-    "roomtorent": false,
-    "condorentals": false,
-    "available": true,
-    "description": "Beautiful downtown apartment with modern amenities",
-    "descriptionEn": "Beautiful downtown apartment with modern amenities",
-    "features": [
-      "Parking",
-      "Gym",
-      "Balcony"
-    ],
-    "featuresEn": [
-      "Parking",
-      "Gym",
-      "Balcony"
-    ],
-    "images": [
-      "apt001_1.jpg",
-      "apt001_2.jpg"
-    ],
-    "toggle_names": []
-  },
-  {
-    "id": "apt_002",
-    "title": "456 Oak Ave, Montreal (Plateau)",
-    "titleEn": "456 Oak Ave, Montreal (Plateau)",
-    "unit_type_name": "3 Bedroom",
-    "bathrooms": 2,
-    "squareFootage": 1100,
-    "price": 2000,
-    "area": "plateau",
-    "furnished": false,
-    "roomtorent": false,
-    "condorentals": false,
-    "available": true,
-    "description": "Spacious apartment in vibrant Plateau neighborhood",
-    "descriptionEn": "Spacious apartment in vibrant Plateau neighborhood",
-    "features": [
-      "Parking",
-      "Pet Friendly",
-      "Laundry"
-    ],
-    "featuresEn": [
-      "Parking",
-      "Pet Friendly",
-      "Laundry"
-    ],
-    "images": [
-      "apt002_1.jpg",
-      "apt002_2.jpg",
-      "apt002_3.jpg"
-    ],
-    "toggle_names": []
-  },
-  {
-    "id": "apt_003",
-    "title": "789 Elm Street, Montreal (Westmount)",
-    "titleEn": "789 Elm Street, Montreal (Westmount)",
-    "unit_type_name": "Studio",
-    "bathrooms": 1,
-    "squareFootage": 500,
-    "price": 1200,
-    "area": "westmount",
-    "furnished": true,
-    "roomtorent": false,
-    "condorentals": false,
-    "available": false,
-    "description": "Cozy studio in prestigious Westmount area",
-    "descriptionEn": "Cozy studio in prestigious Westmount area",
-    "features": [
-      "Furnished",
-      "Internet included"
-    ],
-    "featuresEn": [
-      "Furnished",
-      "Internet included"
-    ],
-    "images": [
-      "apt003_1.jpg"
-    ],
-    "toggle_names": []
-  },
-  {
-    "id": "apt_004",
-    "title": "321 Maple Drive, Montreal (Old Montreal)",
-    "titleEn": "321 Maple Drive, Montreal (Old Montreal)",
-    "unit_type_name": "1 Bedroom",
-    "bathrooms": 1,
-    "squareFootage": 650,
-    "price": 1350,
-    "area": "old-montreal",
-    "furnished": false,
-    "roomtorent": false,
-    "condorentals": false,
-    "available": true,
-    "description": "Charming loft in historic Old Montreal",
-    "descriptionEn": "Charming loft in historic Old Montreal",
-    "features": [
-      "Balcony",
-      "Dishwasher"
-    ],
-    "featuresEn": [
-      "Balcony",
-      "Dishwasher"
-    ],
-    "images": [
-      "apt004_1.jpg",
-      "apt004_2.jpg"
-    ],
-    "toggle_names": []
-  },
-  {
-    "id": "apt_005",
-    "title": "654 Pine Road, Montreal (Mile End)",
-    "titleEn": "654 Pine Road, Montreal (Mile End)",
-    "unit_type_name": "2 Bedroom",
-    "bathrooms": 1.5,
-    "squareFootage": 900,
-    "price": 1750,
-    "area": "mile-end",
-    "furnished": false,
-    "roomtorent": true,
-    "condorentals": false,
-    "available": true,
-    "description": "Trendy apartment in artistic Mile End",
-    "descriptionEn": "Trendy apartment in artistic Mile End",
-    "features": [
-      "Parking",
-      "Gym",
-      "Laundry",
-      "Balcony"
-    ],
-    "featuresEn": [
-      "Parking",
-      "Gym",
-      "Laundry",
-      "Balcony"
-    ],
-    "images": [
-      "apt005_1.jpg",
-      "apt005_2.jpg",
-      "apt005_3.jpg"
-    ],
-    "toggle_names": []
   }
 ]

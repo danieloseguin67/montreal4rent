@@ -11,11 +11,16 @@ import { CacheBustingService } from '../../services/cache-busting.service';
   standalone: true,
   imports: [CommonModule, RouterModule, CurrencyPipe],
   template: `
-    <div class="rooms-for-rent-page">
+    <main tabindex="-1">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
+      </div>
+
+      <div class="rooms-for-rent-page">
       <!-- Hero Section -->
       <section class="hero-section">
         <div class="hero-image">
-           <img [src]="getImageUrl('rentaroom.jpg')" alt="Cozy room rental space" loading="lazy">
+          <img [src]="getImageUrl('rentaroom.jpg')" alt="Cozy room rental space" loading="eager" fetchpriority="high" decoding="async">
         </div>
         <div class="hero-content">
           <div class="container">
@@ -50,6 +55,8 @@ import { CacheBustingService } from '../../services/cache-busting.service';
                 <img 
                   [src]="getImageUrl(apartment.images[0])" 
                   [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
+                  loading="lazy"
+                  decoding="async"
                   (error)="onImageError($event, apartment)"
                 >
                 <div class="apartment-badge" [class.available]="apartment.available">
@@ -57,7 +64,7 @@ import { CacheBustingService } from '../../services/cache-busting.service';
                 </div>
                 <div class="apartment-price">{{ apartment.price | currency:'CAD':'symbol':'1.0-0' }}/{{ t.common?.month || (currentLanguage === 'fr' ? 'mois' : 'month') }}</div>
                 <div class="image-overlay">
-                  <button class="btn btn-primary btn-sm" [routerLink]="['/appartement', apartment.id]">
+                  <button type="button" class="btn btn-primary btn-sm" (click)="openApartment(apartment.id)">
                     {{ t.common?.viewDetails || (currentLanguage === 'fr' ? 'Voir détails' : 'View Details') }}
                   </button>
                 </div>
@@ -101,12 +108,13 @@ import { CacheBustingService } from '../../services/cache-busting.service';
                 </div>
 
                 <div class="apartment-actions">
-                  <a 
-                    [routerLink]="['/appartement', apartment.id]" 
+                  <button
+                    type="button"
                     class="btn btn-primary"
+                    (click)="openApartment(apartment.id)"
                   >
                     {{ t.common?.viewDetails || (currentLanguage === 'fr' ? 'Voir détails' : 'View Details') }}
-                  </a>
+                  </button>
                   <button 
                     class="btn btn-outline"
                     *ngIf="apartment.available"
@@ -127,13 +135,16 @@ import { CacheBustingService } from '../../services/cache-busting.service';
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </main>
   `,
   styleUrls: ['./rooms-for-rent.component.scss']
 })
 export class RoomsForRentComponent implements OnInit, OnDestroy {
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
+
+  liveAnnouncement = '';
 
   // Rooms listing state
   apartments: Apartment[] = [];
@@ -215,6 +226,12 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
     if (typeof v === 'boolean') return v;
     if (typeof v === 'string') return v.toLowerCase() === 'true';
     return false;
+  }
+
+  openApartment(apartmentId: string): void {
+    sessionStorage['focusContentAfterNav'] = '1';
+    const basePath = this.currentLanguage === 'fr' ? '/appartement' : '/apartments';
+    this.router.navigate([basePath, apartmentId]);
   }
 
   getImageUrl(imagePath: string): string {
