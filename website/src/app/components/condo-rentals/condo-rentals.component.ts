@@ -182,13 +182,17 @@ import { Subject, takeUntil } from 'rxjs';
             [attr.aria-label]="currentLanguage === 'fr' ? 'Résultats : condos à louer' : 'Search results: condo rentals'"
             aria-live="polite"
             aria-atomic="false"
-            (keydown)="onGridKeyDown($event)"
           >
             <div 
               class="apartment-card card slide-up" 
-              *ngFor="let apartment of filteredApartments; trackBy: trackByApartment"
+              *ngFor="let apartment of filteredApartments; trackBy: trackByApartment; let i = index"
               role="listitem"
+              tabindex="0"
+              [attr.data-apt-id]="apartment.id"
               [attr.aria-label]="(currentLanguage === 'fr' ? apartment.title : apartment.titleEn) + ', ' + getUnitType(apartment) + ', ' + getAreaName(apartment.area) + ', ' + apartment.price + (currentLanguage === 'fr' ? ' $/mois' : ' CAD/month') + (apartment.available ? (currentLanguage === 'fr' ? ', Disponible' : ', Available') : (currentLanguage === 'fr' ? ', Non disponible' : ', Not available'))"
+              (keydown)="onCardKeyDown($event, i)"
+              (keydown.enter)="openApartment(apartment.id)"
+              (keydown.space)="$event.preventDefault(); openApartment(apartment.id)"
             >
               <div class="apartment-image">
                 <img 
@@ -337,6 +341,7 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
         this.apartments = apartments;
         this.applyFilters();
         this.loading = false;
+        this.restoreCardFocus();
       });
 
     this.dataService.getAreas()
@@ -519,36 +524,45 @@ export class CondoRentalsComponent implements OnInit, OnDestroy {
     }
   }
 
+  onCardKeyDown(event: KeyboardEvent, index: number): void {
+    if (event.target !== event.currentTarget) return;
+    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!nav.includes(event.key)) return;
+    const grid = (event.currentTarget as HTMLElement).closest('[role="list"]') as HTMLElement;
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-apt-id]'));
+    if (cards.length === 0) return;
+    let targetIndex = index;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      targetIndex = Math.min(index + 1, cards.length - 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      targetIndex = Math.max(index - 1, 0);
+    } else if (event.key === 'Home') {
+      targetIndex = 0;
+    } else if (event.key === 'End') {
+      targetIndex = cards.length - 1;
+    }
+    if (targetIndex !== index) {
+      event.preventDefault();
+      cards[targetIndex].focus();
+    }
+  }
+
+  private restoreCardFocus(): void {
+    const id = sessionStorage.getItem('lastFocusedApartmentId');
+    if (!id) return;
+    sessionStorage.removeItem('lastFocusedApartmentId');
+    setTimeout(() => {
+      const card = document.querySelector<HTMLElement>(`[data-apt-id="${id}"]`);
+      card?.focus();
+    }, 100);
+  }
+
   openApartment(apartmentId: string): void {
     sessionStorage['focusContentAfterNav'] = '1';
+    sessionStorage.setItem('lastFocusedApartmentId', apartmentId);
     const basePath = this.currentLanguage === 'fr' ? '/appartement' : '/apartments';
     this.router.navigate([basePath, apartmentId]);
   }
 
-  onGridKeyDown(event: KeyboardEvent): void {
-    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
-    if (!nav.includes(event.key)) return;
-    const grid = event.currentTarget as HTMLElement;
-    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.apartment-card'));
-    if (cards.length === 0) return;
-    const focused = document.activeElement as HTMLElement;
-    const currentIndex = cards.findIndex(card => card === focused || card.contains(focused));
-    if (currentIndex === -1) return;
-    let nextIndex = currentIndex;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-      nextIndex = Math.min(currentIndex + 1, cards.length - 1);
-    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-      nextIndex = Math.max(currentIndex - 1, 0);
-    } else if (event.key === 'Home') {
-      nextIndex = 0;
-    } else if (event.key === 'End') {
-      nextIndex = cards.length - 1;
-    }
-    if (nextIndex !== currentIndex) {
-      event.preventDefault();
-      const targetCard = cards[nextIndex];
-      const firstFocusable = targetCard.querySelector<HTMLElement>('button, a, [tabindex="0"]');
-      (firstFocusable || targetCard).focus();
-    }
-  }
 }

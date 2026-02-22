@@ -164,13 +164,12 @@
 
     &:hover:not(.active) {
       background-color: var(--primary-orange);
-      color: var(--white);
-      opacity: 0.8;
+      color: #1a1a1a;
     }
 
     &.active {
       background-color: var(--primary-orange);
-      color: var(--white);
+      color: #1a1a1a;
     }
   }
 }
@@ -180,7 +179,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--trust-navy);
+  background: #1a6e8a;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;

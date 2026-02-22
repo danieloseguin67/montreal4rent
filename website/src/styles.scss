@@ -286,6 +286,13 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+// Enhanced focus ring for keyboard-navigable listing cards
+.apartment-card[tabindex="0"]:focus-visible {
+  outline: 3px solid var(--trust-navy);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px rgba(37, 150, 190, 0.18);
+}
+
 // Global Styles
 * {
   margin: 0;
@@ -639,9 +646,8 @@ a {
 }
 
 .slide-up {
-  transform: translateY(30px);
   opacity: 0;
-  animation: slideUp 0.6s ease forwards;
+  animation: slideUp 0.5s ease forwards;
 }
 
 @keyframes fadeIn {
@@ -652,7 +658,6 @@ a {
 
 @keyframes slideUp {
   to {
-    transform: translateY(0);
     opacity: 1;
   }
 }

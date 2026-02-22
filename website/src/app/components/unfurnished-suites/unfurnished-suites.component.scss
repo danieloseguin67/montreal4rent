@@ -160,7 +160,7 @@
       
       .btn-filters-toggle {
         background: var(--primary-orange);
-        color: var(--white);
+        color: #1a1a1a;
         border: none;
         border-radius: 8px;
         padding: 0.75rem 1.5rem;
@@ -172,7 +172,8 @@
         gap: 0.5rem;
         
         &:hover {
-          background: var(--trust-navy);
+          background: #1a6e8a;
+          color: var(--white);
         }
         
         @media (min-width: 768px) {

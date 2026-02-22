@@ -186,24 +186,23 @@ import { Subject, takeUntil } from 'rxjs';
           <div 
             class="apartments-grid" 
             *ngIf="!loading && filteredApartments.length > 0"
-            role="list"
+            role="region"
             aria-label="Search results"
-            aria-live="polite"
-            aria-atomic="false"
-            (keydown)="onGridKeyDown($event)"
           >
             <article 
               class="apartment-card card slide-up" 
-              *ngFor="let apartment of filteredApartments; trackBy: trackByApartment"
-              role="listitem"
-              [attr.aria-label]="getApartmentCardLabel(apartment)"
+              *ngFor="let apartment of filteredApartments; trackBy: trackByApartment; let i = index"
+              [class.is-selected]="i === focusedCardIndex"
+              [attr.data-apt-id]="apartment.id"
             >
-              <button
-                type="button"
+              <a
                 class="apartment-image-link"
-                (click)="openApartment(apartment.id)"
+                [routerLink]="[currentLanguage === 'fr' ? '/appartement' : '/apartments', apartment.id]"
+                tabindex="-1"
+                aria-hidden="true"
+                (click)="saveSelectedCard(apartment.id)"
               >
-                <span class="sr-only">
+                <span class="sr-only" aria-hidden="true">
                   {{ (t.common?.viewDetails || 'View details') + ': ' + (currentLanguage === 'fr' ? apartment.title : apartment.titleEn) }}
                 </span>
                 <div class="apartment-image">
@@ -230,7 +229,7 @@ import { Subject, takeUntil } from 'rxjs';
                     </span>
                   </div>
                 </div>
-              </button>
+              </a>
               
               <div class="card-body">
                 <h3 class="apartment-title">
@@ -274,14 +273,18 @@ import { Subject, takeUntil } from 'rxjs';
                 </div>
 
                 <div class="apartment-actions" role="group" aria-label="Apartment actions">
-                  <button
-                    type="button"
+                  <a
                     class="btn btn-primary"
-                    (click)="openApartment(apartment.id)"
-                    [attr.aria-label]="'View details for ' + (currentLanguage === 'fr' ? apartment.title : apartment.titleEn)"
+                    [routerLink]="[currentLanguage === 'fr' ? '/appartement' : '/apartments', apartment.id]"
+                    [attr.data-apt-id]="apartment.id"
+                    [attr.aria-label]="getApartmentCardLabel(apartment)"
+                    [attr.tabindex]="i === focusedCardIndex ? 0 : -1"
+                    (focus)="focusedCardIndex = i"
+                    (click)="saveSelectedCard(apartment.id)"
+                    (keydown)="onCardLinkKeyDown($event, i)"
                   >
                     {{ t.common?.viewDetails || 'View details' }}
-                  </button>
+                  </a>
                   <button 
                     class="btn btn-outline"
                     *ngIf="apartment.available"
@@ -334,6 +337,8 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
   showFilters = false;
 
   liveAnnouncement = '';
+  focusedCardIndex = 0;
+
   // Filters
   selectedArea = '';
   selectedBedrooms: string = '';
@@ -383,6 +388,7 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
         this.apartments = apartments;
         this.applyFilters();
         this.loading = false;
+        this.restoreCardFocus();
       });
 
     this.dataService.getAreas()
@@ -442,6 +448,8 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
 
     // Apply sorting
     this.filteredApartments = this.dataService.sortApartments(filtered, this.sortBy);
+
+    this.focusedCardIndex = 0;
 
     // Announce results to screen readers
     const count = this.filteredApartments.length;
@@ -569,8 +577,79 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
     }
   }
 
+  onCardLinkKeyDown(event: KeyboardEvent, index: number): void {
+    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!nav.includes(event.key)) return;
+    // Prevent immediately and stop propagation
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const count = this.filteredApartments.length;
+    if (count === 0) return;
+    
+    // Validate input index is within bounds (safety check for race conditions)
+    if (index < 0 || index >= count) {
+      index = Math.max(0, Math.min(index, count - 1));
+    }
+    
+    let next = index;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      next = Math.min(index + 1, count - 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      next = Math.max(index - 1, 0);
+    } else if (event.key === 'Home') {
+      next = 0;
+    } else if (event.key === 'End') {
+      next = count - 1;
+    }
+    
+    // Additional safety check before array access
+    if (next < 0 || next >= count) {
+      return;
+    }
+    
+    if (next !== index) {
+      this.focusedCardIndex = next;
+      // Query for the specific apartment's link by ID
+      const nextAptId = this.filteredApartments[next].id;
+      const nextLink = document.querySelector<HTMLAnchorElement>(`.btn.btn-primary[data-apt-id="${nextAptId}"]`);
+      
+      if (nextLink) {
+        // Explicitly blur current element first for screen readers
+        const currentElement = event.currentTarget as HTMLElement;
+        currentElement.blur();
+        
+        // Use requestAnimationFrame to ensure focus happens after blur completes
+        requestAnimationFrame(() => {
+          nextLink.focus();
+          // Force scroll into view for screen reader sync
+          nextLink.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+        });
+      }
+    }
+  }
+
+  private restoreCardFocus(): void {
+    const id = sessionStorage.getItem('lastFocusedApartmentId');
+    if (!id) return;
+    sessionStorage.removeItem('lastFocusedApartmentId');
+    setTimeout(() => {
+      const idx = this.filteredApartments.findIndex(a => a.id === id);
+      if (idx >= 0) {
+        this.focusedCardIndex = idx;
+        const link = document.querySelector<HTMLAnchorElement>(`a[data-apt-id="${id}"]`);
+        link?.focus();
+      }
+    }, 100);
+  }
+
+  saveSelectedCard(apartmentId: string): void {
+    sessionStorage.setItem('lastFocusedApartmentId', apartmentId);
+  }
+
   openApartment(apartmentId: string): void {
     sessionStorage['focusContentAfterNav'] = '1';
+    sessionStorage.setItem('lastFocusedApartmentId', apartmentId);
     const basePath = this.currentLanguage === 'fr' ? '/appartement' : '/apartments';
     this.router.navigate([basePath, apartmentId]);
   }
@@ -597,30 +676,5 @@ export class ApartmentsComponent implements OnInit, OnDestroy {
       : `Photo of ${title} — ${unitType}, ${area}, $${price}/month`;
   }
 
-  onGridKeyDown(event: KeyboardEvent): void {
-    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
-    if (!nav.includes(event.key)) return;
-    const grid = event.currentTarget as HTMLElement;
-    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.apartment-card'));
-    if (cards.length === 0) return;
-    const focused = document.activeElement as HTMLElement;
-    const currentIndex = cards.findIndex(card => card === focused || card.contains(focused));
-    if (currentIndex === -1) return;
-    let nextIndex = currentIndex;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
-      nextIndex = Math.min(currentIndex + 1, cards.length - 1);
-    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
-      nextIndex = Math.max(currentIndex - 1, 0);
-    } else if (event.key === 'Home') {
-      nextIndex = 0;
-    } else if (event.key === 'End') {
-      nextIndex = cards.length - 1;
-    }
-    if (nextIndex !== currentIndex) {
-      event.preventDefault();
-      const targetCard = cards[nextIndex];
-      const firstFocusable = targetCard.querySelector<HTMLElement>('button, a, [tabindex="0"]');
-      (firstFocusable || targetCard).focus();
-    }
-  }
+
 }
