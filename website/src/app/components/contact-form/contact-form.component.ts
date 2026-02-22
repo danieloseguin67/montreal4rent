@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EmailService } from '../../services/email.service';
 
 interface ContactFormData {
@@ -30,7 +31,7 @@ export class ContactFormComponent {
   successMessage = '';
   errorMessage = '';
 
-  constructor(private emailService: EmailService) {}
+  constructor(private emailService: EmailService, private router: Router) {}
 
   onSubmit(): void {
     this.submitted = true;
@@ -80,6 +81,7 @@ export class ContactFormComponent {
           if (success) {
             this.successMessage = 'Your message has been sent successfully! We will get back to you soon.';
             this.resetForm();
+            setTimeout(() => this.router.navigate(['/']), 3000);
           } else {
             this.errorMessage = 'There was an error sending your message. Please try again later.';
           }

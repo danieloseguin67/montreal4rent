@@ -27,7 +27,7 @@ website/php/test-email.php → public_html/test-email.php
    - Create new app password
    - Copy the generated password
 6. Paste between the quotes: `'smtp_password' => 'your-app-password-here',`
-7. Verify username is: `'smtp_username' => 'info@montreal4rent.com',`
+7. Verify username is: `'smtp_username' => 'Rental.express.ca@gmail.com',`
 8. Save the file
 
 **IMPORTANT:** Keep `config-smtp.php` secure - it contains your email password!
@@ -62,13 +62,13 @@ Should show:
 {
   "test_send": {
     "success": true,
-    "to": "info@montreal4rent.com",
+    "to": "Rental.express.ca@gmail.com",
     "subject": "Test Email from montreal4rent.com"
   }
 }
 ```
 
-If successful, check `info@montreal4rent.com` inbox for the test email.
+If successful, check `Rental.express.ca@gmail.com` inbox for the test email.
 
 ## Troubleshooting
 

@@ -431,6 +431,8 @@ export class ContactComponent implements OnInit, OnDestroy {
             this.contactForm.reset();
             // Scroll to top to show success message
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Redirect to home page after 3 seconds
+            setTimeout(() => this.router.navigate(['/']), 3000);
           } else {
             this.errorMessage = this.currentLanguage === 'fr'
               ? 'Une erreur s\'est produite lors de l\'envoi de votre message. Veuillez réessayer.'
