@@ -20,6 +20,13 @@ import { Subject, takeUntil } from 'rxjs';
       <div class="contact-page">
       <!-- Hero Section -->
       <section class="hero-section">
+        <button type="button" class="hero-a11y-badge"
+          (click)="onA11yBadgeClick()"
+          [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+          [attr.title]="currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility'">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+          <span aria-hidden="true">Accessible</span>
+        </button>
         <div class="hero-content">
           <div class="container">
             <h1>{{ currentLanguage === 'fr' ? 'Contactez-Nous' : 'Contact Us' }}</h1>
@@ -453,6 +460,10 @@ export class ContactComponent implements OnInit, OnDestroy {
         this.contactForm.get(key)?.markAsTouched();
       });
     }
+  }
+
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
   }
 
   getImageUrl(imagePath: string): string {

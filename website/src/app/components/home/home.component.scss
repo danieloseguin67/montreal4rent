@@ -75,6 +75,19 @@
       }
     }
     
+    .hero-a11y-badge {
+      position: absolute;
+      left: 2rem;
+      bottom: 1.375rem;
+      z-index: 3;
+      margin-bottom: 0;
+
+      @media (max-width: 767.98px) {
+        left: 1rem;
+        bottom: 0.75rem;
+      }
+    }
+
     @media (max-width: 768px) {
       height: 40vh;
     }
@@ -279,7 +292,7 @@
       transition: all 0.3s ease;
       
       &.collapse { max-height: 0; padding: 0; margin: 0; opacity: 0; }
-      &.collapse.show { max-height: 500px; padding: 1.5rem 0 0 0; opacity: 1; }
+      &.collapse.show { max-height: 900px; padding: 1.5rem 0 0 0; opacity: 1; }
 
       .form-group { margin-bottom: 1.5rem; }
       .form-label { font-weight: 600; color: var(--text-dark-gray); margin-bottom: 0.5rem; }
@@ -294,6 +307,20 @@
 
   .apartments-grid-section {
     padding: 4rem 0;
+
+    // h2 can receive programmatic focus — suppress visible ring (no keyboard outline needed)
+    .section-header h2:focus { outline: none; }
+
+    .listings-count {
+      font-size: 1.1rem;
+      color: var(--slate-accent, #64748b);
+      strong {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--primary-orange, #fa742d);
+        margin-right: 0.25rem;
+      }
+    }
 
     .apartments-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 

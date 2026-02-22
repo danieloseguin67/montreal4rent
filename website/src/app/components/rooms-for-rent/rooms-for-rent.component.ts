@@ -19,6 +19,13 @@ import { CacheBustingService } from '../../services/cache-busting.service';
       <div class="rooms-for-rent-page">
       <!-- Hero Section -->
       <section class="hero-section">
+        <button type="button" class="hero-a11y-badge"
+          (click)="onA11yBadgeClick()"
+          [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+          [attr.title]="currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility'">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+          <span aria-hidden="true">Accessible</span>
+        </button>
         <div class="hero-image">
           <img [src]="getImageUrl('rentaroom.jpg')" alt="Cozy room rental space" loading="eager" fetchpriority="high" decoding="async">
         </div>
@@ -46,16 +53,25 @@ import { CacheBustingService } from '../../services/cache-busting.service';
           </div>
 
           <!-- Rooms Grid -->
-          <div class="apartments-grid" *ngIf="!loading && roomApartments.length > 0">
+          <div 
+            class="apartments-grid" 
+            *ngIf="!loading && roomApartments.length > 0"
+            role="list"
+            [attr.aria-label]="currentLanguage === 'fr' ? 'Chambres à louer disponibles' : 'Available rooms for rent'"
+            aria-live="polite"
+            aria-atomic="false"
+            (keydown)="onGridKeyDown($event)"
+          >
             <div 
               class="apartment-card card slide-up" 
               *ngFor="let apartment of roomApartments; trackBy: trackByApartment"
+              role="listitem"
+              [attr.aria-label]="(currentLanguage === 'fr' ? apartment.title : apartment.titleEn) + ', ' + getUnitType(apartment) + ', ' + getAreaName(apartment.area) + ', ' + apartment.price + (currentLanguage === 'fr' ? ' $/mois' : ' CAD/month') + (apartment.available ? (currentLanguage === 'fr' ? ', Disponible' : ', Available') : (currentLanguage === 'fr' ? ', Non disponible' : ', Not available'))"
             >
               <div class="apartment-image">
                 <img 
                   [src]="getImageUrl(apartment.images[0])" 
-                  [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
-                  loading="lazy"
+                  [alt]="getApartmentImageAlt(apartment)"
                   decoding="async"
                   (error)="onImageError($event, apartment)"
                 >
@@ -196,6 +212,10 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
     return this.currentLanguage === 'fr' ? area.nameFr : area.nameEn;
   }
 
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
+  }
+
   trackByApartment(index: number, apartment: Apartment): string {
     return apartment.id;
   }
@@ -238,11 +258,48 @@ export class RoomsForRentComponent implements OnInit, OnDestroy {
     return this.cacheBusting.getImageUrl(imagePath);
   }
 
+  getApartmentImageAlt(apartment: Apartment): string {
+    const title = this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn;
+    const unitType = this.getUnitType(apartment);
+    const area = this.getAreaName(apartment.area);
+    const price = apartment.price;
+    return this.currentLanguage === 'fr'
+      ? `Photo de ${title} — ${unitType}, ${area}, ${price} $/mois`
+      : `Photo of ${title} — ${unitType}, ${area}, $${price}/month`;
+  }
+
   onImageError(event: Event, apartment: any) {
     const img = event.target as HTMLImageElement;
     // Prevent infinite error loop
     if (!img.src.includes('image-not-available')) {
       img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
+    }
+  }
+
+  onGridKeyDown(event: KeyboardEvent): void {
+    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!nav.includes(event.key)) return;
+    const grid = event.currentTarget as HTMLElement;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.apartment-card'));
+    if (cards.length === 0) return;
+    const focused = document.activeElement as HTMLElement;
+    const currentIndex = cards.findIndex(card => card === focused || card.contains(focused));
+    if (currentIndex === -1) return;
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = Math.min(currentIndex + 1, cards.length - 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = Math.max(currentIndex - 1, 0);
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = cards.length - 1;
+    }
+    if (nextIndex !== currentIndex) {
+      event.preventDefault();
+      const targetCard = cards[nextIndex];
+      const firstFocusable = targetCard.querySelector<HTMLElement>('button, a, [tabindex="0"]');
+      (firstFocusable || targetCard).focus();
     }
   }
 }

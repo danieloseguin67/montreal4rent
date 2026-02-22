@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,16 @@ import { Subject, takeUntil } from 'rxjs';
 
     <!-- Hero Section -->
     <section class="hero-section" aria-label="Welcome banner">
+      <button
+        type="button"
+        class="hero-a11y-badge"
+        (click)="onA11yBadgeClick()"
+        [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+        [attr.title]="currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility'"
+      >
+        <i class="fas fa-universal-access" aria-hidden="true"></i>
+        <span aria-hidden="true">{{ currentLanguage === 'fr' ? 'Accessible' : 'Accessible' }}</span>
+      </button>
       <div class="hero-content">
         <div class="container">
           <h1>
@@ -51,6 +61,7 @@ import { Subject, takeUntil } from 'rxjs';
               <div class="text-center mb-3">
                 <button 
                   class="btn btn-filters-toggle" 
+                  #filtersToggleBtn
                   (click)="toggleFilters()"
                   [attr.aria-expanded]="showFilters"
                   [attr.aria-controls]="'search-filters'"
@@ -68,6 +79,7 @@ import { Subject, takeUntil } from 'rxjs';
               id="search-filters"
               role="region"
               [attr.aria-hidden]="!showFilters"
+              [attr.inert]="!showFilters ? '' : null"
             >
               <div class="row">
                 <div class="col col-12 col-md-3">
@@ -162,8 +174,14 @@ import { Subject, takeUntil } from 'rxjs';
     <section class="apartments-grid-section" aria-label="Available apartments">
       <div class="container">
         <div class="section-header text-center mb-5">
-          <h2>{{ t.home?.featured?.title }}</h2>
-          <p class="section-subtitle">{{ t.home?.featured?.subtitle }}</p>
+          <h2 #featuredHeading tabindex="-1">{{ t.home?.featured?.title }}</h2>
+          <p class="section-subtitle" *ngIf="loading">{{ t.home?.featured?.subtitle }}</p>
+          <p class="section-subtitle listings-count" *ngIf="!loading" aria-hidden="true">
+            <strong>{{ filteredApartments.length }}</strong>
+            {{ currentLanguage === 'fr'
+              ? ('logement' + (filteredApartments.length > 1 ? 's' : '') + ' disponible' + (filteredApartments.length > 1 ? 's' : ''))
+              : ('listing' + (filteredApartments.length > 1 ? 's' : '') + ' found') }}
+          </p>
         </div>
 
         <!-- Loading State -->
@@ -180,6 +198,7 @@ import { Subject, takeUntil } from 'rxjs';
           aria-label="Search results"
           aria-live="polite"
           aria-atomic="false"
+          (keydown)="onGridKeyDown($event)"
         >
           <article 
             class="apartment-card card slide-up" 
@@ -361,6 +380,9 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('filtersToggleBtn') filtersToggleBtnRef!: ElementRef<HTMLButtonElement>;
+  @ViewChild('featuredHeading') featuredHeadingRef!: ElementRef<HTMLHeadingElement>;
+
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
   areas: Area[] = [];
@@ -434,6 +456,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   onFiltersChanged(): void {
     console.log('Filters changed. Selected area:', this.selectedArea);
     this.applyFilters();
+    // Move focus after Angular has updated the DOM
+    setTimeout(() => {
+      if (this.filteredApartments.length === 0) {
+        // No results — return focus to the filter button so reader announces it
+        this.showFilters = true;
+        this.filtersToggleBtnRef?.nativeElement?.focus();
+      } else {
+        // Results found — move focus to the heading so reader reads count then lets user tab through cards
+        this.featuredHeadingRef?.nativeElement?.focus();
+      }
+    }, 50);
   }
 
   private applyFilters(): void {
@@ -461,6 +494,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Apply sorting
     this.filteredApartments = this.dataService.sortApartments(filtered, this.sortBy);
+
+    // Update sr-only live region
+    if (!this.loading) {
+      const count = this.filteredApartments.length;
+      this.liveAnnouncement = count === 0
+        ? (this.currentLanguage === 'fr' ? 'Aucun logement trouvé.' : 'No listings found.')
+        : (this.currentLanguage === 'fr'
+            ? `${count} logement${count > 1 ? 's' : ''} disponible${count > 1 ? 's' : ''}.`
+            : `${count} listing${count > 1 ? 's' : ''} found.`);
+    }
   }
 
   clearFilters(): void {
@@ -475,8 +518,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     return !!(this.selectedArea || this.selectedBedrooms !== '' || this.selectedToggles.size > 0);
   }
 
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
+  }
+
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
+    if (!this.showFilters) {
+      this.liveAnnouncement = this.currentLanguage === 'fr'
+        ? 'Filtres masqués. Appuyez sur Tab pour parcourir les annonces.'
+        : 'Filters hidden. Tab to browse listings.';
+    } else {
+      this.liveAnnouncement = this.currentLanguage === 'fr'
+        ? 'Filtres affichés.'
+        : 'Filters shown.';
+    }
   }
 
   getAreaName(areaId: string): string {
@@ -553,7 +609,38 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getApartmentImageAlt(apartment: Apartment): string {
     const title = this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn;
+    const unitType = this.getUnitType(apartment);
     const area = this.getAreaName(apartment.area);
-    return `Photo of ${title} in ${area}`;
+    const price = apartment.price;
+    return this.currentLanguage === 'fr'
+      ? `Photo de ${title} — ${unitType}, ${area}, ${price} $/mois`
+      : `Photo of ${title} — ${unitType}, ${area}, $${price}/month`;
+  }
+
+  onGridKeyDown(event: KeyboardEvent): void {
+    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!nav.includes(event.key)) return;
+    const grid = event.currentTarget as HTMLElement;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.apartment-card'));
+    if (cards.length === 0) return;
+    const focused = document.activeElement as HTMLElement;
+    const currentIndex = cards.findIndex(card => card === focused || card.contains(focused));
+    if (currentIndex === -1) return;
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = Math.min(currentIndex + 1, cards.length - 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = Math.max(currentIndex - 1, 0);
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = cards.length - 1;
+    }
+    if (nextIndex !== currentIndex) {
+      event.preventDefault();
+      const targetCard = cards[nextIndex];
+      const firstFocusable = targetCard.querySelector<HTMLElement>('button, a, [tabindex="0"]');
+      (firstFocusable || targetCard).focus();
+    }
   }
 }

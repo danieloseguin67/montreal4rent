@@ -12,6 +12,13 @@ import { Subject, takeUntil } from 'rxjs';
     <div class="students-page">
       <!-- Hero Section -->
       <section class="hero-section">
+        <button type="button" class="hero-a11y-badge"
+          (click)="onA11yBadgeClick()"
+          [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+          [attr.title]="currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility'">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+          <span aria-hidden="true">Accessible</span>
+        </button>
         <div class="hero-content">
           <div class="container">
             <h1>{{ currentLanguage === 'fr' ? 'Logements Étudiants à Montréal' : 'Student Housing in Montreal' }}</h1>
@@ -80,6 +87,10 @@ export class StudentsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(private languageService: LanguageService, private cacheBusting: CacheBustingService) {}
+
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
+  }
 
   getImageUrl(imagePath: string): string {
     return this.cacheBusting.getImageUrl(imagePath);

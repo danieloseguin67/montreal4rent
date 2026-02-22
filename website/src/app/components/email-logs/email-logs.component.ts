@@ -66,6 +66,7 @@ import { Observable } from 'rxjs';
               <option value="contact-form">Contact Form</option>
               <option value="book-tour">Book Tour</option>
               <option value="rental-inquiry">Rental Inquiry</option>
+              <option value="share">Share Listing</option>
             </select>
           </div>
           <div class="filter-group">
@@ -467,6 +468,7 @@ export class EmailLogsComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshLogs();
+    this.loadServerHistory();
   }
 
   refreshLogs(): void {

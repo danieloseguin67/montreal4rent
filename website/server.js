@@ -4,12 +4,22 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
 const util = require('util');
+// Inline CORS — avoids the utils-merge/util._extend DEP0060 deprecation warning
+function corsMiddleware(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    return res.end();
+  }
+  next();
+}
 
 const app = express();
 app.use(express.json({ limit: '1mb' }));
-app.use(cors());
+app.use(corsMiddleware);
 
 const LOG_FILE = path.join(__dirname, 'appemail.log');
 const HISTORY_DIR = path.join(__dirname, 'history', 'emails');

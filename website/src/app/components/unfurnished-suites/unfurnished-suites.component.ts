@@ -13,8 +13,18 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [CommonModule, RouterModule, FormsModule, CurrencyPipe],
   template: `
     <div class="condo-rentals-page">
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {{ liveAnnouncement }}
+      </div>
       <!-- Intro Section -->
       <section class="hero-section">
+        <button type="button" class="hero-a11y-badge"
+          (click)="onA11yBadgeClick()"
+          [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+          [attr.title]="currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility'">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+          <span aria-hidden="true">Accessible</span>
+        </button>
         <div class="hero-content">
           <div class="container">
             <h1>{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</h1>
@@ -117,7 +127,14 @@ import { Subject, takeUntil } from 'rxjs';
                     </div>
                   </div>
                 </div>
-                <div class="text-center mt-3">
+                <div class="filter-actions mt-3">
+                  <button 
+                    class="btn btn-primary"
+                    (click)="doSearch()"
+                  >
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    {{ currentLanguage === 'fr' ? 'Rechercher' : 'Search' }}
+                  </button>
                   <button 
                     class="btn btn-outline" 
                     (click)="clearFilters()"
@@ -141,8 +158,18 @@ import { Subject, takeUntil } from 'rxjs';
             <p>{{ currentLanguage === 'fr' ? 'Chargement...' : 'Loading...' }}</p>
           </div>
 
+          <!-- Results Count -->
+          <div class="results-count" *ngIf="!loading && hasActiveFilters() && filteredApartments.length > 0"
+            role="status" aria-live="polite" aria-atomic="true">
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
+            {{ filteredApartments.length }}
+            {{ currentLanguage === 'fr'
+              ? ('résultat' + (filteredApartments.length > 1 ? 's' : '') + ' trouvé' + (filteredApartments.length > 1 ? 's' : ''))
+              : (filteredApartments.length === 1 ? 'listing found' : 'listings found') }}
+          </div>
+
           <!-- Condos Grid -->
-          <div class="apartments-grid" *ngIf="!loading && filteredApartments.length > 0">
+          <div class="apartments-grid" *ngIf="!loading && filteredApartments.length > 0" (keydown)="onGridKeyDown($event)">
             <div 
               class="apartment-card card slide-up" 
               *ngFor="let apartment of filteredApartments; trackBy: trackByApartment"
@@ -150,7 +177,7 @@ import { Subject, takeUntil } from 'rxjs';
               <div class="apartment-image">
                 <img 
                   [src]="getImageUrl(apartment.images[0])" 
-                  [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
+                  [alt]="getApartmentImageAlt(apartment)"
                   (error)="onImageError($event, apartment)"
                 >
                 <div class="apartment-badge" [class.available]="apartment.available">
@@ -196,11 +223,16 @@ import { Subject, takeUntil } from 'rxjs';
           <!-- No Results -->
           <div class="no-results text-center" *ngIf="!loading && filteredApartments.length === 0">
             <i class="fas fa-search"></i>
-            <h3>{{ currentLanguage === 'fr' ? 'Aucun condo trouvé' : 'No condos found' }}</h3>
+            <h3>{{ currentLanguage === 'fr' ? 'Aucun logement trouvé' : 'No listings found' }}</h3>
             <p>{{ currentLanguage === 'fr' ? "Essayez d'ajuster vos critères de recherche." : 'Try adjusting your search criteria.' }}</p>
-            <button class="btn btn-primary" (click)="clearFilters()">
-              {{ currentLanguage === 'fr' ? 'Effacer les filtres' : 'Clear Filters' }}
-            </button>
+            <div class="no-results-actions">
+              <button class="btn btn-primary" (click)="openFilters()">
+                {{ currentLanguage === 'fr' ? 'Retour aux filtres' : 'Back to Filters' }}
+              </button>
+              <button class="btn btn-outline" (click)="clearFilters()">
+                {{ currentLanguage === 'fr' ? 'Effacer les filtres' : 'Clear Filters' }}
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -211,6 +243,8 @@ import { Subject, takeUntil } from 'rxjs';
 export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
   currentLanguage: Language = 'fr';
   private destroy$ = new Subject<void>();
+
+  liveAnnouncement = '';
 
   apartments: Apartment[] = [];
   filteredApartments: Apartment[] = [];
@@ -287,6 +321,18 @@ export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
 
     // Sort
     this.filteredApartments = this.dataService.sortApartments(filtered, this.sortBy);
+
+    // Announce results to screen readers
+    const count = this.filteredApartments.length;
+    if (this.hasActiveFilters()) {
+      this.liveAnnouncement = count === 0
+        ? (this.currentLanguage === 'fr' ? 'Aucun résultat trouvé.' : 'No listings found.')
+        : (this.currentLanguage === 'fr'
+            ? `${count} résultat${count > 1 ? 's' : ''} trouvé${count > 1 ? 's' : ''}.`
+            : `${count} listing${count > 1 ? 's' : ''} found.`);
+    } else {
+      this.liveAnnouncement = '';
+    }
   }
 
   clearFilters(): void {
@@ -316,8 +362,28 @@ export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
     return apartment.id;
   }
 
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
+  }
+
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
+  }
+
+  doSearch(): void {
+    this.applyFilters();
+    this.showFilters = false;
+    setTimeout(() => {
+      document.querySelector('.results-count, .apartments-grid, .no-results')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  openFilters(): void {
+    this.showFilters = true;
+    setTimeout(() => {
+      document.querySelector('.search-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }
 
   onToggleChanged(name: string, checked: boolean): void {
@@ -349,11 +415,48 @@ export class UnfurnishedSuitesComponent implements OnInit, OnDestroy {
     return this.cacheBusting.getImageUrl(imagePath);
   }
 
+  getApartmentImageAlt(apartment: Apartment): string {
+    const title = this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn;
+    const unitType = this.getUnitType(apartment);
+    const area = this.getAreaName(apartment.area);
+    const price = apartment.price;
+    return this.currentLanguage === 'fr'
+      ? `Photo de ${title} — ${unitType}, ${area}, ${price} $/mois`
+      : `Photo of ${title} — ${unitType}, ${area}, $${price}/month`;
+  }
+
   onImageError(event: Event, apartment: any) {
     const img = event.target as HTMLImageElement;
     // Prevent infinite error loop
     if (!img.src.includes('image-not-available')) {
       img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
+    }
+  }
+
+  onGridKeyDown(event: KeyboardEvent): void {
+    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!nav.includes(event.key)) return;
+    const grid = event.currentTarget as HTMLElement;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.apartment-card'));
+    if (cards.length === 0) return;
+    const focused = document.activeElement as HTMLElement;
+    const currentIndex = cards.findIndex(card => card === focused || card.contains(focused));
+    if (currentIndex === -1) return;
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = Math.min(currentIndex + 1, cards.length - 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = Math.max(currentIndex - 1, 0);
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = cards.length - 1;
+    }
+    if (nextIndex !== currentIndex) {
+      event.preventDefault();
+      const targetCard = cards[nextIndex];
+      const firstFocusable = targetCard.querySelector<HTMLElement>('button, a, [tabindex="0"]');
+      (firstFocusable || targetCard).focus();
     }
   }
 }

@@ -21,6 +21,13 @@ import { CacheBustingService } from '../../services/cache-busting.service';
         tabindex="0"
         aria-label="Property Owners banner. High-Performance Leasing for Multi-Residential Properties. Specializing in high-volume rentals, new construction, and value-add assets."
       >
+        <button type="button" class="hero-a11y-badge"
+          (click)="onA11yBadgeClick()"
+          aria-label="Accessibility — how to use a screen reader"
+          title="Accessibility">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+          <span aria-hidden="true">Accessible</span>
+        </button>
         <div class="hero-content">
           <div class="container">
             <h1 id="property-owners-hero-title">Property Owners</h1>
@@ -105,6 +112,10 @@ export class PropertyOwnersComponent {
   liveAnnouncement = '';
 
   constructor(private cacheBusting: CacheBustingService) {}
+
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
+  }
 
   getImageUrl(imagePath: string): string {
     return this.cacheBusting.getImageUrl(imagePath);

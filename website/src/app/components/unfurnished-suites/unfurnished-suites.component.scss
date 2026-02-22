@@ -1,4 +1,33 @@
 // Unfurnished Suites page styles
+
+.results-count {
+  text-align: center;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: var(--light-gray, #f0f4f8);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: var(--text-dark-gray, #2d3748);
+  i { margin-right: 0.5rem; color: var(--success-color, #38a169); }
+}
+
+.no-results-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
 .unfurnished-suites-page {
   .hero-section {
     position: relative;
@@ -8,6 +37,19 @@
     overflow: hidden;
     background: linear-gradient(135deg, var(--trust-navy) 0%, var(--primary-orange) 100%);
     
+    .hero-a11y-badge {
+      position: absolute;
+      left: 2rem;
+      bottom: 1.375rem;
+      z-index: 3;
+      margin-bottom: 0;
+
+      @media (max-width: 767.98px) {
+        left: 1rem;
+        bottom: 0.75rem;
+      }
+    }
+
     .hero-content {
       position: relative;
       z-index: 2;
@@ -157,7 +199,7 @@
       }
       
       &.collapse.show {
-        max-height: 500px;
+        max-height: 900px;
         padding: 1.5rem 0 0 0;
         opacity: 1;
       }

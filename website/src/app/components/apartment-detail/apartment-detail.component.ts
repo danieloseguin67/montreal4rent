@@ -1,16 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { DataService, Apartment, Area } from '../../services/data.service';
 import { LanguageService } from '../../services/language.service';
 import { CacheBustingService } from '../../services/cache-busting.service';
+import { EmailLoggerService } from '../../services/email-logger.service';
 import { Subject, takeUntil, switchMap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-apartment-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   template: `
     <main #detailMain tabindex="-1">
       <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
@@ -231,6 +234,11 @@ import { Title } from '@angular/platform-browser';
                           <i class="fas fa-envelope" aria-hidden="true"></i>
                           Email
                         </a>
+                        <button class="btn btn-share btn-block" type="button" (click)="openShareModal()"
+                          [attr.aria-label]="currentLanguage === 'fr' ? 'Partager ce logement' : 'Share this listing'">
+                          <i class="fas fa-share-alt" aria-hidden="true"></i>
+                          {{ currentLanguage === 'fr' ? 'Partager' : 'Share' }}
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -272,6 +280,44 @@ import { Title } from '@angular/platform-browser';
           </div>
         </div>
       </section>
+
+      <!-- Share Modal -->
+      <div class="share-modal-overlay" *ngIf="showShareModal" (click)="closeShareModal()" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+        <div class="share-modal-dialog" (click)="$event.stopPropagation()">
+          <div class="share-modal-header">
+            <h2 id="share-modal-title">{{ currentLanguage === 'fr' ? 'Partager ce logement' : 'Share this listing' }}</h2>
+            <button class="share-modal-close" type="button" (click)="closeShareModal()" [attr.aria-label]="currentLanguage === 'fr' ? 'Fermer' : 'Close'">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="share-modal-body">
+            <p>{{ currentLanguage === 'fr' ? 'Entrez le courriel de votre ami pour partager ce logement.' : 'Enter your friend email to share this listing.' }}</p>
+            <div class="form-group">
+              <label for="share-email">{{ currentLanguage === 'fr' ? 'Courriel de votre ami' : 'Friend email' }}</label>
+              <input type="email" id="share-email" class="form-control share-email-input" [(ngModel)]="shareEmail"
+                [placeholder]="currentLanguage === 'fr' ? 'exemple@email.com' : 'example@email.com'" />
+            </div>
+            <div class="share-status share-success" *ngIf="shareStatus === 'sent'" role="status">
+              <i class="fas fa-check-circle" aria-hidden="true"></i>
+              {{ currentLanguage === 'fr' ? 'Courriel envoyé avec succès!' : 'Email sent successfully!' }}
+            </div>
+            <div class="share-status share-error" *ngIf="shareStatus === 'error'" role="alert">
+              <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+              {{ currentLanguage === 'fr' ? 'Erreur. Veuillez réessayer.' : 'Error sending. Please try again.' }}
+            </div>
+            <div class="share-actions">
+              <button class="btn btn-outline" type="button" (click)="closeShareModal()">
+                {{ currentLanguage === 'fr' ? 'Annuler' : 'Cancel' }}
+              </button>
+              <button class="btn btn-primary" type="button" (click)="submitShare()" [disabled]="shareLoading || !shareEmail">
+                <i class="fas fa-spinner fa-spin" aria-hidden="true" *ngIf="shareLoading"></i>
+                <i class="fas fa-paper-plane" aria-hidden="true" *ngIf="!shareLoading"></i>
+                {{ shareLoading ? (currentLanguage === 'fr' ? 'Envoi...' : 'Sending...') : (currentLanguage === 'fr' ? 'Envoyer' : 'Send') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
 
     <!-- Loading State -->
@@ -304,6 +350,10 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
   currentLanguage = 'fr';
 
   liveAnnouncement = '';
+  showShareModal = false;
+  shareEmail = '';
+  shareStatus = '';
+  shareLoading = false;
 
   private destroy$ = new Subject<void>();
 
@@ -314,7 +364,9 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     private location: Location,
     private cacheBusting: CacheBustingService,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private http: HttpClient,
+    private emailLogger: EmailLoggerService
   ) {}
 
   announceDescription(apartment: Apartment): void {
@@ -363,6 +415,78 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     } catch {
       return text.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, ' ');
     }
+  }
+
+  openShareModal(): void {
+    this.shareStatus = '';
+    this.shareEmail = '';
+    this.showShareModal = true;
+  }
+
+  closeShareModal(): void {
+    this.showShareModal = false;
+  }
+
+  submitShare(): void {
+    if (!this.shareEmail || !this.apartment) return;
+    if (!this.shareEmail.includes('@')) { this.shareStatus = 'error'; return; }
+    this.shareLoading = true;
+    this.shareStatus = '';
+    const title = this.currentLanguage === 'fr' ? this.apartment.title : this.apartment.titleEn;
+    const price = this.apartment.price;
+    const url = window.location.href;
+    const subject = this.currentLanguage === 'fr'
+      ? `Logement recommandé sur Montreal4Rent: ${title}`
+      : `Recommended listing on Montreal4Rent: ${title}`;
+    const body = `
+      <p style="font-family:sans-serif">${this.currentLanguage === 'fr' ? 'Un ami vous recommande ce logement sur Montreal4Rent.' : 'A friend is sharing this listing from Montreal4Rent with you.'}</p>
+      <h2 style="color:#1a3a6b;font-family:sans-serif">${title}</h2>
+      <p style="font-family:sans-serif"><strong>${this.currentLanguage === 'fr' ? 'Prix' : 'Price'}:</strong> $${price.toLocaleString()} CAD/${this.currentLanguage === 'fr' ? 'mois' : 'month'}</p>
+      <p style="font-family:sans-serif"><a href="${url}" style="color:#e55a00">${this.currentLanguage === 'fr' ? 'Voir le logement' : 'View listing'}</a></p>
+      <hr>
+      <p style="font-size:0.85em;color:#666;font-family:sans-serif">Montreal4Rent</p>
+    `;
+    // Use the same php/contact.php pipeline as the rest of the app (PHPMailer/SMTP).
+    // formType='share' + shareTo tells contact.php to send to the friend and CC the agent.
+    this.http.post<{ success: boolean; message?: string }>('php/contact.php', {
+      fromEmail: 'Rental.express.ca@gmail.com',
+      to: 'Rental.express.ca@gmail.com',
+      shareTo: this.shareEmail,
+      subject,
+      body,
+      isBodyHtml: true,
+      formType: 'share',
+      senderName: 'Montreal4Rent'
+    }).subscribe({
+      next: (resp) => {
+        this.shareLoading = false;
+        this.shareStatus = resp?.success ? 'sent' : 'error';
+        this.emailLogger.logEmail({
+          formType: 'share',
+          fromEmail: 'Rental.express.ca@gmail.com',
+          toEmail: this.shareEmail,
+          subject,
+          status: resp?.success ? 'success' : 'failed',
+          senderName: 'Montreal4Rent'
+        });
+        if (resp?.success) {
+          setTimeout(() => this.closeShareModal(), 1500);
+        }
+      },
+      error: () => {
+        this.shareLoading = false;
+        this.shareStatus = 'error';
+        this.emailLogger.logEmail({
+          formType: 'share',
+          fromEmail: 'Rental.express.ca@gmail.com',
+          toEmail: this.shareEmail,
+          subject,
+          status: 'failed',
+          errorMessage: 'Network or server error',
+          senderName: 'Montreal4Rent'
+        });
+      }
+    });
   }
 
   openAllApartments(): void {

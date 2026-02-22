@@ -20,6 +20,13 @@ import { Subject, takeUntil } from 'rxjs';
       <div class="furnished-suites-page">
       <!-- Hero Section -->
       <section class="hero-section">
+        <button type="button" class="hero-a11y-badge"
+          (click)="onA11yBadgeClick()"
+          [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+          [attr.title]="currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility'">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+          <span aria-hidden="true">Accessible</span>
+        </button>
         <div class="hero-content">
           <div class="container">
             <h1>{{ currentLanguage === 'fr' ? 'Suites Meublées' : 'Fully Furnished' }}</h1>
@@ -44,6 +51,7 @@ import { Subject, takeUntil } from 'rxjs';
                     (click)="toggleFilters()"
                     [attr.aria-expanded]="showFilters"
                     [attr.aria-controls]="'search-filters'"
+                    [attr.aria-label]="showFilters ? (currentLanguage === 'fr' ? 'Masquer les filtres de recherche' : 'Hide search filters') : (currentLanguage === 'fr' ? 'Afficher les filtres de recherche' : 'Show search filters')"
                   >
                     <i class="fas" [class.fa-chevron-down]="!showFilters" [class.fa-chevron-up]="showFilters"></i>
                     {{ showFilters ? (currentLanguage === 'fr' ? 'Masquer les filtres' : 'Hide Filters') : (currentLanguage === 'fr' ? 'Afficher les filtres' : 'Show Filters') }}
@@ -55,6 +63,9 @@ import { Subject, takeUntil } from 'rxjs';
                 class="search-form collapse"
                 [class.show]="showFilters"
                 id="search-filters"
+                role="region"
+                [attr.aria-hidden]="!showFilters"
+                [attr.inert]="!showFilters ? '' : null"
               >
                 <div class="row">
                   <div class="col col-12 col-md-3">
@@ -94,7 +105,14 @@ import { Subject, takeUntil } from 'rxjs';
                     </div>
                   </div>
                 </div>
-                <div class="text-center mt-3">
+                <div class="filter-actions mt-3">
+                  <button 
+                    class="btn btn-primary"
+                    (click)="doSearch()"
+                  >
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    {{ currentLanguage === 'fr' ? 'Rechercher' : 'Search' }}
+                  </button>
                   <button 
                     class="btn btn-outline" 
                     (click)="clearFilters()"
@@ -118,16 +136,36 @@ import { Subject, takeUntil } from 'rxjs';
             <p>{{ currentLanguage === 'fr' ? 'Chargement...' : 'Loading...' }}</p>
           </div>
 
+          <!-- Results Count -->
+          <div class="results-count" *ngIf="!loading && hasActiveFilters() && filteredApartments.length > 0"
+            role="status" aria-live="polite" aria-atomic="true">
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
+            {{ filteredApartments.length }}
+            {{ currentLanguage === 'fr'
+              ? ('résultat' + (filteredApartments.length > 1 ? 's' : '') + ' trouvé' + (filteredApartments.length > 1 ? 's' : ''))
+              : (filteredApartments.length === 1 ? 'listing found' : 'listings found') }}
+          </div>
+
           <!-- Grid -->
-          <div class="apartments-grid" *ngIf="!loading && filteredApartments.length > 0">
+          <div 
+            class="apartments-grid" 
+            *ngIf="!loading && filteredApartments.length > 0"
+            role="list"
+            [attr.aria-label]="currentLanguage === 'fr' ? 'Résultats : suites meublées' : 'Search results: furnished suites'"
+            aria-live="polite"
+            aria-atomic="false"
+            (keydown)="onGridKeyDown($event)"
+          >
             <div 
               class="apartment-card card slide-up" 
               *ngFor="let apartment of filteredApartments; trackBy: trackByApartment"
+              role="listitem"
+              [attr.aria-label]="(currentLanguage === 'fr' ? apartment.title : apartment.titleEn) + ', ' + getUnitType(apartment) + ', ' + (apartment.price) + (currentLanguage === 'fr' ? ' $/mois' : ' CAD/month') + (apartment.available ? (currentLanguage === 'fr' ? ', Disponible' : ', Available') : (currentLanguage === 'fr' ? ', Non disponible' : ', Not available'))"
             >
               <div class="apartment-image">
                 <img 
                   [src]="getImageUrl(apartment.images[0])" 
-                  [alt]="currentLanguage === 'fr' ? apartment.title : apartment.titleEn"
+                  [alt]="getApartmentImageAlt(apartment)"
                   (error)="onImageError($event, apartment)"
                 >
                 <div class="apartment-badge" [class.available]="apartment.available">
@@ -190,11 +228,16 @@ import { Subject, takeUntil } from 'rxjs';
           <!-- No Results -->
           <div class="no-results text-center" *ngIf="!loading && filteredApartments.length === 0">
             <i class="fas fa-search"></i>
-            <h3>{{ currentLanguage === 'fr' ? 'Aucune suite meublée trouvée' : 'No furnished suites found' }}</h3>
+            <h3>{{ currentLanguage === 'fr' ? 'Aucune suite trouvée' : 'No listings found' }}</h3>
             <p>{{ currentLanguage === 'fr' ? "Essayez d'ajuster vos critères de recherche." : 'Try adjusting your search criteria.' }}</p>
-            <button class="btn btn-primary" (click)="clearFilters()">
-              {{ currentLanguage === 'fr' ? 'Effacer les filtres' : 'Clear Filters' }}
-            </button>
+            <div class="no-results-actions">
+              <button class="btn btn-primary" (click)="openFilters()">
+                {{ currentLanguage === 'fr' ? 'Retour aux filtres' : 'Back to Filters' }}
+              </button>
+              <button class="btn btn-outline" (click)="clearFilters()">
+                {{ currentLanguage === 'fr' ? 'Effacer les filtres' : 'Clear Filters' }}
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -240,8 +283,37 @@ export class FurnishedSuitesComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
+  }
+
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
+    if (!this.showFilters) {
+      this.liveAnnouncement = this.currentLanguage === 'fr'
+        ? 'Filtres masqués. Appuyez sur Tab pour parcourir les annonces.'
+        : 'Filters hidden. Tab to browse listings.';
+    } else {
+      this.liveAnnouncement = this.currentLanguage === 'fr'
+        ? 'Filtres affichés.'
+        : 'Filters shown.';
+    }
+  }
+
+  doSearch(): void {
+    this.applyFilters();
+    this.showFilters = false;
+    setTimeout(() => {
+      document.querySelector('.results-count, .apartments-grid, .no-results')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  openFilters(): void {
+    this.showFilters = true;
+    setTimeout(() => {
+      document.querySelector('.search-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   }
 
   onFiltersChanged(): void {
@@ -278,6 +350,18 @@ export class FurnishedSuitesComponent implements OnInit, OnDestroy {
     }
 
     this.filteredApartments = filtered;
+
+    // Announce results to screen readers
+    const count = this.filteredApartments.length;
+    if (this.hasActiveFilters()) {
+      this.liveAnnouncement = count === 0
+        ? (this.currentLanguage === 'fr' ? 'Aucun résultat trouvé.' : 'No listings found.')
+        : (this.currentLanguage === 'fr'
+            ? `${count} résultat${count > 1 ? 's' : ''} trouvé${count > 1 ? 's' : ''}.`
+            : `${count} listing${count > 1 ? 's' : ''} found.`);
+    } else {
+      this.liveAnnouncement = '';
+    }
   }
 
   trackByApartment(index: number, apartment: Apartment): string { return apartment.id; }
@@ -316,11 +400,47 @@ export class FurnishedSuitesComponent implements OnInit, OnDestroy {
     return this.cacheBusting.getImageUrl(imagePath);
   }
 
+  getApartmentImageAlt(apartment: Apartment): string {
+    const title = this.currentLanguage === 'fr' ? apartment.title : apartment.titleEn;
+    const unitType = this.getUnitType(apartment);
+    const price = apartment.price;
+    return this.currentLanguage === 'fr'
+      ? `Photo de ${title} — ${unitType}, ${price} $/mois`
+      : `Photo of ${title} — ${unitType}, $${price}/month`;
+  }
+
   onImageError(event: Event, apartment: any) {
     const img = event.target as HTMLImageElement;
     // Prevent infinite error loop
     if (!img.src.includes('image-not-available')) {
       img.src = this.cacheBusting.getImageUrl('image-not-available.svg');
+    }
+  }
+
+  onGridKeyDown(event: KeyboardEvent): void {
+    const nav = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
+    if (!nav.includes(event.key)) return;
+    const grid = event.currentTarget as HTMLElement;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('.apartment-card'));
+    if (cards.length === 0) return;
+    const focused = document.activeElement as HTMLElement;
+    const currentIndex = cards.findIndex(card => card === focused || card.contains(focused));
+    if (currentIndex === -1) return;
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = Math.min(currentIndex + 1, cards.length - 1);
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = Math.max(currentIndex - 1, 0);
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = cards.length - 1;
+    }
+    if (nextIndex !== currentIndex) {
+      event.preventDefault();
+      const targetCard = cards[nextIndex];
+      const firstFocusable = targetCard.querySelector<HTMLElement>('button, a, [tabindex="0"]');
+      (firstFocusable || targetCard).focus();
     }
   }
 }

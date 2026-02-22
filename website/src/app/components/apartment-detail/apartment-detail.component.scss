@@ -410,6 +410,20 @@
           }
         }
 
+        .btn-share {
+          width: 100%;
+          margin-bottom: 1rem;
+          background-color: transparent;
+          color: #e55a00;
+          border: 2px solid #e55a00;
+          font-weight: 600;
+
+          &:hover:not(:disabled), &:focus-visible {
+            background-color: #e55a00;
+            color: #fff;
+          }
+        }
+
         .contact-options {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -647,5 +661,161 @@
     .apartment-content .content-section .gallery-grid {
       grid-template-columns: repeat(4, 1fr);
     }
+  }
+}
+
+/* ── Share-Listing Modal ──────────────────────────────────────── */
+.share-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 99998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: shareModalFadeIn 0.2s ease;
+}
+
+@keyframes shareModalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.share-modal-dialog {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  animation: shareModalSlideUp 0.25s ease;
+}
+
+@keyframes shareModalSlideUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  background: linear-gradient(135deg, #1a3a6b 0%, #e55a00 100%);
+  color: #fff;
+
+  h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #fff;
+  }
+}
+
+.share-modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1rem;
+  transition: background 0.2s;
+  flex-shrink: 0;
+
+  &:hover, &:focus-visible {
+    background: rgba(255, 255, 255, 0.4);
+    outline: none;
+  }
+}
+
+.share-modal-body {
+  padding: 1.5rem;
+
+  p {
+    color: #555;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.375rem;
+      color: #333;
+      font-size: 0.9375rem;
+    }
+  }
+
+  .share-email-input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #e55a00;
+      box-shadow: 0 0 0 3px rgba(229, 90, 0, 0.15);
+    }
+  }
+
+  .share-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .share-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .share-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+
+  .share-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+
+    .btn {
+      padding: 0.625rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .share-modal-dialog {
+    margin: 0.5rem;
+  }
+  .share-modal-body .share-actions {
+    flex-direction: column-reverse;
+    .btn { width: 100%; }
   }
 }

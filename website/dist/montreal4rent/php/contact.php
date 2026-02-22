@@ -66,10 +66,13 @@ $body = $data['body'] ?? '';
 $isHtml = !!($data['isBodyHtml'] ?? true);
 $formType = trim($data['formType'] ?? 'general');
 $senderName = trim($data['senderName'] ?? '');
+$shareTo = trim($data['shareTo'] ?? '');   // friend's email for share-listing flow
 
-// Lock recipient to the site inbox to avoid abuse
+// Lock recipient to the site inbox to avoid abuse.
+// Exception: share-listing sends to the friend (shareTo) and CCs the agent.
 $allowedRecipient = 'Rental.express.ca@gmail.com';
-if (strcasecmp($to, $allowedRecipient) !== 0) {
+$isShare = ($formType === 'share') && filter_var($shareTo, FILTER_VALIDATE_EMAIL);
+if (!$isShare && strcasecmp($to, $allowedRecipient) !== 0) {
   $to = $allowedRecipient;
 }
 
@@ -118,7 +121,12 @@ if ($useSMTP) {
     // Recipients
     $mail->From = $smtpConfig['from_email'];
     $mail->FromName = $smtpConfig['from_name'];
-    $mail->addAddress($to);
+    if ($isShare) {
+      $mail->addAddress($shareTo);          // Friend receives the email
+      $mail->addCC($allowedRecipient);      // Agent stays in the loop
+    } else {
+      $mail->addAddress($to);
+    }
     
     if ($fromEmail !== '') {
       $mail->addReplyTo($fromEmail, $senderName ?: '');
@@ -146,13 +154,17 @@ if ($useSMTP) {
   $headers = [];
   $headers[] = 'MIME-Version: 1.0';
   $headers[] = 'Content-type: ' . ($isHtml ? 'text/html' : 'text/plain') . '; charset=UTF-8';
-  $headers[] = 'From: Montreal4Rent <'.$to.'>';
+  $headers[] = 'From: Montreal4Rent <'.$allowedRecipient.'>';
   if ($fromEmail !== '') {
     $headers[] = 'Reply-To: '.$fromEmail;
   }
+  if ($isShare) {
+    $headers[] = 'Cc: ' . $allowedRecipient;   // Agent CC on share emails
+  }
   $headers[] = 'X-Mailer: PHP/' . phpversion();
-  
-  $ok = @mail($to, $subject, $bodyToSend, implode("\r\n", $headers));
+
+  $mailTo = $isShare ? $shareTo : $to;
+  $ok = @mail($mailTo, $subject, $bodyToSend, implode("\r\n", $headers));
   $method = 'PHP mail()';
   
   if (!$ok) {
@@ -167,7 +179,7 @@ try {
     'timestamp' => gmdate('c'),
     'formType' => $formType,
     'fromEmail' => $fromEmail,
-    'toEmail' => $to,
+    'toEmail' => $isShare ? $shareTo : $to,
     'subject' => $subject,
     'status' => $ok ? 'success' : 'failed',
     'senderName' => $senderName,
