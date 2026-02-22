@@ -52,7 +52,7 @@ website/
 ## Agent Contact Information
 - **Name**: Jessica Larmour
 - **Phone**: 438-508-1566
-- **Email**: info@montreal4rent.com
+- **Email**: Rental.express.ca@gmail.com
 - **Specialization**: Luxury apartment rentals in Montreal
 
 ## Areas Served

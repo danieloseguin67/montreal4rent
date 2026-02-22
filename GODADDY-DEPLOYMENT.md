@@ -228,7 +228,7 @@ Your build is already optimized with:
 To enable the contact form to send email on GoDaddy Economy hosting:
 
 - Upload the PHP endpoints from `website/php/` to your server root (`public_html`):
-  - `contact.php` (handles sending email to info@montreal4rent.com)
+  - `contact.php` (handles sending email to Rental.express.ca@gmail.com)
   - `email-history.php` (persists and lists submission logs)
 - Ensure the server-side history directory exists and is writable:
   - `public_html/history/emails/`

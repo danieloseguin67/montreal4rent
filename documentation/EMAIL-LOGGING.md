@@ -19,7 +19,7 @@ Every email sent through the website is automatically logged with the following 
 - **Form Type**: Which form sent the email (contact-form, book-tour, rental-inquiry)
 - **Sender Name**: Name of the person who filled the form
 - **From Email**: Email address of the sender
-- **To Email**: Recipient email (info@montreal4rent.com)
+- **To Email**: Recipient email (Rental.express.ca@gmail.com)
 - **Subject**: Email subject line
 - **Status**: Success or Failed
 - **Error Message**: If the email failed, the error details are recorded
@@ -62,7 +62,7 @@ All email activities are logged in real-time to the browser console with formatt
   time: "Feb 3, 2026, 10:30:45 AM",
   form: "contact-form",
   from: "user@example.com",
-  to: "info@montreal4rent.com",
+  to: "Rental.express.ca@gmail.com",
   subject: "Contact Form: Question about rentals",
   status: "success"
 }
@@ -128,7 +128,7 @@ Updated to:
     "timestamp": "2026-02-03T15:30:45.123Z",
     "formType": "contact-form",
     "fromEmail": "john@example.com",
-    "toEmail": "info@montreal4rent.com",
+    "toEmail": "Rental.express.ca@gmail.com",
     "subject": "Contact Form: Rental Inquiry",
     "status": "success",
     "senderName": "John Doe"
@@ -139,7 +139,7 @@ Updated to:
 **CSV Export**:
 ```csv
 Timestamp,Form Type,From Email,To Email,Subject,Status,Sender Name,Error Message
-"2026-02-03T15:30:45.123Z","contact-form","john@example.com","info@montreal4rent.com","Contact Form: Rental Inquiry","success","John Doe",""
+"2026-02-03T15:30:45.123Z","contact-form","john@example.com","Rental.express.ca@gmail.com","Contact Form: Rental Inquiry","success","John Doe",""
 ```
 
 ### Programmatic Access
