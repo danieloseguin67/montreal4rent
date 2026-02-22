@@ -34,7 +34,7 @@ import { Subject, takeUntil } from 'rxjs';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('contactusbanner.jpg')" alt="Contact Us" loading="eager" fetchpriority="high" decoding="async">
+          <img [src]="getImageUrl('contactusbanner.jpg')" alt="Image of a person pointing at his screen to show how to contact us" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 

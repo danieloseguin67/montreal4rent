@@ -43,7 +43,7 @@ import { Subject, takeUntil } from 'rxjs';
       <div class="hero-image" aria-hidden="true">
         <img
           [src]="getImageUrl('montrealwithtrees.jpg')"
-          alt=""
+          alt="Picture of Montreal skyline with trees in foreground"
           loading="eager"
           fetchpriority="high"
           decoding="async"

@@ -27,7 +27,7 @@ import { CacheBustingService } from '../../services/cache-busting.service';
           <span aria-hidden="true">Accessible</span>
         </button>
         <div class="hero-image">
-          <img [src]="getImageUrl('rentaroom.jpg')" alt="Cozy room rental space" loading="eager" fetchpriority="high" decoding="async">
+          <img [src]="getImageUrl('rentaroom.jpg')" alt="Picture of a cozy room rental space" loading="eager" fetchpriority="high" decoding="async">
         </div>
         <div class="hero-content">
           <div class="container">

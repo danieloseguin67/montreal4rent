@@ -36,7 +36,7 @@ import { CacheBustingService } from '../../services/cache-busting.service';
           </div>
         </div>
         <div class="hero-image">
-          <img [src]="getImageUrl('property-rental-owners.jpg')" alt="Property Owners" loading="eager" fetchpriority="high" decoding="async">
+          <img [src]="getImageUrl('property-rental-owners.jpg')" alt="Picture of property owners signing an agreement" loading="eager" fetchpriority="high" decoding="async">
         </div>
       </section>
 
