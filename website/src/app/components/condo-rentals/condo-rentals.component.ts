@@ -228,7 +228,7 @@ import { Subject, takeUntil } from 'rxjs';
                       {{ apartment.bathrooms === 1 ? (currentLanguage === 'fr' ? 'salle de bain' : 'bathroom') : (currentLanguage === 'fr' ? 'salles de bain' : 'bathrooms') }}
                     </span>
                   </div>
-                  <div class="detail-item">
+                  <div class="detail-item" *ngIf="apartment.squareFootage > 0">
                     <i class="fas fa-ruler-combined"></i>
                     <span>{{ apartment.squareFootage }} {{ currentLanguage === 'fr' ? 'pi²' : 'sqft' }}</span>
                   </div>

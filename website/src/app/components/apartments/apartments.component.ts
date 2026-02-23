@@ -250,7 +250,7 @@ import { Subject, takeUntil } from 'rxjs';
                       {{ apartment.bathrooms === 1 ? t.common?.bathroom : t.common?.bathrooms }}
                     </span></dd>
                   </div>
-                  <div class="detail-item">
+                  <div class="detail-item" *ngIf="apartment.squareFootage > 0">
                     <dt class="sr-only">Square footage</dt>
                     <i class="fas fa-ruler-combined" aria-hidden="true"></i>
                     <dd><span>{{ apartment.squareFootage }} {{ t.common?.sqft }}</span></dd>

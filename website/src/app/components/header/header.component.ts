@@ -60,15 +60,6 @@ import { Subject, takeUntil } from 'rxjs';
               <li role="none">
                 <a 
                   role="menuitem"
-                  [routerLink]="currentLanguage === 'fr' ? '/chambres-à-louer' : '/rooms-for-rent'" 
-                  routerLinkActive="active"
-                  (click)="onNavActivated()"
-                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les chambres à louer' : 'View rooms for rent'"
-                >{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a>
-              </li>
-              <li role="none">
-                <a 
-                  role="menuitem"
                   [routerLink]="'/property-owners'" 
                   routerLinkActive="active"
                   (click)="onNavActivated()"
@@ -174,15 +165,6 @@ import { Subject, takeUntil } from 'rxjs';
                   routerLinkActive="active"
                   [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les condos à louer' : 'View condo rentals'"
                 >{{ currentLanguage === 'fr' ? 'Condos à Louer' : 'Condo Rentals' }}</a>
-              </li>
-              <li role="none">
-                <a 
-                  role="menuitem"
-                  [routerLink]="currentLanguage === 'fr' ? '/chambres-à-louer' : '/rooms-for-rent'" 
-                  (click)="onNavActivated(); closeMobileMenu()" 
-                  routerLinkActive="active"
-                  [attr.aria-label]="currentLanguage === 'fr' ? 'Voir les chambres à louer' : 'View rooms for rent'"
-                >{{ currentLanguage === 'fr' ? 'Chambres à Louer' : 'Rooms for Rent' }}</a>
               </li>
               <li role="none">
                 <a 

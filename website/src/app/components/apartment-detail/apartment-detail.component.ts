@@ -16,7 +16,7 @@ import { Title } from '@angular/platform-browser';
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
     <main #detailMain tabindex="-1">
-      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+3     <div class="sr-only" role="status" aria-live="polite" aria-atomic="true">
         {{ liveAnnouncement }}
       </div>
 
@@ -104,12 +104,12 @@ import { Title } from '@angular/platform-browser';
               class="info-item"
               role="listitem"
               tabindex="0"
-              [attr.aria-label]="(apartment.bedrooms === 1 ? (t.common?.bedroom || 'Bedroom') : (t.common?.bedrooms || 'Bedrooms')) + ': ' + apartment.bedrooms"
+              [attr.aria-label]="(getApartmentBedrooms(apartment) === 1 ? (t.common?.bedroom || 'Bedroom') : (t.common?.bedrooms || 'Bedrooms')) + ': ' + getApartmentBedrooms(apartment)"
             >
               <i class="fas fa-bed" aria-hidden="true"></i>
               <div>
-                <span class="value">{{ apartment.bedrooms }}</span>
-                <span class="label">{{ apartment.bedrooms === 1 ? t.common?.bedroom : t.common?.bedrooms }}</span>
+                <span class="value">{{ getApartmentBedrooms(apartment) }}</span>
+                <span class="label">{{ getApartmentBedrooms(apartment) === 1 ? t.common?.bedroom : t.common?.bedrooms }}</span>
               </div>
             </div>
             <div
@@ -217,23 +217,12 @@ import { Title } from '@angular/platform-browser';
                 <!-- Contact Card -->
                 <div class="contact-card card">
                   <div class="card-body">
-                    <div class="agent-info">
-                      <div class="agent-details">
-                        <h3>{{ currentLanguage === 'fr' ? 'Agent de location' : 'Leasing Agent' }}</h3>
-                        <p>{{ currentLanguage === 'fr' ? 'Montreal4Rent' : 'Montreal4Rent' }}</p>
-                      </div>
-                    </div>
-
                     <div class="contact-actions">
                       <button class="btn btn-primary btn-block" (click)="bookTour()">
                         <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                         {{ t.navigation?.bookTour }}
                       </button>
                       <div class="contact-actions2">
-                        <a href="mailto:Rental.express.ca@gmail.com" class="btn btn-primary btn-block">
-                          <i class="fas fa-envelope" aria-hidden="true"></i>
-                          Email
-                        </a>
                         <button class="btn btn-share btn-block" type="button" (click)="openShareModal()"
                           [attr.aria-label]="currentLanguage === 'fr' ? 'Partager ce logement' : 'Share this listing'">
                           <i class="fas fa-share-alt" aria-hidden="true"></i>
@@ -269,7 +258,7 @@ import { Title } from '@angular/platform-browser';
                         <h4>{{ currentLanguage === 'fr' ? similar.title : similar.titleEn }}</h4>
                         <p class="similar-price">{{ similar.price | currency:'CAD':'symbol':'1.0-0' }}/mois</p>
                         <div class="similar-details">
-                          {{ similar.bedrooms }} ch. • {{ similar.bathrooms }} sdb
+                          {{ similar.bedrooms || getBedroomsFromUnitType(similar.unit_type_name) }} ch. • {{ similar.bathrooms }} sdb
                         </div>
                       </div>
                     </button>
@@ -343,6 +332,7 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
   apartment: Apartment | null = null;
   similarApartments: Apartment[] = [];
   areas: Area[] = [];
+  unitTypes: Array<{unit_type_name: string, rooms: number}> = [];
   currentImageIndex = 0;
   loading = true;
   imageLoaded = false;
@@ -507,6 +497,7 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     this.subscribeToLanguageChanges();
     this.loadApartment();
     this.loadAreas();
+    this.loadUnitTypes();
   }
 
   ngOnDestroy(): void {
@@ -555,14 +546,40 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
       .subscribe(apartments => {
         this.similarApartments = apartments
           .filter(apt => apt.id !== apartment.id && apt.available)
+          .map(apt => {
+            // Map bedrooms from unitTypes based on unit_type_name
+            return {
+              ...apt,
+              bedrooms: this.getBedroomsFromUnitType(apt.unit_type_name)
+            };
+          })
           .slice(0, 3);
       });
+  }
+
+  getBedroomsFromUnitType(unitTypeName: string | undefined): number {
+    if (!unitTypeName) return 0;
+    const unitType = this.unitTypes.find(ut => ut.unit_type_name === unitTypeName);
+    return unitType ? unitType.rooms : 0;
+  }
+
+  getApartmentBedrooms(apartment: Apartment): number {
+    return apartment.bedrooms || this.getBedroomsFromUnitType(apartment.unit_type_name);
   }
 
   private loadAreas(): void {
     this.dataService.getAreas()
       .pipe(takeUntil(this.destroy$))
       .subscribe(areas => this.areas = areas);
+  }
+
+  private loadUnitTypes(): void {
+    this.http.get<Array<{unit_type_name: string, rooms: number}>>('assets/data/unittypes.json')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (unitTypes) => this.unitTypes = unitTypes,
+        error: (error) => console.error('Error loading unit types:', error)
+      });
   }
 
   private subscribeToLanguageChanges(): void {

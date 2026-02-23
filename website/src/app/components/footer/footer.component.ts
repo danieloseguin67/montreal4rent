@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LanguageService } from '../../services/language.service';
-import { DataService, Area } from '../../services/data.service';
+import { DataService, Area, Preferences } from '../../services/data.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -20,9 +20,22 @@ import { Subject, takeUntil } from 'rxjs';
                 <div class="footer-logo">
                   <h3>Montreal4Rent</h3>
                 </div>
-                <p class="footer-description">
-                  {{ t.footer?.description || 'Specialist in luxury apartment rentals in Montreal. Find your new home today.' }}
-                </p>
+                <div class="footer-description" *ngIf="currentLanguage === 'fr'">
+                  <p>
+                    <strong>Contactez un agent de location</strong><br>
+                    Pour plus d'informations ou pour planifier une visite:<br>
+                    📞 {{ phoneNumber }}<br>
+                    📧 {{ email }}
+                  </p>
+                </div>
+                <div class="footer-description" *ngIf="currentLanguage === 'en'">
+                  <p>
+                    <strong>Contact a Leasing Agent</strong><br>
+                    For more information or to schedule a visit:<br>
+                    📞 {{ phoneNumber }}<br>
+                    📧 {{ email }}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -32,9 +45,12 @@ import { Subject, takeUntil } from 'rxjs';
                 <h4>{{ t.footer?.areas }}</h4>
                 <ul class="areas-list">
                   <li *ngFor="let area of areas">
-                    <a [href]="area.link" target="_blank" rel="noopener">
+                    <a *ngIf="areaLinksEnabled" [href]="area.link" target="_blank" rel="noopener">
                       {{ currentLanguage === 'fr' ? area.nameFr : area.nameEn }}
                     </a>
+                    <span *ngIf="!areaLinksEnabled">
+                      {{ currentLanguage === 'fr' ? area.nameFr : area.nameEn }}
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -64,6 +80,9 @@ export class FooterComponent implements OnInit, OnDestroy {
   t: any = {};
   currentLanguage = 'fr';
   currentYear = new Date().getFullYear();
+  areaLinksEnabled = false;
+  phoneNumber = '';
+  email = '';
   
   private destroy$ = new Subject<void>();
 
@@ -75,6 +94,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscribeToLanguageChanges();
     this.loadAreas();
+    this.loadPreferences();
   }
 
   ngOnDestroy(): void {
@@ -96,5 +116,15 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.dataService.getAreas()
       .pipe(takeUntil(this.destroy$))
       .subscribe(areas => this.areas = areas);
+  }
+
+  private loadPreferences(): void {
+    this.dataService.getPreferences()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(preferences => {
+        this.areaLinksEnabled = preferences.area_link === 'on';
+        this.phoneNumber = preferences.phone_number || '';
+        this.email = preferences.email || '';
+      });
   }
 }

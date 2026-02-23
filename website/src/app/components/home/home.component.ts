@@ -271,7 +271,7 @@ import { Subject, takeUntil } from 'rxjs';
                     </span>
                   </dd>
                 </div>
-                <div class="detail-item">
+                <div class="detail-item" *ngIf="apartment.squareFootage > 0">
                   <dt class="sr-only">Square footage</dt>
                   <i class="fas fa-ruler-combined" aria-hidden="true"></i>
                   <dd><span>{{ apartment.squareFootage }} {{ t.common?.sqft }}</span></dd>
@@ -348,19 +348,6 @@ import { Subject, takeUntil } from 'rxjs';
             <div class="agent-content text-center">
               <h2>{{ t.home?.aboutAgent?.title }}</h2>
               <h3 class="agent-subtitle">{{ t.home?.aboutAgent?.subtitle }}</h3>
-              
-              <div class="agent-contact">
-                <div class="contact-item">
-                  <i class="fas fa-envelope" aria-hidden="true"></i>
-                  <a 
-                    href="mailto:Rental.express.ca@gmail.com"
-                    aria-label="Email us at Rental.express.ca@gmail.com"
-                  >
-                    {{ t.home?.aboutAgent?.email }}
-                  </a>
-                </div>
-              </div>
-
               <div class="agent-actions" role="group" aria-label="Contact actions">
                 <a 
                   routerLink="/contact" 

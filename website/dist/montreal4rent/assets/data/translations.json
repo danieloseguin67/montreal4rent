@@ -7,8 +7,8 @@
         "amenities": "Commodités",
         "lifestyle": "Style de vie",
         "students": "Étudiants",
-        "furnished": "Suites meublées",
-        "unfurnished": "Suites non meublées",
+        "furnished": "Appartements meublées",
+        "unfurnished": "Appartements non meublées",
         "gallery": "Galerie",
         "contact": "Contact",
         "bookTour": "Réserver une visite",
@@ -38,10 +38,10 @@
       },
       "home": {
         "hero": {
-          "title": "Appartements, Chambres et Condos à louer à Montréal",
-          "titleTop": "Appartements, Chambres et Condos",
-          "titleBottom": "à louer à Montréal",
-          "subtitle": "Des appartements exceptionnels dans les meilleurs quartiers de la ville",
+          "title": "Appartements et condos",
+          "titleTop": "Appartements à louer à Montréal",
+          "titleBottom": "",
+          "subtitle": "Recherchez des appartements à louer à Montréal, incluant des logements meublés et non meublés prêts pour emménagement immédiat",
           "cta": "Explorez nos appartements"
         },
         "search": {
@@ -117,7 +117,7 @@
           "subtitle": "Montreal4Rent se spécialise dans la location d'appartements de luxe à Montréal. Nous offrons des logements de qualité supérieure dans les meilleurs quartiers de la ville, parfaits pour les étudiants, les professionnels et les familles."
         },
         "aboutSection": {
-          "furnished": "Appartements meublés et non-meublés",
+          "furnished": "Appartements entièrement meublés et non-meublés",
           "student": "Logements adaptés aux étudiants",
           "premium": "Emplacements premium",
           "service": "Service client 24/7"
@@ -163,9 +163,9 @@
       "home": {
         "hero": {
           "title": "Apartments, Condos, and Rooms for rent in Montreal",
-          "titleTop": "Apartments, Condos, and Rooms",
-          "titleBottom": "for rent in Montreal",
-          "subtitle": "Montreal Apartments for Rent | Furnished & Unfurnished",
+          "titleTop": "Montreal Apartments for Rent",
+          "titleBottom": "",
+          "subtitle": "Search Montreal apartments for rent, including furnished and unfurnished units ready for immediate move-in.",
           "cta": "Explore Our Apartments"
         },
         "search": {

@@ -52,6 +52,12 @@ export interface UnitType {
   unit_type_name: string;
 }
 
+export interface Preferences {
+  area_link: string;
+  phone_number: string;
+  email: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -152,5 +158,9 @@ export class DataService {
 
   getUnitTypes(): Observable<UnitType[]> {
     return this.http.get<UnitType[]>('assets/data/unittypes.json');
+  }
+
+  getPreferences(): Observable<Preferences> {
+    return this.http.get<Preferences>('assets/data/preferences.json');
   }
 }
