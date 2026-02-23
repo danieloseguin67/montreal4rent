@@ -55,7 +55,7 @@
         
         <div class="status-box info">
             <strong>Current Email Recipient:</strong><br>
-            <span class="recipient">Rental.express.ca@gmail.com</span>
+            <span class="recipient">info@montreal4rent.com</span>
         </div>
 
         <h2>1. Check PHP Server Status</h2>
@@ -67,7 +67,7 @@
 
         <h2>2. Send Test Email</h2>
         <div class="test-section">
-            <p>Send a test email to <strong>Rental.express.ca@gmail.com</strong></p>
+            <p>Send a test email to <strong>info@montreal4rent.com</strong></p>
             <button onclick="sendTestEmail()">Send Test Email</button>
             <div id="testResult" class="status-box" style="display:none;"></div>
         </div>
@@ -90,7 +90,7 @@
         <div id="spamAdvice" style="display:none;" class="status-box warning">
             <h3>🔍 Email Not Received? Check These:</h3>
             <ol>
-                <li><strong>Check Spam/Junk Folder</strong> in Rental.express.ca@gmail.com</li>
+                <li><strong>Check Spam/Junk Folder</strong> in info@montreal4rent.com</li>
                 <li><strong>Gmail Filters:</strong> Check if Gmail has auto-archived or filtered the emails</li>
                 <li><strong>Server IP:</strong> Ensure the hosting server IP is not blacklisted</li>
                 <li><strong>SMTP Config:</strong> Verify relay-hosting.secureserver.net is properly configured</li>
@@ -134,7 +134,7 @@
 
             const emailData = {
                 fromEmail: 'test@montreal4rent.com',
-                to: 'Rental.express.ca@gmail.com',
+                to: 'info@montreal4rent.com',
                 subject: 'Test Email - ' + new Date().toISOString(),
                 body: '<h2>Test Email</h2><p>This is a test email sent at ' + new Date().toLocaleString() + '</p>',
                 isBodyHtml: true,
@@ -156,7 +156,7 @@
                     resultDiv.innerHTML = `
                         <strong>✅ Email Sent Successfully!</strong><br>
                         ${result.message}<br><br>
-                        <strong>Check Rental.express.ca@gmail.com inbox</strong> (and spam folder)<br>
+                        <strong>Check info@montreal4rent.com inbox</strong> (and spam folder)<br>
                         Subject: ${emailData.subject}
                     `;
                 } else {

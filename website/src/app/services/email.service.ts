@@ -59,7 +59,7 @@ export class EmailService {
   /**
    * Get the contact email address from configuration
    */
-  public getContactEmail(defaultEmail: string = 'Rental.express.ca@gmail.com'): string {
+  public getContactEmail(defaultEmail: string = 'info@montreal4rent.com'): string {
     return this.emailConfig?.contactemail?.trim() || defaultEmail;
   }
 
@@ -189,7 +189,7 @@ export class EmailService {
    */
   public sendTestEmail(): Observable<boolean> {
     const to = 'daniel@seguin.dev';
-    const from = this.getContactEmail('Rental.express.ca@gmail.com');
+    const from = this.getContactEmail('info@montreal4rent.com');
     const subject = 'Montreal4Rent: Test Email';
     const body = `
       <div>

@@ -453,7 +453,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Send email via backend PHP service
     this.emailService.sendEmail(
       this.bookingForm.email,
-      'Rental.express.ca@gmail.com',
+      'info@montreal4rent.com',
       subject,
       emailBody,
       'book-tour',

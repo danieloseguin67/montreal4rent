@@ -95,7 +95,7 @@ Open browser DevTools console to see real-time email log entries
   "timestamp": "2026-02-03T15:30:45.123Z",
   "formType": "contact-form",
   "fromEmail": "john@example.com",
-  "toEmail": "Rental.express.ca@gmail.com",
+  "toEmail": "info@montreal4rent.com",
   "subject": "Contact Form: Rental Inquiry",
   "status": "success",
   "senderName": "John Doe"

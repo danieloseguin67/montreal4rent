@@ -19,6 +19,6 @@ return [
     'smtp_auth' => false, // GoDaddy relay uses IP-based authentication
     'smtp_username' => '', // Not needed for GoDaddy relay
     'smtp_password' => '', // Not needed for GoDaddy relay
-    'from_email' => 'Rental.express.ca@gmail.com',
+    'from_email' => 'info@montreal4rent.com',
     'from_name' => 'Montreal4Rent',
 ];

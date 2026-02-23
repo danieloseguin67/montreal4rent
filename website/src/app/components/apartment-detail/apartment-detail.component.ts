@@ -439,8 +439,8 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
     // Use the same php/contact.php pipeline as the rest of the app (PHPMailer/SMTP).
     // formType='share' + shareTo tells contact.php to send to the friend and CC the agent.
     this.http.post<{ success: boolean; message?: string }>('php/contact.php', {
-      fromEmail: 'Rental.express.ca@gmail.com',
-      to: 'Rental.express.ca@gmail.com',
+      fromEmail: 'info@montreal4rent.com',
+      to: 'info@montreal4rent.com',
       shareTo: this.shareEmail,
       subject,
       body,
@@ -453,7 +453,7 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
         this.shareStatus = resp?.success ? 'sent' : 'error';
         this.emailLogger.logEmail({
           formType: 'share',
-          fromEmail: 'Rental.express.ca@gmail.com',
+          fromEmail: 'info@montreal4rent.com',
           toEmail: this.shareEmail,
           subject,
           status: resp?.success ? 'success' : 'failed',
@@ -468,7 +468,7 @@ export class ApartmentDetailComponent implements OnInit, OnDestroy {
         this.shareStatus = 'error';
         this.emailLogger.logEmail({
           formType: 'share',
-          fromEmail: 'Rental.express.ca@gmail.com',
+          fromEmail: 'info@montreal4rent.com',
           toEmail: this.shareEmail,
           subject,
           status: 'failed',

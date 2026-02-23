@@ -43,7 +43,7 @@ $body         = $data['body']              ?? '';
 $listingTitle = trim($data['listingTitle'] ?? 'Listing');
 $listingUrl   = trim($data['listingUrl']   ?? '');
 
-$agentEmail = 'Rental.express.ca@gmail.com';
+$agentEmail = 'info@montreal4rent.com';
 
 if (!filter_var($friendEmail, FILTER_VALIDATE_EMAIL)) {
     respond(false, 'Invalid email address', 400);

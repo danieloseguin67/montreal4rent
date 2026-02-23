@@ -1,7 +1,7 @@
 # PHPMailer Email Configuration Guide
 
 ## Overview
-All forms on montreal4rent.com now use PHPMailer to send emails to `Rental.express.ca@gmail.com`:
+All forms on montreal4rent.com now use PHPMailer to send emails to `info@montreal4rent.com`:
 - Contact Us form
 - Book a Tour modal
 - Book Now buttons (from all listing pages)
@@ -19,7 +19,7 @@ All forms on montreal4rent.com now use PHPMailer to send emails to `Rental.expre
 1. User fills out a form
 2. Angular `EmailService` sends data to `/contact.php`
 3. `contact.php` uses PHPMailer to send via SMTP (Office365)
-4. Email is delivered to `Rental.express.ca@gmail.com`
+4. Email is delivered to `info@montreal4rent.com`
 5. Email log is saved to `history/emails/` folder
 
 ## Required Configuration
@@ -36,9 +36,9 @@ return [
     'smtp_port' => 587,
     'smtp_secure' => 'tls',
     'smtp_auth' => true,
-    'smtp_username' => 'Rental.express.ca@gmail.com',
+    'smtp_username' => 'info@montreal4rent.com',
     'smtp_password' => 'YOUR-APP-PASSWORD-HERE', // ⚠️ ADD PASSWORD HERE
-    'from_email' => 'Rental.express.ca@gmail.com',
+    'from_email' => 'info@montreal4rent.com',
     'from_name' => 'Montreal4Rent',
 ];
 ```
@@ -46,7 +46,7 @@ return [
 ### 2. Get Office365 App Password
 
 1. Go to https://account.microsoft.com/security
-2. Sign in with `Rental.express.ca@gmail.com`
+2. Sign in with `info@montreal4rent.com`
 3. Enable 2-Factor Authentication (if not already enabled)
 4. Go to "App passwords" section
 5. Generate a new app password
@@ -116,7 +116,7 @@ Location: `website/dist/montreal4rent/assets/data/emailhostserver.json`
   "smtpPort": 587,
   "smtpDefaultCredentials": "N",
   "smtpSecure": "Y",
-  "contactemail": "Rental.express.ca@gmail.com"
+  "contactemail": "info@montreal4rent.com"
 }
 ```
 
@@ -128,14 +128,14 @@ This file is used by the Angular `EmailService` to know where to send emails.
 - **Subject**: User-provided subject
 - **From**: User's email
 - **Reply-To**: User's email
-- **To**: Rental.express.ca@gmail.com
+- **To**: info@montreal4rent.com
 - **Format**: HTML with styled table
 
 ### Book a Tour Email
 - **Subject**: "Book a Tour - Montreal4Rent" (or "Demande de visite - Montreal4Rent")
 - **From**: User's email
 - **Reply-To**: User's email
-- **To**: Rental.express.ca@gmail.com
+- **To**: info@montreal4rent.com
 - **Format**: HTML with styled table
 - **Form Type**: `book-tour`
 
@@ -143,7 +143,7 @@ This file is used by the Angular `EmailService` to know where to send emails.
 - **Subject**: "Book Now - Montreal4Rent"
 - **From**: User's email
 - **Reply-To**: User's email
-- **To**: Rental.express.ca@gmail.com
+- **To**: info@montreal4rent.com
 - **Format**: HTML with styled table
 - **Form Type**: `book-now`
 
@@ -165,7 +165,7 @@ This file is used by the Angular `EmailService` to know where to send emails.
 
 ### Emails not being received
 - Check spam folder
-- Verify `Rental.express.ca@gmail.com` is a valid mailbox
+- Verify `info@montreal4rent.com` is a valid mailbox
 - Check email history at `/php/email-history.php`
 
 ### Permission denied errors
@@ -176,7 +176,7 @@ This file is used by the Angular `EmailService` to know where to send emails.
 
 1. **Never commit** `config-smtp.php` with the password to Git
 2. Keep the app password secure
-3. The `contact.php` script locks emails to `Rental.express.ca@gmail.com` to prevent abuse
+3. The `contact.php` script locks emails to `info@montreal4rent.com` to prevent abuse
 4. CORS is configured to allow requests from your domain only
 5. Email logs are stored server-side only, not accessible to users
 
@@ -187,7 +187,7 @@ This file is used by the Angular `EmailService` to know where to send emails.
 3. ✅ Create `history/emails` folder with write permissions
 4. ✅ Test with `/php/test-email.php`
 5. ✅ Send test email from contact form
-6. ✅ Verify email received at `Rental.express.ca@gmail.com`
+6. ✅ Verify email received at `info@montreal4rent.com`
 7. ✅ Check email logs at `/php/email-history.php`
 8. ✅ Remove test emails from inbox
 

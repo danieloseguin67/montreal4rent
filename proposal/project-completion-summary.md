@@ -71,7 +71,7 @@ Successfully implemented a complete Angular 19 website for Montreal4Rent, featur
 #### 7. Professional Agent Integration ✅
 - **Jessica Larmour** contact information
 - Phone: 438-508-1566
-- Email: Rental.express.ca@gmail.com
+- Email: info@montreal4rent.com
 - Professional photography placeholder
 - Contact forms and booking system
 
@@ -145,4 +145,4 @@ montreal4rent/
 **Performance Targets**: ✅ ACHIEVED  
 **Client Specifications**: ✅ MET  
 
-**Contact**: Jessica Larmour | 438-508-1566 | Rental.express.ca@gmail.com
+**Contact**: Jessica Larmour | 438-508-1566 | info@montreal4rent.com

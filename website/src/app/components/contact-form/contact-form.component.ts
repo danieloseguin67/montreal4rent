@@ -70,7 +70,7 @@ export class ContactFormComponent {
       // Send email via backend PHP service
       this.emailService.sendEmail(
         this.formData.email,
-        'Rental.express.ca@gmail.com',
+        'info@montreal4rent.com',
         this.formData.subject,
         emailBody,
         'contact',

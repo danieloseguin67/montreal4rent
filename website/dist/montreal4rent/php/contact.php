@@ -70,7 +70,7 @@ $shareTo = trim($data['shareTo'] ?? '');   // friend's email for share-listing f
 
 // Lock recipient to the site inbox to avoid abuse.
 // Exception: share-listing sends to the friend (shareTo) and CCs the agent.
-$allowedRecipient = 'Rental.express.ca@gmail.com';
+$allowedRecipient = 'info@montreal4rent.com';
 $isShare = ($formType === 'share') && filter_var($shareTo, FILTER_VALIDATE_EMAIL);
 if (!$isShare && strcasecmp($to, $allowedRecipient) !== 0) {
   $to = $allowedRecipient;
