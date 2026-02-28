@@ -33,6 +33,12 @@
           padding-top: 1.5rem;
           margin-bottom: 1.5rem;
         }
+        
+        // Laptop screens: reduce top padding for better centering
+        @media (min-width: 769px) and (max-width: 1599.98px) {
+          padding-top: 0;
+          margin-bottom: 1rem;
+        }
       }
       
       .hero-description {
@@ -47,6 +53,12 @@
         @media (max-width: 768px) {
           font-size: 1.125rem;
           margin-bottom: 2rem;
+        }
+        
+        // Laptop screens: reduce bottom margin for better spacing
+        @media (min-width: 769px) and (max-width: 1599.98px) {
+          margin-bottom: 1rem;
+          font-size: 1.25rem;
         }
       }
     }
@@ -87,6 +99,12 @@
       @media (max-width: 767.98px) {
         left: 1rem;
         bottom: 0.75rem;
+    
+    // Laptop screens: increase height for better proportion
+    @media (min-width: 769px) and (max-width: 1599.98px) {
+      height: 30vh;
+      min-height: 280px;
+    }
       }
     }
 
@@ -98,6 +116,10 @@
   .features-section {
     padding: 6rem 0;
     background: var(--white);
+    
+    @media (max-width: 768px) {
+      padding: 3rem 0;
+    }
     
     h2 {
       text-align: center;
@@ -113,13 +135,17 @@
     
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 3rem;
       margin-top: 3rem;
       
       @media (max-width: 768px) {
         grid-template-columns: 1fr;
         gap: 2rem;
+      }
+      
+      @media (max-width: 320px) {
+        gap: 1.5rem;
       }
     }
     
@@ -162,6 +188,10 @@
   .amenities-section {
     padding: 6rem 0;
     background: var(--soft-warm-gray);
+    
+    @media (max-width: 768px) {
+      padding: 3rem 0;
+    }
     
     h2 {
       text-align: center;
@@ -224,6 +254,10 @@
   .search-section {
     padding: 4rem 0;
     background: var(--soft-warm-gray);
+    
+    @media (max-width: 768px) {
+      padding: 2rem 0;
+    }
 
     .search-card {
       margin-top: -3rem;
@@ -414,6 +448,16 @@
 
   @media (min-width: 768px) and (max-width: 1199.98px) {
     .apartments-grid-section .apartments-grid { grid-template-columns: repeat(2,1fr); }
+  }
+
+  // Laptop screens: 2 columns for better spacing
+  @media (min-width: 1200px) and (max-width: 1599.98px) {
+    .apartments-grid-section .apartments-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+  }
+
+  // Large desktops: 3 columns
+  @media (min-width: 1600px) {
+    .apartments-grid-section .apartments-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
   }
 
   @media (max-width: 374.98px) {

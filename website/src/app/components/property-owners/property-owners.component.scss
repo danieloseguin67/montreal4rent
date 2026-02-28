@@ -37,8 +37,13 @@
       h1 { 
         font-size: clamp(2rem, 5vw, 4.5rem); 
         font-weight: 700; 
+        padding-top: 2rem;
         margin-bottom: 1rem; 
-        color: var(--white); 
+        color: var(--white);
+        
+        @media (max-width: 768px) {
+          padding-top: 1.5rem;
+        }
       }
       
       .hero-description { 
@@ -74,6 +79,10 @@
 
   .services-section {
     margin-top: 2rem;
+    
+    @media (max-width: 768px) {
+      margin-top: 1rem;
+    }
 
     .container {
       max-width: 100%;

@@ -34,12 +34,24 @@
       h1 {
         font-size: clamp(2.5rem, 5vw, 4.5rem);
         font-weight: 700;
+        padding-top: 2rem;
         margin-bottom: 2rem;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         color: var(--white);
         line-height: 1.1;
-      }
 
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
+          padding-top: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 769px) and (max-width: 1599.98px) {
+          padding-top: 0;
+          margin-bottom: 1rem;
+        }
+      }
+      
       .hero-description {
         font-size: 1.375rem;
         max-width: 800px;
@@ -48,9 +60,19 @@
         color: var(--white);
         line-height: 1.6;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        
+        @media (max-width: 768px) {
+          font-size: 1.125rem;
+          margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 769px) and (max-width: 1599.98px) {
+          margin-bottom: 1rem;
+          font-size: 1.25rem;
+        }
       }
     }
-
+    
     .hero-image {
       position: absolute;
       top: 0;
@@ -80,11 +102,20 @@
     @media (max-width: 768px) {
       height: 40vh;
     }
+    
+    @media (min-width: 769px) and (max-width: 1599.98px) {
+      height: 30vh;
+      min-height: 280px;
+    }
   }
 
   .search-section {
     padding: 4rem 0;
     background: var(--soft-warm-gray);
+    
+    @media (max-width: 768px) {
+      padding: 2rem 0;
+    }
 
     .search-card {
       margin-top: -3rem;
@@ -295,6 +326,16 @@
     .apartments-grid-section .apartments-grid { grid-template-columns: repeat(2,1fr); }
   }
 
+  // Laptop screens: 2 columns for better spacing
+  @media (min-width: 1200px) and (max-width: 1599.98px) {
+    .apartments-grid-section .apartments-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+  }
+
+  // Large desktops: 3 columns
+  @media (min-width: 1600px) {
+    .apartments-grid-section .apartments-grid { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  }
+
   @media (max-width: 374.98px) {
     .search-section .btn-filters-toggle {
       font-size: 0.875rem;
@@ -305,7 +346,7 @@
   .apartment-card:nth-child(odd) { animation-delay: 0.1s; }
   .apartment-card:nth-child(even) { animation-delay: 0.2s; }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1600px) {
     .apartment-card:nth-child(3n+1) { animation-delay: 0.1s; }
     .apartment-card:nth-child(3n+2) { animation-delay: 0.2s; }
     .apartment-card:nth-child(3n+3) { animation-delay: 0.3s; }

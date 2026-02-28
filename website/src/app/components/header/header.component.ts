@@ -184,6 +184,18 @@ import { Subject, takeUntil } from 'rxjs';
                   [attr.aria-label]="currentLanguage === 'fr' ? 'Contactez-nous' : 'Contact us'"
                 >{{ currentLanguage === 'fr' ? 'Contactez-Nous' : 'Contact Us' }}</a>
               </li>
+              <li role="none" class="mobile-menu-divider">
+                <button 
+                  type="button"
+                  role="menuitem"
+                  class="mobile-menu-a11y-btn"
+                  (click)="onA11yBadgeClick(); closeMobileMenu()"
+                  [attr.aria-label]="currentLanguage === 'fr' ? 'Accessibilité — guide lecteur écran' : 'Accessibility — screen reader guide'"
+                >
+                  <i class="fas fa-universal-access" aria-hidden="true"></i>
+                  {{ currentLanguage === 'fr' ? 'Accessibilité' : 'Accessibility' }}
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
@@ -493,5 +505,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // When a page is selected from the menu (Enter/click), move focus into
     // page content after the route change so screen readers can read down.
     sessionStorage['focusContentAfterNav'] = '1';
+  }
+
+  onA11yBadgeClick(): void {
+    window.dispatchEvent(new CustomEvent('openA11yModal'));
   }
 }
