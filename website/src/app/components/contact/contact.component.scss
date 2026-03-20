@@ -223,7 +223,7 @@
       }
       
       .send-email-btn {
-        background: var(--primary-orange);
+        background: #1a6e8a;
         color: var(--white);
         border: none;
         padding: 0.875rem 2rem;
@@ -244,9 +244,9 @@
         }
         
         &:hover:not(:disabled) {
-          background: #e5661f;
+          background: #084080;
           transform: translateY(-2px);
-          box-shadow: 0 6px 16px rgba(250, 116, 45, 0.4);
+          box-shadow: 0 6px 16px rgba(11, 61, 145, 0.3);
         }
         
         &:disabled {

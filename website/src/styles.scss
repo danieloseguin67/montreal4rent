@@ -1,6 +1,7 @@
 // Design System Colors
 :root {
   --primary-orange: #fa742d;
+  --aqua-teal: #1a6e8a;
   --trust-navy: #2596be;
   --soft-warm-gray: #f5f5f5;
   --text-dark-gray: #333333;
@@ -394,13 +395,13 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--primary-orange);
+  background-color: var(--aqua-teal);
   color: var(--white);
   
   &:hover:not(:disabled) {
-    background-color: #e8642a;
+    background-color: #084080;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(250, 116, 45, 0.3);
+    box-shadow: 0 4px 12px rgba(11, 61, 145, 0.3);
   }
 }
 

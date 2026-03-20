@@ -200,7 +200,7 @@
             background: rgba(239, 68, 68, 0.9);
 
             &.available {
-              background: rgba(16, 185, 129, 0.9);
+              background: rgba(26, 110, 138, 0.9);
             }
           }
         }
@@ -389,11 +389,11 @@
         .btn-block {
           width: 100%;
           margin-bottom: 1rem;
-          background-color: #ff8c42;
+          background-color: #1a6e8a;
           color: white;
           
           &:hover:not(:disabled) {
-            background-color: #e67a33;
+            background-color: #084080;
           }
         }
       }
@@ -402,11 +402,11 @@
         .btn-block {
           width: 100%;
           margin-bottom: 1rem;
-          background-color: #ff8c42;
+          background-color: #1a6e8a;
           color: white;
           
           &:hover:not(:disabled) {
-            background-color: #e67a33;
+            background-color: #084080;
           }
         }
 

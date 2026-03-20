@@ -470,13 +470,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // Apply filters
     if (this.selectedArea) {
-      console.log('Filtering by selectedArea:', this.selectedArea);
-      console.log('Available apartments areas:', this.apartments.map(apt => apt.area));
-      filtered = filtered.filter(apt => {
-        console.log(`Comparing apt.area '${apt.area}' === selectedArea '${this.selectedArea}':`, apt.area === this.selectedArea);
-        return apt.area === this.selectedArea;
-      });
-      console.log('Filtered apartments count:', filtered.length);
+      const selectedAreaLower = this.selectedArea.toLowerCase();
+      filtered = filtered.filter(apt => apt.area.toLowerCase() === selectedAreaLower);
     }
 
     if (this.selectedBedrooms !== '') {
@@ -532,7 +527,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getAreaName(areaId: string): string {
-    const area = this.areas.find(a => a.id === areaId);
+    const idLower = areaId.toLowerCase();
+    const area = this.areas.find(a => a.id.toLowerCase() === idLower || a.name === areaId);
     if (!area) return areaId;
     return this.currentLanguage === 'fr' ? area.nameFr : area.nameEn;
   }

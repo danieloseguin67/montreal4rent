@@ -33,9 +33,21 @@
           padding-top: 1.5rem;
           margin-bottom: 1.5rem;
         }
+
+        @media (max-width: 480px) {
+          font-size: 2rem;
+          padding-top: 1rem;
+          margin-bottom: 1rem;
+        }
         
         // Laptop screens: reduce top padding for better centering
         @media (min-width: 769px) and (max-width: 1599.98px) {
+          padding-top: 0;
+          margin-bottom: 1rem;
+        }
+
+        // Large desktop screens: remove top padding so flex centering is accurate
+        @media (min-width: 1600px) {
           padding-top: 0;
           margin-bottom: 1rem;
         }
@@ -53,6 +65,11 @@
         @media (max-width: 768px) {
           font-size: 1.125rem;
           margin-bottom: 2rem;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 1rem;
+          margin-bottom: 1.5rem;
         }
         
         // Laptop screens: reduce bottom margin for better spacing
@@ -99,17 +116,24 @@
       @media (max-width: 767.98px) {
         left: 1rem;
         bottom: 0.75rem;
-    
+      }
+    }
+
     // Laptop screens: increase height for better proportion
     @media (min-width: 769px) and (max-width: 1599.98px) {
       height: 30vh;
       min-height: 280px;
     }
-      }
+
+    // Large desktop screens: ensure enough height and vertical balance
+    @media (min-width: 1600px) {
+      height: 30vh;
+      min-height: 300px;
     }
 
     @media (max-width: 768px) {
-      height: 40vh;
+      height: auto;
+      min-height: 55vh;
     }
   }
 
@@ -297,8 +321,8 @@
       }
       
       .btn-filters-toggle {
-        background: var(--primary-orange);
-        color: #1a1a1a;
+        background: #1a6e8a;
+        color: var(--white);
         border: none;
         border-radius: 8px;
         padding: 0.75rem 1.5rem;
@@ -310,7 +334,7 @@
         gap: 0.5rem;
         
         &:hover {
-          background: #1a6e8a;
+          background: #084080;
           color: var(--white);
         }
         
@@ -381,7 +405,7 @@
       .apartment-image:hover img { transform: scale(1.05); }
 
       .apartment-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; background: rgba(0,0,0,0.7); color: var(--white); }
-      .apartment-badge.available { background: #047857; }
+      .apartment-badge.available { background: #1a6e8a; }
 
       .apartment-price { position: absolute; top: 1rem; right: 1rem; background: var(--primary-orange); color: var(--white); padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.875rem; }
 
